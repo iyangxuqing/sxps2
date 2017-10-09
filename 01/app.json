@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/client/products/index",
+    "pages/admin/categorys/categorys",
+    "pages/admin/products/products",
+    "pages/admin/product/product",
+    "pages/shoper/shoper",
+    "pages/mobile/mobile"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "black"
+  }
+}
