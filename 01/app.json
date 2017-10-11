@@ -1,15 +1,50 @@
 {
   "pages": [
-    "pages/client/products/index",
+    "pages/client/products2/index",
     "pages/admin/categorys/categorys",
     "pages/admin/products/products",
     "pages/admin/product/product",
+    "pages/client/products/index",
     "pages/shoper/shoper",
-    "pages/mobile/mobile"
+    "pages/mobile/mobile",
+    "pages/client/wode/index",
+    "pages/client/shopping/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#09bb08",
+    "backgroundColor": "#f2f2f2",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/client/products2/index",
+        "text": "首页",
+        "iconPath": "images/tab/01/home.png",
+        "selectedIconPath": "images/tab/02/home.png"
+      },
+      {
+        "pagePath": "pages/client/shopping/index",
+        "text": "购物车",
+        "iconPath": "images/tab/01/case.png",
+        "selectedIconPath": "images/tab/02/case.png"
+      },
+      {
+        "pagePath": "pages/client/wode/index",
+        "text": "我的",
+        "iconPath": "images/tab/01/shop.png",
+        "selectedIconPath": "images/tab/02/shop.png"
+      },
+      {
+        "pagePath": "pages/admin/categorys/categorys",
+        "text": "后台管理",
+        "iconPath": "images/tab/01/user.png",
+        "selectedIconPath": "images/tab/02/user.png"
+      }
+    ]
   }
 }
