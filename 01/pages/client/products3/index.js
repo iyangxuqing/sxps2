@@ -1,50 +1,15 @@
-import { Cates, Products } from './cates.data.js'
 import { Category } from '../../../utils/categorys.js'
 import { Product } from '../../../utils/products.js'
+
+let app = getApp()
+
 Page({
 
-  touch: {},
-
   data: {
-
-  },
-
-  onTopbarTouchStart: function (e) {
-    this.touch.x1 = e.touches[0].clientX;
-    this.touch.y1 = e.touches[0].clientY;
-    this.touch.t1 = e.timeStamp;
-    this.touch.x2 = e.touches[0].clientX;
-    this.touch.y2 = e.touches[0].clientY;
-    this.touch.t2 = e.timeStamp;
-  },
-
-  onTopbarTouchMove: function (e) {
-    this.touch.x2 = e.touches[0].clientX;
-    this.touch.y2 = e.touches[0].clientY;
-    this.touch.t2 = e.timeStamp;
-  },
-
-  onTopbarTouchEnd: function (e) {
-    this.touch.t2 = e.timeStamp
-    let dx = this.touch.x2 - this.touch.x1
-    let dy = this.touch.y2 - this.touch.y1
-    let dt = this.touch.t2 - this.touch.t1
-    if ((Math.abs(dx) < Math.abs(dy) / 2 && dt < 250)) {
-      if (dy < -20) this.onTopbarSwipeUp()
-      if (dy > 20) this.onTopbarSwipeDown()
+    youImageMode: app.youImageMode,
+    popup: {
+      show: false
     }
-  },
-
-  onTopbarSwipeUp() {
-    this.setData({
-      'topbar.expand': false,
-    })
-  },
-
-  onTopbarSwipeDown() {
-    this.setData({
-      'topbar.expand': true
-    })
   },
 
   onLevel1CateTap: function (e) {
@@ -145,65 +110,121 @@ Page({
     }
     Product.getProducts({
       cid: cid
-    }).then(function (products) {
-      console.log(products)
+    }).then(function (_products) {
+      let products =  JSON.parse(JSON.stringify(_products))
+      let localShoppings = wx.getStorageSync('shoppings') || []
+      for (let i in localShoppings) {
+        let id = localShoppings[i].id
+        let num = localShoppings[i].num
+        for (let j in products) {
+          if (products[j].id == id) {
+            products[j].num = num
+            break
+          }
+        }
+      }
       this.setData({
         products: products
       })
     }.bind(this))
   },
 
-  onNumBlur: function (e) {
+  onPopupMaskTap: function (e) {
+    this.setData({
+      'popup.show': false
+    })
+  },
+
+  onPopupClose: function (e) {
+    this.setData({
+      'popup.show': false
+    })
+  },
+
+  onProductTap: function (e) {
     let id = e.currentTarget.dataset.id
-    let num = e.detail.value
-    console.log(e, id, num)
     let products = this.data.products
     let product = {}
     for (let i in products) {
       if (products[i].id == id) {
         product = products[i]
-        product.num = num
+        break
       }
     }
+    let shopping = JSON.parse(JSON.stringify(product))
+    if (!shopping.num) shopping.num = 1
+    shopping.price = (Number(shopping.price)).toFixed(2)
+    shopping.amount = (shopping.price * shopping.num).toFixed(2)
     this.setData({
-      products
+      'popup.show': true,
+      shopping: shopping
+    })
+  },
+
+  onNumBlur: function (e) {
+    let num = Number(e.detail.value)
+    let shopping = this.data.shopping
+    shopping.amount = (shopping.price * num).toFixed(2)
+    this.setData({
+      'shopping.num': num,
+      'shopping.amount': shopping.amount
     })
   },
 
   onMinusTap: function (e) {
-    let id = e.currentTarget.dataset.id
-    let products = this.data.products
-    let product = {}
-    for (let i in products) {
-      if (products[i].id == id) {
-        product = products[i]
-        if (!product.num) product.num = 0
-      }
-    }
-    if (product.num > 0) {
-      product.num--
+    let shopping = this.data.shopping
+    if (!shopping.num) shopping.num = 0
+    if (shopping.num > 0) {
+      shopping.num--
+      shopping.amount = (shopping.price * shopping.num).toFixed(2)
       this.setData({
-        products
+        'shopping.num': shopping.num,
+        'shopping.amount': shopping.amount
       })
     }
   },
 
   onPlusTap: function (e) {
-    let id = e.currentTarget.dataset.id
-    let products = this.data.products
-    let product = {}
-    for (let i in products) {
-      if (products[i].id == id) {
-        product = products[i]
-        if (!product.num) product.num = 0
-      }
-    }
-    if (product.num < 99) {
-      product.num++
+    let shopping = this.data.shopping
+    if (!shopping.num) shopping.num = 0
+    if (shopping.num < 999) {
+      shopping.num++
+      shopping.amount = (shopping.price * shopping.num).toFixed(2)
       this.setData({
-        products
+        'shopping.num': shopping.num,
+        'shopping.amount': shopping.amount
       })
     }
+  },
+
+  onAddShopping: function (e) {
+    let shopping = this.data.shopping
+    let products = this.data.products
+    for (let i in products) {
+      if (products[i].id == shopping.id) {
+        products[i].num = shopping.num
+      }
+    }
+    let localShoppings = wx.getStorageSync('shoppings') || []
+    let index = -1
+    for (let i in localShoppings) {
+      if (localShoppings[i].id == shopping.id) {
+        localShoppings[i] = shopping
+        index = i
+        break
+      }
+    }
+    if (index < 0) {
+      index = localShoppings.length
+      localShoppings.push(shopping)
+    }
+    if (shopping.num == 0) localShoppings.splice(index, 1)
+    wx.setStorageSync('shoppings', localShoppings)
+
+    this.setData({
+      products: products,
+      'popup.show': false
+    })
   },
 
   /**
@@ -211,19 +232,6 @@ Page({
    */
   onLoad: function (options) {
 
-    Category.getCategorys().then(function (cates) {
-      this.loadCates({
-        cates: cates,
-        'topbar.expand': true
-      })
-    }.bind(this))
-
-    // Cates.getCates().then(function (cates) {
-    //   this.loadCates({
-    //     cates: cates,
-    //     'topbar.expand': true
-    //   })
-    // }.bind(this))
   },
 
   /**
@@ -237,7 +245,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    Category.getCategorys().then(function (cates) {
+      this.loadCates({
+        cates: cates,
+        'topbar.expand': true
+      })
+    }.bind(this))
   },
 
   /**

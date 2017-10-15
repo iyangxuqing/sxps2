@@ -1,2 +1,45 @@
-<!--index.wxml-->
-<text>index.wxml</text>
+<view class="container">
+
+  <view class="products">
+    <block wx:for="{{products}}" wx:key="" wx:for-item="product">
+      <view class="product">
+        <view class="image">
+          <image src="{{product.images[0]}}" />
+        </view>
+        <view class="text">
+          <view class="title">{{product.title}}</view>
+          <view class="desc">{{product.desc || product.title + '(500克)'}}</view>
+          <view class="price">￥{{product.price}}</view>
+        </view>
+        <view class="number">
+          <view class="minus" data-id="{{product.id}}" catchtap="onMinusTap">
+            <image src="/images/icon/minus.png" />
+          </view>
+          <view class="num">
+            <input value="{{product.num}}" data-id="{{product.id}}" bindblur="onNumBlur" placeholder="0" type="number" maxlength="3" />
+          </view>
+          <view class="plus" data-id="{{product.id}}" catchtap="onPlusTap">
+            <image src="/images/icon/plus.png" />
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="summary">
+    <view class="summary-text">
+      <view class="summary-num">
+        <view class="summary-label">数量：</view>
+        <view class="summary-value">{{num}}</view>
+      </view>
+      <view class="summary-amount">
+        <view class="summary-label">金额：</view>
+        <view class="summary-value">￥{{amount}}</view>
+      </view>
+    </view>
+    <view class="summary-button">
+      <button hover-class="none" type="warn" catchtap="onOrderSubmit">提交订单</button>
+    </view>
+  </view>
+
+</view>

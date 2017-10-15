@@ -1,25 +1,4 @@
 <view class="container">
-
-  <view class="topbar2 {{topbar.expand ? 'expand' : ''}}" bindtouchstart="onTopbarTouchStart" bindtouchmove="onTopbarTouchMove" bindtouchend="onTopbarTouchEnd">
-    <view class="topbar-expand-tag">
-      <image src="/images/icon/enter.png" />
-    </view>
-    <view class="level-1">
-      <view class="level-1-cates">
-        <block wx:for="{{level1Cates}}" wx:key="">
-          <view class="level-1-cate {{item.active ? 'active' : ''}}" data-id="{{item.id}}" catchtap="onLevel1CateTap">{{item.title}}</view>
-        </block>
-      </view>
-    </view>
-    <view class="level-2">
-      <view class="level-2-cates">
-        <block wx:for="{{level2Cates}}" wx:key="">
-          <view class="level-2-cate {{item.active ? 'active' : ''}}" data-id="{{item.id}}" catchtap="onLevel2CateTap">{{item.title}}</view>
-        </block>
-      </view>
-    </view>
-  </view>
-
   <view class="topbar">
     <view class="navs">
       <block wx:for="{{cates}}" wx:key="" wx:for-item="cate">
@@ -40,10 +19,10 @@
         <block wx:for="{{products}}" wx:key="" wx:for-item="product">
           <view class="product">
             <view class="image">
-              <image src="{{product.images[0]}}" />
+              <image src="{{product.image}}" />
             </view>
             <view class="text">
-              <view class="title">{{product.title}}</view>
+              <view class="name">{{product.name}}</view>
               <view class="pnum">
                 <view class="price">￥{{product.price}}</view>
                 <view class="number">
@@ -58,7 +37,7 @@
                   </view>
                 </view>
               </view>
-              <view class="desc">{{product.desc || product.title}}</view>
+              <view class="desc">{{product.desc}}</view>
             </view>
           </view>
         </block>

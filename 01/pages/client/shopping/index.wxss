@@ -1,1 +1,117 @@
-/* index.wxss */
+.container {
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.products {
+  margin-bottom: 130rpx;
+  border-top: 1px solid #ddd;
+}
+
+.product {
+  display: flex;
+  align-items: center;
+  height: 160rpx;
+  border-bottom: 1px solid #ddd;
+}
+
+.product .image {
+  width: 140rpx;
+  height: 140rpx;
+  flex-shrink: 0;
+}
+
+.product .text {
+  flex-grow: 1;
+  padding-left: 20rpx;
+}
+
+.product .title {
+  font-size: 32rpx;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 4rpx;
+}
+
+.product .desc {
+  font-size: 22rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 20rpx;
+}
+
+.product .price {
+  font-size: 30rpx;
+}
+
+.product .number {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 260rpx;
+}
+
+.product .minus, .product .plus {
+  width: 100rpx;
+  height: 100rpx;
+  flex-shrink: 0;
+  padding: 40rpx;
+}
+
+.product .num {
+  width: 60rpx;
+  font-size: 32rpx;
+  font-weight: 400;
+  text-align: center;
+}
+
+.product .desc {
+  font-size: 28rpx;
+  color: #888;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.summary {
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  height: 100rpx;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 26rpx;
+  background-color: #eee;
+  margin-left: -30rpx;
+  margin-right: -30rpx;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.summary-num, .summary-amount {
+  display: flex;
+  color: #666;
+}
+
+.summary-value {
+  font-weight: 400;
+  margin-left: 20rpx;
+}
+
+.summary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  line-height: 2.2;
+  font-size: 30rpx;
+  padding-left: 60rpx;
+  padding-right: 60rpx;
+}
