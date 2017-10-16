@@ -109,12 +109,15 @@ page {
 
 .product-num{
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -4rpx;
+  right: -4rpx;
   color: #fff;
   font-size: 24rpx;
   min-width: 32rpx;
-  padding: 2rpx;
+  height: 32rpx;
+  line-height: 32rpx;
+  text-align: center;
+  padding: 0 4rpx;
   border-radius: 50%;
   background-color: #ff0000;
 }
@@ -282,65 +285,4 @@ page {
   border-radius: 8rpx;
   color: #fff;
   background-color: orange;
-  
 }
-
-/* .shopping {
-  display: flex;
-  padding: 30rpx;
-}
-
-.shopping-image{
-  width: 320rpx;
-  height: 320rpx;
-  flex-shrink: 0;
-}
-
-.shopping-text{
-  flex-grow: 1;
-  margin-left: 30rpx;
-}
-
-.shopping-text-title{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 60rpx;
-  font-size: 34rpx;
-}
-
-.shopping-text-desc{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 60rpx;
-  font-size: 30rpx;
-  color: #888;
-}
-
-.shopping-text-price{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 60rpx;
-  font-size: 34rpx;
-}
-
-.shopping-text-number{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 30rpx;
-}
-
-.minus, .plus{
-  width: 80rpx;
-  height: 80rpx;
-  padding: 30rpx;
-  flex-shrink: 0;
-  border: 1px solid #ddd;
-}
-
-.number{
-  text-align: center;
-} */

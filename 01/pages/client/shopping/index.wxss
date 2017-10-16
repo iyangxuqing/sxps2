@@ -4,7 +4,7 @@
 }
 
 .products {
-  margin-bottom: 130rpx;
+  padding-bottom: 130rpx;
   border-top: 1px solid #ddd;
 }
 
@@ -51,7 +51,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 260rpx;
+  width: 280rpx;
+  margin-right: -20rpx;
 }
 
 .product .minus, .product .plus {
@@ -62,7 +63,7 @@
 }
 
 .product .num {
-  width: 60rpx;
+  width: 80rpx;
   font-size: 32rpx;
   font-weight: 400;
   text-align: center;
@@ -80,13 +81,13 @@
   position: fixed;
   z-index: 9999;
   width: 100%;
-  height: 100rpx;
+  height: 110rpx;
   bottom: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 26rpx;
-  background-color: #eee;
+  background-color: #e8e8e8;
   margin-left: -30rpx;
   margin-right: -30rpx;
   padding-left: 30rpx;
@@ -107,11 +108,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-button {
-  line-height: 2.2;
-  font-size: 30rpx;
-  padding-left: 60rpx;
-  padding-right: 60rpx;
+  height: 70rpx;
+  width: 260rpx;
+  font-size: 34rpx;
+  color: #fff;
+  border-radius: 8rpx;
+  background-color: #e64240;
 }

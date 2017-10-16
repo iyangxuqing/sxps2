@@ -16,7 +16,7 @@
             <image src="/images/icon/minus.png" />
           </view>
           <view class="num">
-            <input value="{{product.num}}" data-id="{{product.id}}" bindblur="onNumBlur" placeholder="0" type="number" maxlength="3" />
+            <input value="{{product.num}}" data-id="{{product.id}}" bindblur="onNumBlur" type="number" maxlength="3" cursor-spacing="30" />
           </view>
           <view class="plus" data-id="{{product.id}}" catchtap="onPlusTap">
             <image src="/images/icon/plus.png" />
@@ -37,9 +37,7 @@
         <view class="summary-value">￥{{amount}}</view>
       </view>
     </view>
-    <view class="summary-button">
-      <button hover-class="none" type="warn" catchtap="onOrderSubmit">提交订单</button>
-    </view>
+    <view class="summary-button" catchtap="onOrderSubmit">提交订单</view>
   </view>
 
 </view>

@@ -55,7 +55,7 @@
             <image src="/images/icon/minus.png" />
           </view>
           <view class="number">
-            <input value="{{shopping.num || 0}}" type="number" maxlength="3" bindblur="onNumBlur" />
+            <input value="{{shopping.num}}" type="number" maxlength="3" bindinput="onNumInput" cursor-spacing="20" />
           </view>
           <view class="plus" catchtap="onPlusTap">
             <image src="/images/icon/plus.png" />

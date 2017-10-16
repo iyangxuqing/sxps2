@@ -111,7 +111,7 @@ Page({
     Product.getProducts({
       cid: cid
     }).then(function (_products) {
-      let products =  JSON.parse(JSON.stringify(_products))
+      let products = JSON.parse(JSON.stringify(_products))
       let localShoppings = wx.getStorageSync('shoppings') || []
       for (let i in localShoppings) {
         let id = localShoppings[i].id
@@ -161,10 +161,10 @@ Page({
     })
   },
 
-  onNumBlur: function (e) {
-    let num = Number(e.detail.value)
+  onNumInput: function (e) {
+    let num = e.detail.value
     let shopping = this.data.shopping
-    shopping.amount = (shopping.price * num).toFixed(2)
+    shopping.amount = (Number(num) * shopping.price).toFixed(2)
     this.setData({
       'shopping.num': num,
       'shopping.amount': shopping.amount
@@ -202,7 +202,7 @@ Page({
     let products = this.data.products
     for (let i in products) {
       if (products[i].id == shopping.id) {
-        products[i].num = shopping.num
+        products[i].num = Number(shopping.num)
       }
     }
     let localShoppings = wx.getStorageSync('shoppings') || []

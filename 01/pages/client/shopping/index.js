@@ -33,6 +33,25 @@ Page({
     this.refreshProducts(products)
   },
 
+  onOrderSubmit: function(e){
+    let products = this.data.products
+    console.log(products)
+    let page = this
+    wx.showModal({
+      title: '订单提交',
+      content: '　　确定把购物车中的商品进行提交吗？提交后的订单在当天23：00前还可以进行撤单。23：00后将进入采买程序，就不再可以撤单了。',
+      success: function(res){
+        if(res.confirm){
+          setTimeout(function(res){
+            page.setData({
+              products: []
+            })
+          }, 1000)
+        }
+      }
+    })
+  },
+
   getProduct(products, id) {
     for (let i in products) {
       if (products[i].id == id) {

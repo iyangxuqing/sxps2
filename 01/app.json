@@ -1,11 +1,9 @@
 {
   "pages": [
-    "pages/client/shopping/index",
     "pages/client/products3/index",
     "pages/admin/categorys/categorys",
     "pages/admin/products/products",
     "pages/admin/product/product",
-    "pages/client/products/index",
     "pages/shoper/shoper",
     "pages/mobile/mobile",
     "pages/client/wode/index",
