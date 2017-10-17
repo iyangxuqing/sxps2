@@ -1,0 +1,7 @@
+<view class="container">
+  <view class="navs">
+    <block wx:for="{{navs}}" wx:key="" wx:for-item="nav">
+      <view class="nav {{nav.active ? 'active' : ''}}" data-index="{{index}}" catchtap="onNavTap">{{nav.title}}</view>
+    </block>
+  </view>
+</view>

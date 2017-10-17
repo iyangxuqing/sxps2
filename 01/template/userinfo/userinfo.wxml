@@ -1,0 +1,10 @@
+<template name="userInfo">
+  <view class="userInfo">
+    <button bindgetuserinfo="getUserInfo" open-type="getUserInfo" hover-class="none">
+      <view class="userInfo-avatar">
+        <image src="{{avatarUrl || '/images/icon/user.png'}}" />
+      </view>
+      <view class="userInfo-nickName">{{nickName || '点击登录'}}</view>
+    </button>
+  </view>
+</template>

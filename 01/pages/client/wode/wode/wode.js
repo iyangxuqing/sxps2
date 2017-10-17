@@ -2,6 +2,7 @@ import { Loading } from '../../../template/loading/loading.js'
 import { Toptip } from '../../../template/toptip/toptip.js'
 import { Mobile } from '../../../template/mobile/mobile.js'
 import { User } from '../../../utils/user.js'
+import { Coupons } from '../../../utils/coupons.js'
 
 let app = getApp()
 
@@ -19,7 +20,9 @@ Page({
       this.setData({
         userInfo: e.detail.userInfo
       })
-      User.setUser(e.detail.userInfo)
+      User.setUser(e.detail.userInfo).then(function(res){
+        console.log(res)
+      })
     }
   },
 
@@ -30,7 +33,7 @@ Page({
     let district = address.district || ''
     let detail = address.detail || ''
     wx.navigateTo({
-      url: '../address/index?province=' + province + '&city=' + city + '&district=' + district + '&detail=' + detail,
+      url: '../addressEditor/addressEditor?province=' + province + '&city=' + city + '&district=' + district + '&detail=' + detail,
     })
   },
 
@@ -61,10 +64,9 @@ Page({
     })
   },
 
-  onLinkTap: function(e){
-    let id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: '../trades/index?id=' + id,
+  onCouponsUpdate: function (coupons) {
+    this.setData({
+      coupons: coupons
     })
   },
 
@@ -78,6 +80,7 @@ Page({
     app.listener.on('toptip', this.onToptip)
     app.listener.on('user', this.onUserUpdate)
     app.listener.on('userAddressUpdate', this.onUserAddressUpdate)
+    app.listener.on('coupons', this.onCouponsUpdate)
 
     this.loading.show()
     User.getUser({
@@ -97,6 +100,11 @@ Page({
           detail: user.address_detail
         },
       })
+      Coupons.getCoupons().then(function (coupons) {
+        this.setData({
+          coupons: coupons
+        })
+      }.bind(this))
       this.loading.hide()
     }.bind(this))
 

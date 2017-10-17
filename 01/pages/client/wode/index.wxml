@@ -1,2 +1,67 @@
-<!--index.wxml-->
-<text>index.wxml</text>
+<import src='/template/loading/loading.wxml' />
+<template is="loading" data="{{...loading}}" />
+<import src='/template/toptip/toptip.wxml' />
+<template is="toptip" data="{{...toptip}}" />
+<import src='/template/userinfo/userinfo.wxml' />
+<import src='/template/mobile/mobile.wxml' />
+
+<view class="container" wx:if="{{ready}}">
+  <template is="userInfo" data="{{...userInfo}}" />
+  <template is="myorder" data="{{...myorder}}" />
+  <template is="mobile" data="{{...mobile}}" />
+  <template is="address" data="{{...address}}" />
+</view>
+
+<!--  -->
+<template name="address">
+  <view class="row row-address" catchtap="onAddressTap">
+    <view class="row-icon">
+       <image src="/images/icon/map-pin.png" /> 
+    </view>
+    <view class="row-label">收货地址</view>
+    <view class="row-value">{{district}}{{detail}}</view>
+    <view class="row-icon">
+      <image src="/images/icon/enter.png" />
+    </view>
+  </view>
+</template>
+
+<template name="myorder">
+  <view class="myorder">
+    <view class="myorder-head">
+      <view class="myorder-head-title">我的订单</view>
+      <view class="myorder-head-more" data-id="link-all" catchtap="onLinkTap">
+        <view class="more-text">查看全部订单</view>
+        <view class="more-icon">
+          <image src="/images/icon/enter.png" />
+        </view>
+      </view>
+    </view>
+    <view class="myorder-body">
+      <view class="myorder-link" data-id="link-0" catchtap="onLinkTap">
+        <view class="myorder-link-icon">
+          <image src="/images/icon/camera.png" />
+        </view>
+        <view class="myorder-link-text">未提交</view>
+      </view>
+      <view class="myorder-link" data-id="link-1" catchtap="onLinkTap">
+        <view class="myorder-link-icon">
+          <image src="/images/icon/camera.png" />
+        </view>
+        <view class="myorder-link-text">已提交</view>
+      </view>
+      <view class="myorder-link" data-id="link-2" catchtap="onLinkTap">
+        <view class="myorder-link-icon">
+          <image src="/images/icon/camera.png" />
+        </view>
+        <view class="myorder-link-text">已发货</view>
+      </view>
+      <view class="myorder-link" data-id="link-3" catchtap="onLinkTap">
+        <view class="myorder-link-icon">
+          <image src="/images/icon/camera.png" />
+        </view>
+        <view class="myorder-link-text">已完成</view>
+      </view>
+    </view>
+  </view>
+</template>

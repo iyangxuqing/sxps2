@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/client/wode/index",
     "pages/client/products3/index",
     "pages/admin/categorys/categorys",
     "pages/admin/products/products",
@@ -7,7 +8,9 @@
     "pages/shoper/shoper",
     "pages/mobile/mobile",
     "pages/client/wode/index",
-    "pages/client/shopping/index"
+    "pages/client/address/index",
+    "pages/client/shopping/index",
+    "pages/client/trades/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

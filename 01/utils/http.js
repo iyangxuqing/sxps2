@@ -5,7 +5,7 @@ function get(options) {
     wx.request({
       url: config.apiUrl + options.url,
       header: {
-        'ver': config.version,
+        'ver': config.ver,
         'sid': config.sid,
         'token': wx.getStorageSync('token'),
         'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ function post(options) {
       url: config.apiUrl + options.url,
       method: 'POST',
       header: {
-        'ver': config.version,
+        'ver': config.ver,
         'sid': config.sid,
         'token': wx.getStorageSync('token'),
         'Content-Type': 'application/x-www-form-urlencoded',

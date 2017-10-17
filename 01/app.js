@@ -11,9 +11,14 @@ App({
   init: function () {
     this.listener = new Listener()
     this.youImageMode = config.youImageMode
-    let app = this
-    app.user = { role: 'admin' }
-    // User.login()
+
+    User.login().then(function () {
+      User.getUser({
+        fields: 'role'
+      }).then(function (user) {
+        this.user = Object.assign({}, this.user, user);
+      }.bind(this))
+    }.bind(this))
   }
 
 })

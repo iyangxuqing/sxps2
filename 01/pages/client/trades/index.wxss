@@ -1,0 +1,24 @@
+.navs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 90rpx;
+  font-size: 32rpx;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.nav {
+  flex-basis: 0;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: -2rpx 20rpx 0;
+}
+
+.nav.active {
+  color: red;
+  border-bottom: 4rpx solid red;
+}

@@ -1,0 +1,23 @@
+<template name="swiper-images-editor">
+  <view class="swiper-images-editor">
+    <swiper indicator-dots="{{images.length}}" bindchange="{{onSwiperChanged}}">
+      <block wx:for="{{images}}" wx:key="" wx:for-item="image">
+        <swiper-item>
+          <view class="swiper-image" data-index="{{index}}" catchtap="{{onImageTap}}" catchlongpress="{{onImageLongPress}}">
+            <view class="swiper-image-del" data-index="{{index}}" catchtap="{{onImageDel}}" wx:if="{{delImageIndex==index}}">
+              <image src="/images/icon/delete.png" />
+            </view>
+            <image src="{{image ? image + youImageMode : ''}}" mode="aspectFill" />
+          </view>
+        </swiper-item>
+      </block>
+      <block wx:if="{{images.length < maxImagesLength}}">
+        <swiper-item>
+          <view class="swiper-image swiper-image-add" data-index="-1" catchtap="{{onImageTap}}">
+            <image src="/images/icon/camera.png" />
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</template>

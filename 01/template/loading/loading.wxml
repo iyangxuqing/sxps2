@@ -1,0 +1,6 @@
+<template name="loading">
+  <view class="loading" wx:if="{{show}}">
+    <view class="loading-mask" wx:if="{{mask}}"></view>
+    <view class="loading-icon"></view>
+  </view>
+</template>
