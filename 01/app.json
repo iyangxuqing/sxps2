@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/client/wode/index",
+    "pages/client/trades/index",
     "pages/client/products3/index",
     "pages/admin/categorys/categorys",
     "pages/admin/products/products",

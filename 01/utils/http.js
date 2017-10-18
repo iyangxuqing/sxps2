@@ -34,7 +34,7 @@ function post(options) {
         'ver': config.ver,
         'sid': config.sid,
         'token': wx.getStorageSync('token'),
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
       data: options.data,
       success: function (res) {

@@ -2,41 +2,36 @@ import { http } from 'http.js'
 
 let app = getApp()
 
-function getProducts(options={}) {
+function addTrade(orders) {
   return new Promise(function (resolve, reject) {
-    let Products = app.Products
-    if (Products && !options.nocache) {
-      if (options.cid) {
-        resolve(Products['c' + options.cid])
+    http.post({
+      url: 'sxps/trade.php?m=add',
+      data: orders
+    }).then(function (res) {
+      if (res.errno === 0) {
+        resolve(res)
       } else {
-        resolve(Products)
-      }
-    } else {
-      http.get({
-        url: 'sxps/product.php?m=get'
-      }).then(function (res) {
-        if (res.errno === 0) {
-          let Products = []
-          let products = res.products
-          for (let i in products) {
-            let cid = products[i].cid
-            products[i].images = JSON.parse(products[i].images)
-            if (!Products['c' + cid]) Products['c' + cid] = []
-            Products['c' + cid].push(products[i])
-          }
-          app.Products = Products
-          if (options.cid) {
-            resolve(Products['c' + options.cid])
-          } else {
-            resolve(Products)
-          }
-        } else {
-          reject(res)
-        }
-      }).catch(function (res) {
         reject(res)
-      })
-    }
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
+  })
+}
+
+function getTrades() {
+  return new Promise(function (resolve, reject) {
+    http.get({
+      url: 'sxps/trade.php?m=get',
+    }).then(function (res) {
+      if (res.errno === 0) {
+        resolve(res.trades)
+      } else {
+        reject(res)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
   })
 }
 
@@ -46,7 +41,7 @@ function getProducts(options={}) {
  *  nocache: false,
  * }
  */
-function getProducts222(options) {
+function getProducts(options) {
   return new Promise(function (resolve, reject) {
     let cid = options.cid
     let Products = app.products || {}
@@ -90,20 +85,13 @@ function getProductsFromServer(options) {
 
 function getProduct(options) {
   let id = options.id
-  let products = app.Products
+  let cid = options.cid
+  let products = app.products['c' + cid]
   for (let i in products) {
-    for (let j in products[i]) {
-      if (products[i][j].id == options.id)
-        return products[i][j]
+    if (products[i].id == id) {
+      return products[i]
     }
   }
-  // let cid = options.cid
-  // let products = app.products['c' + cid]
-  // for (let i in products) {
-  //   if (products[i].id == id) {
-  //     return products[i]
-  //   }
-  // }
 }
 
 function set(product, cb) {
@@ -186,10 +174,7 @@ function sort(products) {
   app.listener.trigger('products', products)
 }
 
-export var Product = {
-  getProducts: getProducts,
-  getProduct: getProduct,
-  set: set,
-  del: del,
-  sort: sort
+export var Trade = {
+  get: getTrades,
+  add: addTrade,
 }
