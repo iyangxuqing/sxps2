@@ -4,11 +4,11 @@
     <block wx:for="{{products}}" wx:key="" wx:for-item="product">
       <view class="product">
         <view class="image">
-          <image src="{{product.images[0]}}" />
+          <image src="{{product.image}}" />
         </view>
         <view class="text">
           <view class="title">{{product.title}}</view>
-          <view class="desc">{{product.desc || product.title + '(500克)'}}</view>
+          <view class="descs">{{product.descs || product.title + '(500克)'}}</view>
           <view class="price">￥{{product.price}}</view>
         </view>
         <view class="number">
@@ -26,7 +26,7 @@
     </block>
   </view>
 
-  <view class="summary">
+  <view class="summary" wx:if="{{products.length}}">
     <view class="summary-text">
       <view class="summary-num">
         <view class="summary-label">数量：</view>

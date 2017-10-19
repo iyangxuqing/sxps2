@@ -20,9 +20,7 @@ Page({
       this.setData({
         userInfo: e.detail.userInfo
       })
-      User.setUser(e.detail.userInfo).then(function(res){
-        console.log(res)
-      })
+      User.setUser(e.detail.userInfo)
     }
   },
 

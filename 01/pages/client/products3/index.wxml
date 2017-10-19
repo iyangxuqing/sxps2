@@ -44,7 +44,7 @@
         </view>
         <view class="shopping-text">
           <view class="shopping-title">{{shopping.title}}</view>
-          <view class="shopping-desc">{{shopping.desc || shopping.title + '(500克)'}}</view>
+          <view class="shopping-descs">{{shopping.descs || shopping.title + '(500克)'}}</view>
           <view class="shopping-price">￥{{shopping.price}}</view>
         </view>
       </view>

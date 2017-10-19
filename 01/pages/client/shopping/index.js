@@ -36,17 +36,30 @@ Page({
 
   onOrderSubmit: function (e) {
     let products = this.data.products
-    let page = this
+    let self = this
     wx.showModal({
       title: '订单提交',
       content: '　　确定把购物车中的商品进行提交吗？提交后的订单在当天23：00前还可以进行撤单。23：00后将进入采买程序，就不再可以撤单了。',
       success: function (res) {
         if (res.confirm) {
-          Trade.add(products).then(function(res){
-            if(!res.errno){
-              products = []
-              page.refreshProducts(products)
-            }
+          let orders = []
+          for (let i in products) {
+            orders.push({
+              iid: products[i].iid,
+              price: products[i].price,
+              num: products[i].num
+            })
+          }
+          Trade.add(orders).then(function (res) {
+            wx.showModal({
+              title: '订单提交',
+              content: '　　订单提交成功，将进入采买程序。',
+              showCancel: false,
+              success: function () {
+                wx.setStorageSync('shoppings', [])
+                self.refreshProducts([])
+              }
+            })
           })
         }
       }

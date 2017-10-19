@@ -189,7 +189,7 @@ page {
   margin-bottom: 10rpx;
 }
 
-.shopping-desc {
+.shopping-descs {
   font-size: 28rpx;
   color: #888;
   margin-bottom: 40rpx;

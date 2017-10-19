@@ -108,16 +108,14 @@ Page({
         break
       }
     }
-    Product.getProducts({
-      cid: cid
-    }).then(function (_products) {
+    Product.getProducts({ cid }).then(function (_products) {
       let products = JSON.parse(JSON.stringify(_products))
-      let localShoppings = wx.getStorageSync('shoppings') || []
-      for (let i in localShoppings) {
-        let id = localShoppings[i].id
-        let num = localShoppings[i].num
+      let shoppings = wx.getStorageSync('shoppings') || []
+      for (let i in shoppings) {
+        let iid = shoppings[i].iid
+        let num = shoppings[i].num
         for (let j in products) {
-          if (products[j].id == id) {
+          if (products[j].id == iid) {
             products[j].num = num
             break
           }
@@ -151,9 +149,15 @@ Page({
         break
       }
     }
-    let shopping = JSON.parse(JSON.stringify(product))
-    if (!shopping.num) shopping.num = 1
-    shopping.price = (Number(shopping.price)).toFixed(2)
+    let shopping = {
+      iid: product.id,
+      title: product.title,
+      image: product.images[0],
+      price: product.price,
+      descs: product.descs,
+      num: product.num || 1
+    }
+    shopping.price = Number(shopping.price).toFixed(2)
     shopping.amount = (shopping.price * shopping.num).toFixed(2)
     this.setData({
       'popup.show': true,
@@ -201,28 +205,28 @@ Page({
     let shopping = this.data.shopping
     let products = this.data.products
     for (let i in products) {
-      if (products[i].id == shopping.id) {
+      if (products[i].id == shopping.iid) {
         products[i].num = Number(shopping.num)
       }
     }
-    let localShoppings = wx.getStorageSync('shoppings') || []
+    let shoppings = wx.getStorageSync('shoppings') || []
     let index = -1
-    for (let i in localShoppings) {
-      if (localShoppings[i].id == shopping.id) {
-        localShoppings[i] = shopping
+    for (let i in shoppings) {
+      if (shoppings[i].iid == shopping.iid) {
+        shoppings[i] = shopping
         index = i
         break
       }
     }
     if (index < 0) {
-      index = localShoppings.length
-      localShoppings.push(shopping)
+      index = shoppings.length
+      shoppings.push(shopping)
     }
-    if (shopping.num == 0) localShoppings.splice(index, 1)
-    wx.setStorageSync('shoppings', localShoppings)
+    if (shopping.num == 0) shoppings.splice(index, 1)
+    wx.setStorageSync('shoppings', shoppings)
 
     this.setData({
-      products: products,
+      'products': products,
       'popup.show': false
     })
   },

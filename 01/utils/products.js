@@ -93,17 +93,11 @@ function getProduct(options) {
   let products = app.Products
   for (let i in products) {
     for (let j in products[i]) {
-      if (products[i][j].id == options.id)
+      if (products[i][j].id == options.id){
         return products[i][j]
+      }
     }
   }
-  // let cid = options.cid
-  // let products = app.products['c' + cid]
-  // for (let i in products) {
-  //   if (products[i].id == id) {
-  //     return products[i]
-  //   }
-  // }
 }
 
 function set(product, cb) {

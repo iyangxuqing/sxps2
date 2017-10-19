@@ -14,13 +14,15 @@
             <view class="trade-time">{{trade.time}}</view>
           </view>
           <view class="trade-number">
-            <view class="trade-amount">￥{{trade.status=='已提交' ? trade.bookAmount : trade.realAmount}}</view>
-            <view class="trade-num">数量：{{trade.status=='已提交' ? trade.bookNum : trade.realNum}}</view>
+            <view wx:if="trade.status=='未提交' || trade.status=='已提交'">
+              <view class="trade-amount">￥{{trade.bookAmount}}</view>
+              <view class="trade-num">数量：{{trade.bookNum}}</view>
+            </view>
           </view>
           <view class="trade-statuss">
             <view class="trade-status">{{trade.status}}</view>
-            <view class="trade-operate" wx:if="{{trade.status=='未提交'}}">提交订单</view>
-            <view class="trade-operate" wx:if="{{trade.status=='已提交'}}">撤回订单</view>
+            <view class="trade-operate" wx:if="{{trade.status=='未提交'}}" catchtap="onSubmitOrder">提交订单</view>
+            <view class="trade-operate" wx:if="{{trade.status=='已提交'}}" data-id="{{trade.id}}" catchtap="onCancelOrder">撤回订单</view>
           </view>
         </view>
         <view class="trade-orders">
@@ -31,7 +33,7 @@
               </view>
               <view class="product-text">
                 <view class="product-title">{{order.title}}</view>
-                <view class="product-desc">{{order.desc}}</view>
+                <view class="product-descs">{{order.descs}}</view>
               </view>
               <view class="product-number">
                 <view class="product-amount" wx:if="{{trade.status=='已提交'}}">￥{{order.bookAmount}}</view>

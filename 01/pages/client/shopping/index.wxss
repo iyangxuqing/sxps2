@@ -35,7 +35,7 @@
   margin-bottom: 4rpx;
 }
 
-.product .desc {
+.product .descs {
   font-size: 22rpx;
   overflow: hidden;
   text-overflow: ellipsis;
