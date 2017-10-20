@@ -1,0 +1,51 @@
+<view class="container">
+  <view class="navs">
+    <block wx:for="{{navs}}" wx:key="" wx:for-item="nav">
+      <view class="nav {{nav.active ? 'active' : ''}}" data-index="{{index}}" catchtap="onNavTap">{{nav.title}}</view>
+    </block>
+  </view>
+
+  <view class="trades">
+    <block wx:for="{{trades}}" wx:key="" wx:for-item="trade">
+      <view class="trade">
+        <view class="trade-info">
+          <view class="trade-ids">
+            <view class="trade-id">订单号：{{trade.id}}</view>
+            <view class="trade-time">{{trade.time}}</view>
+          </view>
+          <view class="trade-number">
+            <view wx:if="trade.status=='未提交' || trade.status=='已提交'">
+              <view class="trade-amount">￥{{trade.bookAmount}}</view>
+              <view class="trade-num">数量：{{trade.bookNum}}</view>
+            </view>
+          </view>
+          <view class="trade-statuss">
+            <view class="trade-status">{{trade.status}}</view>
+            <view class="trade-operate" wx:if="{{trade.status=='未提交'}}" catchtap="onSubmitOrder">提交订单</view>
+            <view class="trade-operate" wx:if="{{trade.status=='已提交'}}" data-id="{{trade.id}}" catchtap="onCancelOrder">撤回订单</view>
+          </view>
+        </view>
+        <view class="trade-orders">
+          <block wx:for="{{trade.orders}}" wx:key="" wx:for-item="order">
+            <view class="trade-order">
+              <view class="product-image">
+                <image src="{{order.image}}" />
+              </view>
+              <view class="product-text">
+                <view class="product-title">{{order.title}}</view>
+                <view class="product-descs">{{order.descs}}</view>
+              </view>
+              <view class="product-number">
+                <view class="product-amount" wx:if="{{trade.status=='已提交'}}">￥{{order.bookAmount}}</view>
+                <view class="product-num" wx:if="{{trade.status=='已提交'}}">数量：{{order.bookNum}}</view>
+                <view class="product-amount" wx:if="{{trade.status!='已提交'}}">￥{{order.realAmount}}</view>
+                <view class="product-num" wx:if="{{trade.status!='已提交'}}">数量：{{order.realNum}}</view>
+              </view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </block>
+  </view>
+
+</view>

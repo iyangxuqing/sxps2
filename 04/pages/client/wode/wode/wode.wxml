@@ -1,0 +1,48 @@
+<import src='/template/loading/loading.wxml' />
+<template is="loading" data="{{...loading}}" />
+<import src='/template/toptip/toptip.wxml' />
+<template is="toptip" data="{{...toptip}}" />
+<import src='/template/userinfo/userinfo.wxml' />
+<import src='/template/mobile/mobile.wxml' />
+
+<view class="container" wx:if="{{ready}}">
+  <template is="userInfo" data="{{...userInfo}}" />
+  <template is="mobile" data="{{...mobile}}" />
+  <template is="address" data="{{...address}}" />
+  <template is="coupons" data="{{coupons, youImageMode}}" />
+</view>
+
+<!--  -->
+<template name="address">
+  <view class="row row-address" catchtap="onAddressTap">
+    <view class=" row-icon">
+       <image src="/images/icon/map-pin.png" /> 
+      
+    </view>
+    <view class="row-label">装修地址</view>
+    <view class="row-value">{{province}}{{city}}{{district}}{{detail}}</view>
+    <view class="row-icon">
+      <image src="/images/icon/enter.png" />
+    </view>
+  </view>
+</template>
+
+<!--  -->
+<template name="coupons">
+  <view class="coupons">
+    <block wx:for="{{coupons}}" wx:key="">
+      <view class="coupon">
+        <view class="coupon-left">
+          <view class="coupon-image">
+            <image src="{{item.image ? item.image + youImageMode : ''}}" mode="aspectFill" />
+          </view>
+        </view>
+        <view class="coupon-right">
+          <view class="coupon-title">{{item.title}}</view>
+          <view class="coupon-descs">{{item.descs}}</view>
+          <view class="coupon-notes">{{item.notes}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+</template>

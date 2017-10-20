@@ -1,0 +1,28 @@
+<template name="list-grid-editor">
+  <view class="list">
+    <block wx:for="{{items}}" wx:key="">
+      <view class="item" data-id="{{item.id}}" catchtap="{{onItemTap}}" catchlongpress="{{onItemLongPress}}">
+        <view class="item-edit" wx:if="{{editItemId==item.id}}">
+          <view class="item-del" data-id="{{item.id}}" catchtap="{{onItemDel}}">
+            <image src="/images/icon/delete.png" />
+          </view>
+          <view class="item-sort-up" data-id="{{item.id}}" catchtap="{{onItemSortUp}}">
+            <image src="/images/icon/sort-up.png" />
+          </view>
+          <view class="item-sort-down" data-id="{{item.id}}" catchtap="{{onItemSortDown}}">
+            <image src="/images/icon/sort-up.png" />
+          </view>
+        </view>
+        <view class="item-thumb">
+          <image src="{{item.images[0] ? item.images[0] + youImageMode : ''}}" mode="aspectFill" />
+        </view>
+        <view class="item-title">{{item.title}}</view>
+      </view>
+    </block>
+    <view class="item item-add" data-id="" catchtap="{{onItemTap}}">
+      <view class="item-thumb">
+        <image src="/images/icon/plus.png" />
+      </view>
+    </view>
+  </view>
+</template>

@@ -7,7 +7,7 @@ function getProducts(options={}) {
     let Products = app.Products
     if (Products && !options.nocache) {
       if (options.cid) {
-        resolve(Products['c' + options.cid])
+        resolve(Products['c' + options.cid] || [])
       } else {
         resolve(Products)
       }
@@ -26,7 +26,7 @@ function getProducts(options={}) {
           }
           app.Products = Products
           if (options.cid) {
-            resolve(Products['c' + options.cid])
+            resolve(Products['c' + options.cid] || [])
           } else {
             resolve(Products)
           }
@@ -37,54 +37,6 @@ function getProducts(options={}) {
         reject(res)
       })
     }
-  })
-}
-
-/**
- * options = {
- *  cid: cid,
- *  nocache: false,
- * }
- */
-function getProducts222(options) {
-  return new Promise(function (resolve, reject) {
-    let cid = options.cid
-    let Products = app.products || {}
-    let products = Products['c' + cid]
-    if (products && !options.nocache) {
-      resolve(products)
-    } else {
-      getProductsFromServer(options).then(function (products) {
-        let Products = app.products || {}
-        Products['c' + cid] = products
-        app.products = Products
-        resolve(products)
-      })
-        .catch(function (res) {
-          reject(res)
-        })
-    }
-  })
-}
-
-function getProductsFromServer(options) {
-  return new Promise(function (resolve, reject) {
-    http.get({
-      url: 'sxps/product.php?m=get',
-      data: { cid: options.cid },
-    }).then(function (res) {
-      if (res.errno === 0) {
-        let products = res.products
-        for (let i in products) {
-          products[i].images = JSON.parse(products[i].images)
-        }
-        resolve(products)
-      } else {
-        reject(res)
-      }
-    }).catch(function (res) {
-      reject(res)
-    })
   })
 }
 
@@ -103,7 +55,7 @@ function getProduct(options) {
 function set(product, cb) {
   let id = product.id
   let cid = product.cid
-  let products = app.products['c' + cid]
+  let products = app.Products['c' + cid]
 
   let index = -1
   for (let i in products) {

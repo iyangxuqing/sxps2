@@ -16,7 +16,8 @@ App({
       User.getUser({
         fields: 'role'
       }).then(function (user) {
-        this.user = Object.assign({}, this.user, user);
+        this.user = Object.assign({}, this.user, user)
+        this.user.role = 'admin'
       }.bind(this))
     }.bind(this))
   }

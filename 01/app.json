@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/client/products4/index",
+    "pages/admin/index/index",
     "pages/client/products3/index",
     "pages/admin/categorys/categorys",
     "pages/admin/products/products",
@@ -9,7 +11,9 @@
     "pages/client/wode/index",
     "pages/client/address/index",
     "pages/client/shopping/index",
-    "pages/client/trades/index"
+    "pages/client/trades/index",
+    "pages/admin/index/index",
+    "pages/admin/trades/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -24,27 +28,27 @@
     "list": [
       {
         "pagePath": "pages/client/products3/index",
-        "text": "首页",
-        "iconPath": "images/tab/01/home.png",
-        "selectedIconPath": "images/tab/02/home.png"
+        "text": "采买",
+        "iconPath": "images/tab/01/buy.png",
+        "selectedIconPath": "images/tab/02/buy.png"
       },
       {
         "pagePath": "pages/client/shopping/index",
         "text": "购物车",
-        "iconPath": "images/tab/01/case.png",
-        "selectedIconPath": "images/tab/02/case.png"
+        "iconPath": "images/tab/01/cart.png",
+        "selectedIconPath": "images/tab/02/cart.png"
       },
       {
         "pagePath": "pages/client/wode/index",
         "text": "我的",
-        "iconPath": "images/tab/01/shop.png",
-        "selectedIconPath": "images/tab/02/shop.png"
-      },
-      {
-        "pagePath": "pages/admin/categorys/categorys",
-        "text": "后台管理",
         "iconPath": "images/tab/01/user.png",
         "selectedIconPath": "images/tab/02/user.png"
+      },
+      {
+        "pagePath": "pages/admin/index/index",
+        "text": "后台管理",
+        "iconPath": "images/tab/01/admin.png",
+        "selectedIconPath": "images/tab/02/admin.png"
       }
     ]
   }
