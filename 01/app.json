@@ -1,18 +1,14 @@
 {
   "pages": [
-    "pages/client/products4/index",
+    "pages/client/products/index",
+    "pages/client/shopping/index",
+    "pages/client/wode/index",
+    "pages/client/address/index",
+    "pages/client/trades/index",
     "pages/admin/index/index",
-    "pages/client/products3/index",
     "pages/admin/categorys/categorys",
     "pages/admin/products/products",
     "pages/admin/product/product",
-    "pages/shoper/shoper",
-    "pages/mobile/mobile",
-    "pages/client/wode/index",
-    "pages/client/address/index",
-    "pages/client/shopping/index",
-    "pages/client/trades/index",
-    "pages/admin/index/index",
     "pages/admin/trades/index"
   ],
   "window": {
@@ -27,7 +23,7 @@
     "borderStyle": "black",
     "list": [
       {
-        "pagePath": "pages/client/products3/index",
+        "pagePath": "pages/client/products/index",
         "text": "采买",
         "iconPath": "images/tab/01/buy.png",
         "selectedIconPath": "images/tab/02/buy.png"

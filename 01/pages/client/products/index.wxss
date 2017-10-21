@@ -36,6 +36,10 @@ page {
   overflow: hidden;
 }
 
+.search-view form{
+  display: flex;
+}
+
 .search-input {
   display: flex;
   align-items: center;
@@ -349,4 +353,24 @@ page {
   border-radius: 8rpx;
   color: #fff;
   background-color: orange;
+}
+
+.products-empty{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100rpx;
+  margin-top: 300rpx;
+}
+
+.empty-line{
+  width: 100rpx;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.empty-text{
+  font-size: 30rpx;
+  color: #888;
+  padding: 20rpx;
 }

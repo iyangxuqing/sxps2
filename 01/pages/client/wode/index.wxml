@@ -10,9 +10,11 @@
   <template is="myorder" data="{{...myorder}}" />
   <template is="mobile" data="{{...mobile}}" />
   <template is="address" data="{{...address}}" />
+  <template is="service-provider" data="{{...serviceProvider}}" />
 </view>
 
 <!--  -->
+
 <template name="address">
   <view class="row row-address" catchtap="onAddressTap">
     <view class="row-icon">
@@ -27,40 +29,64 @@
 </template>
 
 <template name="myorder">
-  <view class="myorder">
-    <view class="myorder-head">
-      <view class="myorder-head-title">我的订单</view>
-      <view class="myorder-head-more" data-id="link-all" catchtap="onLinkTap">
-        <view class="more-text">查看全部订单</view>
-        <view class="more-icon">
+  <view class="card myorder">
+    <view class="card-head">
+      <view class="card-head-title">我的订单</view>
+      <view class="card-head-more" data-id="link-all" catchtap="onLinkTap">
+        <view class="card-head-more-text">查看全部订单</view>
+        <view class="card-head-more-icon">
           <image src="/images/icon/enter.png" />
         </view>
       </view>
     </view>
-    <view class="myorder-body">
-      <view class="myorder-link" data-id="link-0" catchtap="onLinkTap">
-        <view class="myorder-link-icon">
-          <image src="/images/icon/camera.png" />
+    <view class="card-body">
+      <view class="myorder-links">
+        <view class="myorder-link" data-id="link-0" catchtap="onLinkTap">
+          <view class="myorder-link-icon">
+            <image src="/images/icon/order-uncommitted.png" />
+          </view>
+          <view class="myorder-link-text">未提交</view>
         </view>
-        <view class="myorder-link-text">未提交</view>
+        <view class="myorder-link" data-id="link-1" catchtap="onLinkTap">
+          <view class="myorder-link-icon">
+            <image src="/images/icon/order-submitted.png" />
+          </view>
+          <view class="myorder-link-text">已提交</view>
+        </view>
+        <view class="myorder-link" data-id="link-2" catchtap="onLinkTap">
+          <view class="myorder-link-icon">
+            <image src="/images/icon/order-shipped.png" />
+          </view>
+          <view class="myorder-link-text">已发货</view>
+        </view>
+        <view class="myorder-link" data-id="link-3" catchtap="onLinkTap">
+          <view class="myorder-link-icon">
+            <image src="/images/icon/order-completed.png" />
+          </view>
+          <view class="myorder-link-text">已完成</view>
+        </view>
       </view>
-      <view class="myorder-link" data-id="link-1" catchtap="onLinkTap">
-        <view class="myorder-link-icon">
-          <image src="/images/icon/camera.png" />
+    </view>
+  </view>
+</template>
+
+<template name="service-provider">
+  <view class="card service-provider">
+    <view class="card-head">
+      <view class="card-head-title">配送商家</view>
+    </view>
+    <view class="card-body">
+      <view class="shop">
+        <view class="shop-image">
+          <image src="/images/logo.jpg" />
         </view>
-        <view class="myorder-link-text">已提交</view>
-      </view>
-      <view class="myorder-link" data-id="link-2" catchtap="onLinkTap">
-        <view class="myorder-link-icon">
-          <image src="/images/icon/camera.png" />
+        <view class="shop-info">
+          <view class="shop-info-title">义乌市铱星生鲜配送</view>
+          <view class="shop-info-tele">
+            <view class="shop-info-label">联系电话:</view>
+            <view class="shop-info-value">15397553789</view>
+          </view>
         </view>
-        <view class="myorder-link-text">已发货</view>
-      </view>
-      <view class="myorder-link" data-id="link-3" catchtap="onLinkTap">
-        <view class="myorder-link-icon">
-          <image src="/images/icon/camera.png" />
-        </view>
-        <view class="myorder-link-text">已完成</view>
       </view>
     </view>
   </view>

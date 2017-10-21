@@ -106,7 +106,7 @@ Page({
                       let index = -1
                       for (let k in shoppings) {
                         if (shoppings[k].iid == shopping.iid) {
-                          shoppings[k].num += Number(shopping.num)
+                          shoppings[k].num = shoppings[k].num + Number(shopping.num)
                           index = k
                           break
                         }
@@ -163,16 +163,18 @@ Page({
           let order = trade.orders[j]
           let iid = order.iid
           let product = Product.getProduct({ id: iid })
-          order.image = product.images[0]
-          order.title = product.title
-          order.descs = product.descs || product.title + '(500克)'
-          order.price = product.price
-          order.bookAmount = (Number(order.bookNum) * order.price).toFixed(2)
-          order.realAmount = (Number(order.realNum) * order.price).toFixed(2)
-          bookNum = bookNum + Number(order.bookNum)
-          bookAmount = bookAmount + Number(order.bookNum) * Number(order.price)
-          realNum = realNum + Number(order.realNum)
-          realAmount = realAmount + Number(order.realNum) * Number(order.price)
+          if (product){
+            order.image = product.images[0]
+            order.title = product.title
+            order.descs = product.descs || product.title + '(500克)'
+            order.price = product.price
+            order.bookAmount = (Number(order.bookNum) * order.price).toFixed(2)
+            order.realAmount = (Number(order.realNum) * order.price).toFixed(2)
+            bookNum = bookNum + Number(order.bookNum)
+            bookAmount = bookAmount + Number(order.bookNum) * Number(order.price)
+            realNum = realNum + Number(order.realNum)
+            realAmount = realAmount + Number(order.realNum) * Number(order.price)
+          }
         }
         trade.bookNum = bookNum
         trade.bookAmount = bookAmount.toFixed(2)
@@ -218,9 +220,7 @@ Page({
     this.setData({
       navs: navs
     })
-
     this.loadTrades()
-
   },
 
   /**

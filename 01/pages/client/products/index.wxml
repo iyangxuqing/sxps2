@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container" wx:if="{{products}}">
   <view class="topbar">
     <view class="level-1-cates">
       <block wx:for="{{level1Cates}}" wx:key="">
@@ -8,9 +8,9 @@
     <view class="search-bar {{searchBarExpand ? 'expand': ''}}">
       <view class="search-view">
         <view class="search-input">
-          <input value="" placeholder="输入蔬菜名称" />
+          <input value="" placeholder="输入蔬菜名称" bindinput="onKeywordsInput" />
         </view>
-        <view class="search-button">搜 索</view>
+        <view class="search-button" catchtap="onSearchSubmit">搜 索</view>
       </view>
       <view class="search-icon" catchtap="onSearchTap">
         <icon type="search" size="18" color="#999" wx:if="{{!searchBarExpand}}" />
@@ -40,7 +40,14 @@
         </view>
       </block>
     </view>
+
+    <view class="products-empty" wx:if="{{!products.length}}">
+      <view class="empty-line"></view>
+      <view class="empty-text">没有相应的菜品</view>
+      <view class="empty-line"></view>
+    </view>
   </view>
+
 </view>
 
 <view class="popup {{popup.show ? 'popup-show': ''}}">

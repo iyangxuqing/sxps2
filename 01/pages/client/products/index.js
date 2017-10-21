@@ -9,7 +9,45 @@ Page({
     youImageMode: app.youImageMode,
     popup: {
       show: false
+    },
+  },
+
+  onKeywordsInput: function (e) {
+    this.keywords = e.detail.value
+  },
+
+  onSearchSubmit: function () {
+    let keywords = this.keywords
+    let products = app.Products
+    let _products = []
+    for (let i in products) {
+      for (let j in products[i]) {
+        if (products[i][j].title.indexOf(keywords) >= 0) {
+          _products.push(products[i][j])
+        }
+      }
     }
+    let shoppings = wx.getStorageSync('shoppings') || []
+    for (let i in shoppings) {
+      let iid = shoppings[i].iid
+      let num = shoppings[i].num
+      for (let j in _products) {
+        if (_products[j].id == iid) {
+          _products[j].num = num
+          break
+        }
+      }
+    }
+    this.setData({
+      products: _products
+    })
+  },
+
+  onSearchTap: function (e) {
+    let searchBarExpand = !this.data.searchBarExpand
+    this.setData({
+      searchBarExpand
+    })
   },
 
   onLevel1CateTap: function (e) {
@@ -122,7 +160,7 @@ Page({
         }
       }
       this.setData({
-        products: products
+        products: products,
       })
     }.bind(this))
   },

@@ -1,5 +1,0 @@
-@import '/templates/mobile/mobile.wxss';
-
-page{
-  padding-top: 40rpx;
-}

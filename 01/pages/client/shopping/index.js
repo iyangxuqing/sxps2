@@ -10,26 +10,26 @@ Page({
   },
 
   onMinusTap: function (e) {
-    let id = e.currentTarget.dataset.id
+    let iid = e.currentTarget.dataset.iid
     let products = this.data.products
-    let product = this.getProduct(products, id)
+    let product = this.getProduct(products, iid)
     if (product.num > 0) product.num--
     this.refreshProducts(products)
   },
 
   onPlusTap: function (e) {
-    let id = e.currentTarget.dataset.id
+    let iid = e.currentTarget.dataset.iid
     let products = this.data.products
-    let product = this.getProduct(products, id)
+    let product = this.getProduct(products, iid)
     if (product.num < 999) product.num++
     this.refreshProducts(products)
   },
 
   onNumBlur: function (e) {
-    let id = e.currentTarget.dataset.id
+    let iid = e.currentTarget.dataset.iid
     let num = e.detail.value
     let products = this.data.products
-    let product = this.getProduct(products, id)
+    let product = this.getProduct(products, iid)
     product.num = num
     this.refreshProducts(products)
   },
@@ -66,9 +66,9 @@ Page({
     })
   },
 
-  getProduct(products, id) {
+  getProduct(products, iid) {
     for (let i in products) {
-      if (products[i].id == id) {
+      if (products[i].iid == iid) {
         return products[i]
       }
     }

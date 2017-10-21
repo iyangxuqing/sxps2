@@ -12,13 +12,13 @@
           <view class="price">￥{{product.price}}</view>
         </view>
         <view class="number">
-          <view class="minus" data-id="{{product.id}}" catchtap="onMinusTap">
+          <view class="minus" data-iid="{{product.iid}}" catchtap="onMinusTap">
             <image src="/images/icon/minus.png" />
           </view>
           <view class="num">
-            <input value="{{product.num}}" data-id="{{product.id}}" bindblur="onNumBlur" type="number" maxlength="3" cursor-spacing="30" />
+            <input value="{{product.num}}" data-iid="{{product.iid}}" bindblur="onNumBlur" type="number" maxlength="3" cursor-spacing="30" />
           </view>
-          <view class="plus" data-id="{{product.id}}" catchtap="onPlusTap">
+          <view class="plus" data-iid="{{product.iid}}" catchtap="onPlusTap">
             <image src="/images/icon/plus.png" />
           </view>
         </view>
