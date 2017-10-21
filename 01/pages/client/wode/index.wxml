@@ -32,7 +32,7 @@
   <view class="card myorder">
     <view class="card-head">
       <view class="card-head-title">我的订单</view>
-      <view class="card-head-more" data-id="link-all" catchtap="onLinkTap">
+      <view class="card-head-more" data-index="0" catchtap="onLinkTap">
         <view class="card-head-more-text">查看全部订单</view>
         <view class="card-head-more-icon">
           <image src="/images/icon/enter.png" />
@@ -41,25 +41,25 @@
     </view>
     <view class="card-body">
       <view class="myorder-links">
-        <view class="myorder-link" data-id="link-0" catchtap="onLinkTap">
+        <view class="myorder-link" data-index="1" catchtap="onLinkTap">
           <view class="myorder-link-icon">
             <image src="/images/icon/order-uncommitted.png" />
           </view>
           <view class="myorder-link-text">未提交</view>
         </view>
-        <view class="myorder-link" data-id="link-1" catchtap="onLinkTap">
+        <view class="myorder-link" data-index="2" catchtap="onLinkTap">
           <view class="myorder-link-icon">
             <image src="/images/icon/order-submitted.png" />
           </view>
           <view class="myorder-link-text">已提交</view>
         </view>
-        <view class="myorder-link" data-id="link-2" catchtap="onLinkTap">
+        <view class="myorder-link" data-index="3" catchtap="onLinkTap">
           <view class="myorder-link-icon">
             <image src="/images/icon/order-shipped.png" />
           </view>
           <view class="myorder-link-text">已发货</view>
         </view>
-        <view class="myorder-link" data-id="link-3" catchtap="onLinkTap">
+        <view class="myorder-link" data-index="4" catchtap="onLinkTap">
           <view class="myorder-link-icon">
             <image src="/images/icon/order-completed.png" />
           </view>
@@ -81,10 +81,10 @@
           <image src="/images/logo.jpg" />
         </view>
         <view class="shop-info">
-          <view class="shop-info-title">义乌市铱星生鲜配送</view>
-          <view class="shop-info-tele">
+          <view class="shop-info-title" catchlongpress="onShopLongPress">义乌市铱星生鲜配送</view>
+          <view class="shop-info-tele" data-phone-number="{{phoneNumber}}" catchtap="onShopTeleTap">
             <view class="shop-info-label">联系电话:</view>
-            <view class="shop-info-value">15397553789</view>
+            <view class="shop-info-value">{{phoneNumber}}</view>
           </view>
         </view>
       </view>

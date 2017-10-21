@@ -41,7 +41,6 @@ function getProducts(options={}) {
 }
 
 function getProduct(options) {
-  console.log(options)
   let id = options.id
   let products = app.Products
   for (let i in products) {

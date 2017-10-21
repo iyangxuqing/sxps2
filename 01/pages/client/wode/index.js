@@ -11,7 +11,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    youImageMode: app.youImageMode
+    youImageMode: app.youImageMode,
+    serviceProvider: {
+      phoneNumber: '15397553789'
+    }
   },
 
   getUserInfo: function (e) {
@@ -61,10 +64,25 @@ Page({
     })
   },
 
-  onLinkTap: function(e){
-    let id = e.currentTarget.dataset.id
+  onLinkTap: function (e) {
+    let index = e.currentTarget.dataset.index
+    wx.setStorageSync('orderIndex', index)
+    wx.switchTab({
+      url: '../trades/index',
+    })
+  },
+
+  onShopLongPress: function (e) {
     wx.navigateTo({
-      url: '../trades/index?id=' + id,
+      url: '/pages/admin/index/index'
+    })
+  },
+
+  onShopTeleTap: function (e) {
+    let phoneNumber = e.currentTarget.dataset.phoneNumber
+    console.log(phoneNumber)
+    wx.makePhoneCall({
+      phoneNumber: phoneNumber
     })
   },
 

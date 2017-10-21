@@ -29,6 +29,7 @@ Page({
 
   onNavTap: function (e) {
     let index = e.currentTarget.dataset.index
+    wx.setStorageSync('orderIndex', index)
     let navs = this.data.navs
     for (let i in navs) {
       navs[i].active = false
@@ -163,7 +164,7 @@ Page({
           let order = trade.orders[j]
           let iid = order.iid
           let product = Product.getProduct({ id: iid })
-          if (product){
+          if (product) {
             order.image = product.images[0]
             order.title = product.title
             order.descs = product.descs || product.title + '(500克)'
@@ -205,22 +206,8 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    let id = options.id
-    let index = 0
-    if (id == 'link-0') index = 1
-    if (id == 'link-1') index = 2
-    if (id == 'link-2') index = 3
-    if (id == 'link-3') index = 4
-    let navs = this.data.navs
-    for (let i in navs) {
-      navs[i].active = false
-    }
-    navs[index].active = true
-    this.setData({
-      navs: navs
-    })
-    this.loadTrades()
+  onLoad: function () {
+
   },
 
   /**
@@ -234,7 +221,16 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let index = wx.getStorageSync('orderIndex')
+    let navs = this.data.navs
+    for (let i in navs) {
+      navs[i].active = false
+    }
+    navs[index].active = true
+    this.setData({
+      navs: navs
+    })
+    this.loadTrades()
   },
 
   /**

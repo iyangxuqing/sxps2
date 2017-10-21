@@ -35,16 +35,16 @@
         "selectedIconPath": "images/tab/02/cart.png"
       },
       {
+        "pagePath": "pages/client/trades/index",
+        "text": "订单",
+        "iconPath": "images/tab/01/admin.png",
+        "selectedIconPath": "images/tab/02/admin.png"
+      },
+      {
         "pagePath": "pages/client/wode/index",
         "text": "我的",
         "iconPath": "images/tab/01/user.png",
         "selectedIconPath": "images/tab/02/user.png"
-      },
-      {
-        "pagePath": "pages/admin/index/index",
-        "text": "后台管理",
-        "iconPath": "images/tab/01/admin.png",
-        "selectedIconPath": "images/tab/02/admin.png"
       }
     ]
   }
