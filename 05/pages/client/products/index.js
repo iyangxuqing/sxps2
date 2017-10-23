@@ -12,18 +12,19 @@ Page({
     },
   },
 
-  onKeywordsInput: function (e) {
-    this.keywords = e.detail.value
+  onSearchWordsInput: function (e) {
+    this.searchWords = e.detail.value
   },
 
-  onSearchSubmit: function () {
-    let keywords = this.keywords
-    let products = app.Products
-    let _products = []
-    for (let i in products) {
-      for (let j in products[i]) {
-        if (products[i][j].title.indexOf(keywords) >= 0) {
-          _products.push(products[i][j])
+  onSearchWordsBlur: function (e) {
+    let searchWords = this.searchWords
+    if (!searchWords) return
+    let products = []
+    let _products = app.Products
+    for (let i in _products) {
+      for (let j in _products[i]) {
+        if (_products[i][j].title.indexOf(searchWords) >= 0) {
+          products.push(_products[i][j])
         }
       }
     }
@@ -31,150 +32,51 @@ Page({
     for (let i in shoppings) {
       let iid = shoppings[i].iid
       let num = shoppings[i].num
-      for (let j in _products) {
-        if (_products[j].id == iid) {
-          _products[j].num = num
+      for (let j in products) {
+        if (products[j].id == iid) {
+          products[j].num = num
           break
         }
       }
     }
     this.setData({
-      products: _products
+      products: products
     })
   },
 
-  onSearchTap: function (e) {
-    let searchBarExpand = !this.data.searchBarExpand
-    this.setData({
-      searchBarExpand
-    })
-  },
-
-  onLevel1CateTap: function (e) {
+  onCateTap: function (e) {
     let id = e.currentTarget.dataset.id
-    this.loadCates({
-      level1CateId: id
-    })
-  },
-
-  onLevel2CateTap: function (e) {
-    let id = e.currentTarget.dataset.id
-    this.loadCates({
-      level2CateId: id
-    })
-    this.setData({
-      'topbar.expand': false
-    })
-  },
-
-  loadCates: function (options) {
-    if (options.cates) {
-      this.cates = options.cates
-      let cates = this.cates
-      if (!('active' in cates[0])) {
-        cates[0].active = true
-        for (let i in cates) {
-          if (cates[i].children && cates[i].children.length) {
-            cates[i].children[0].active = true
-          }
-        }
-      }
-    }
-
-    let cates = this.cates
-    if (options.level1CateId) {
-      for (let i in cates) {
-        cates[i].active = false
-        if (cates[i].id == options.level1CateId) {
-          cates[i].active = true
-        }
-      }
-    }
-
-    if (options.level2CateId) {
-      for (let i in cates) {
-        if (cates[i].active) {
-          for (let j in cates[i].children) {
-            cates[i].children[j].active = false
-            if (cates[i].children[j].id == options.level2CateId) {
-              cates[i].children[j].active = true
-            }
-          }
-          break
-        }
-      }
-    }
-
-    let level1Cates = []
-    let level2Cates = []
+    let cates = this.data.cates
     for (let i in cates) {
-      level1Cates.push({
-        id: cates[i].id,
-        title: cates[i].title,
-        active: cates[i].active
-      })
-      if (cates[i].active) {
-        for (let j in cates[i].children) {
-          level2Cates.push({
-            id: cates[i].children[j].id,
-            title: cates[i].children[j].title,
-            active: cates[i].children[j].active
-          })
-        }
+      cates[i].active = false
+      if (cates[i].id == id) {
+        cates[i].active = true
       }
     }
-
     this.setData({
-      level1Cates,
-      level2Cates,
+      cates: cates
     })
-
     this.loadProducts()
   },
 
-  loadProducts: function () {
-    let cates = this.cates
-    let cid = ''
+  onChildCateTap: function (e) {
+    let id = e.currentTarget.dataset.id
+    let cates = this.data.cates
     for (let i in cates) {
       if (cates[i].active) {
         for (let j in cates[i].children) {
-          if (cates[i].children[j].active) {
-            cid = cates[i].children[j].id
-            break
+          cates[i].children[j].active = false
+          if (cates[i].children[j].id == id) {
+            cates[i].children[j].active = true
           }
         }
         break
       }
     }
-    Product.getProducts({ cid }).then(function (_products) {
-      let products = JSON.parse(JSON.stringify(_products))
-      let shoppings = wx.getStorageSync('shoppings') || []
-      for (let i in shoppings) {
-        let iid = shoppings[i].iid
-        let num = shoppings[i].num
-        for (let j in products) {
-          if (products[j].id == iid) {
-            products[j].num = num
-            break
-          }
-        }
-      }
-      this.setData({
-        products: products,
-      })
-    }.bind(this))
-  },
-
-  onPopupMaskTap: function (e) {
     this.setData({
-      'popup.show': false
+      cates: cates
     })
-  },
-
-  onPopupClose: function (e) {
-    this.setData({
-      'popup.show': false
-    })
+    this.loadProducts()
   },
 
   onProductTap: function (e) {
@@ -200,6 +102,18 @@ Page({
     this.setData({
       'popup.show': true,
       shopping: shopping
+    })
+  },
+
+  onPopupMaskTap: function (e) {
+    this.setData({
+      'popup.show': false
+    })
+  },
+
+  onPopupClose: function (e) {
+    this.setData({
+      'popup.show': false
     })
   },
 
@@ -269,41 +183,37 @@ Page({
     })
   },
 
-  onCateTap: function (e) {
-    let id = e.currentTarget.dataset.id
+  loadProducts: function () {
     let cates = this.data.cates
-    for (let i in cates) {
-      cates[i].active = false
-      if (cates[i].id == id) {
-        cates[i].active = true
-      }
-    }
-    this.setData({
-      cates: cates
-    })
-  },
-
-  onChildCateTap: function (e) {
-    let id = e.currentTarget.dataset.id
-    let cates = this.data.cates
+    let cid = ''
     for (let i in cates) {
       if (cates[i].active) {
         for (let j in cates[i].children) {
-          cates[i].children[j].active = false
-          if (cates[i].children[j].id == id) {
-            cates[i].children[j].active = true
+          if (cates[i].children[j].active) {
+            cid = cates[i].children[j].id
+            break
           }
         }
         break
       }
     }
-    this.setData({
-      cates: cates
-    })
-
-    this.loadCates({
-      level2CateId: id
-    })
+    Product.getProducts({ cid }).then(function (_products) {
+      let products = JSON.parse(JSON.stringify(_products))
+      let shoppings = wx.getStorageSync('shoppings') || []
+      for (let i in shoppings) {
+        let iid = shoppings[i].iid
+        let num = shoppings[i].num
+        for (let j in products) {
+          if (products[j].id == iid) {
+            products[j].num = num
+            break
+          }
+        }
+      }
+      this.setData({
+        products: products,
+      })
+    }.bind(this))
   },
 
   /**
@@ -332,10 +242,7 @@ Page({
       this.setData({
         cates: cates
       })
-      this.loadCates({
-        cates: cates,
-        'topbar.expand': true
-      })
+      this.loadProducts()
     }.bind(this))
   },
 

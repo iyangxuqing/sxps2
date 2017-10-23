@@ -1,7 +1,7 @@
 import { http } from '../../../utils/http.js'
 import { Category } from '../../../utils/categorys.js'
 import { Product } from '../../../utils/products.js'
-import { SwiperImagesEditor } from '../../../templates/swiperImagesEditor/swiperImagesEditor.js'
+import { SwiperImagesEditor } from '../../../template/swiperImagesEditor/swiperImagesEditor.js'
 
 let app = getApp()
 

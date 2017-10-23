@@ -1,4 +1,4 @@
-@import '/templates/listGridEditor/listGridEditor.wxss';
+@import '/template/listGridEditor/listGridEditor.wxss';
 
 .container {
   padding-left: 30rpx;

@@ -1,4 +1,4 @@
-import { ListGridEditor } from '../../../templates/listGridEditor/listGridEditor.js'
+import { ListGridEditor } from '../../../template/listGridEditor/listGridEditor.js'
 import { Category } from '../../../utils/categorys.js'
 import { Product } from '../../../utils/products.js'
 

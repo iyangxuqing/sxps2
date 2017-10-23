@@ -1,4 +1,4 @@
-<import src="/templates/swiperImagesEditor/swiperImagesEditor.wxml" />
+<import src="/template/swiperImagesEditor/swiperImagesEditor.wxml" />
 
 <view class="product" wx:if="{{ready}}">
   <view class="product-title">

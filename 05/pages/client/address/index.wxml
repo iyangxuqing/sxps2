@@ -1,0 +1,32 @@
+<import src="/template/toptip/toptip.wxml" />
+<template is="toptip" data="{{...toptip}}" />
+<import src="/template/loading/loading.wxml" />
+<template is="loading" data="{{...loading}}" />
+
+<view class="container">
+  <form bindsubmit="onAddressSubmit">
+    <view class="row row-address-title">输入地址</view>
+    <view class="row row-address-citys">
+      <view class="address-citys-label">选择地区</view>
+      <view class="address-citys-value">
+        <picker mode="region" bindchange="onRegionChange" value="{{region}}">
+          {{region[0]}}{{region[1]}}{{region[2]}}
+        </picker>
+      </view>
+      <view class="icon icon-address-citys">
+        <image src="/images/icon/address-pin.png" />
+      </view>
+    </view>
+    <view class="row row-address-detail">
+      <view class="address-detail-label">详细地址</view>
+      <input class="address-detail-input" name="addressDetail" value="{{addressDetail}}" placeholder="街道门牌信息" maxlength="20" />
+      <view class="icon icon-address-detail">
+        <image src="/images/icon/address-pin.png" />
+      </view>
+    </view>
+    <view class="row row-address-buttons">
+      <button class="address-button address-button-confirm" hover-class="address-button-confirm-hover" formType="submit">保 存</button>
+      <button class="address-button address-button-cancel" catchtap="onAddressCancel">取 消</button>
+    </view>
+  </form>
+</view>

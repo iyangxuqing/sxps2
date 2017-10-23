@@ -242,18 +242,11 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    if (app.user.role == 'admin') {
-      let page = this
-      Category.getCategorys({ nocache: true })
-        .then(function (cates) {
-          page.setData({ cates })
-          wx.stopPullDownRefresh()
-        })
-    } else {
-      setTimeout(function () {
-        wx.stopPullDownRefresh()
-      }, 2000)
-    }
+    let page = this
+    Category.getCategorys({ nocache: true }).then(function (cates) {
+      page.setData({ cates })
+      wx.stopPullDownRefresh()
+    })
   },
 
   /**

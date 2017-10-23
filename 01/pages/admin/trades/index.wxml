@@ -5,7 +5,7 @@
     </block>
   </view>
 
-  <view class="trades">
+  <view class="trades" style="display:none">
     <block wx:for="{{trades}}" wx:key="" wx:for-item="trade">
       <view class="trade">
         <view class="trade-info">

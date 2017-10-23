@@ -1,0 +1,70 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  font-size: 28rpx;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 330rpx;
+  margin-bottom: 30rpx;
+}
+
+.item:nth-of-type(2n) {
+  margin-left: 30rpx;
+}
+
+.item-thumb {
+  width: 330rpx;
+  height: 300rpx;
+  border-radius: 8rpx;
+  overflow: hidden;
+  border: 1px solid #eee;
+}
+
+.item-title {
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+.item-edit {
+  position: absolute;
+  width: 100rpx;
+  height: 320rpx;
+  top: 0rpx;
+  right: -20rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-del, .item-sort-up, .item-sort-down {
+  width: 100rpx;
+  height: 60rpx;
+  padding: 4rpx 24rpx;
+  background-color: rgba(255, 255, 255, 0.6);
+  background-clip: content-box;
+}
+
+.item-sort-down{
+  transform: rotate(180deg);
+}
+
+.item-add .item-thumb {
+  padding: 60rpx;
+  border: 1px solid #ddd;
+}
+
+.item.moving {
+  position: absolute;
+  opacity: 0.5;
+  margin: 0;
+}
+
+.item.target {
+  opacity: 0.5;
+}

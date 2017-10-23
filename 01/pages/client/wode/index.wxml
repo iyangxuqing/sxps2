@@ -78,7 +78,7 @@
     <view class="card-body">
       <view class="shop">
         <view class="shop-image">
-          <image src="/images/logo.jpg" />
+          <image src="/images/logo.jpg" mode="aspectFill" />
         </view>
         <view class="shop-info">
           <view class="shop-info-title" catchlongpress="onShopLongPress">义乌市铱星生鲜配送</view>

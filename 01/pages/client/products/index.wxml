@@ -1,28 +1,27 @@
 <view class="container" wx:if="{{products}}">
   <view class="topbar">
-    <view class="level-1-cates">
-      <block wx:for="{{level1Cates}}" wx:key="">
-        <view class="level-1-cate {{item.active ? 'active' : ''}}" data-id="{{item.id}}" catchtap="onLevel1CateTap">{{item.title}}</view>
-      </block>
-    </view>
-    <view class="search-bar {{searchBarExpand ? 'expand': ''}}">
-      <view class="search-view">
-        <view class="search-input">
-          <input value="" placeholder="输入蔬菜名称" bindinput="onKeywordsInput" />
-        </view>
-        <view class="search-button" catchtap="onSearchSubmit">搜 索</view>
+    <view class="search-bar">
+      <view class="search-icon">
+        <icon type="search" size="18" color="#888" />
       </view>
-      <view class="search-icon" catchtap="onSearchTap">
-        <icon type="search" size="18" color="#999" wx:if="{{!searchBarExpand}}" />
-        <icon type="cancel" size="20" color="red" wx:if="{{searchBarExpand}}" />
+      <view class="search-input">
+        <input value="" placeholder="输入蔬菜名称" bindinput="onSearchWordsInput" />
       </view>
+      <view class="search-button" catchtap="onSearchButtonTap">搜 索</view>
     </view>
   </view>
 
   <view class="leftnav">
-    <view class="level-2-cates">
-      <block wx:for="{{level2Cates}}" wx:key="">
-        <view class="level-2-cate {{item.active ? 'active' : ''}}" data-id="{{item.id}}" catchtap="onLevel2CateTap">{{item.title}}</view>
+    <view class="cates">
+      <block wx:for="{{cates}}" wx:key="" wx:for-item="cate">
+        <view class="cate {{cate.active ? 'active' : ''}}" data-id="{{cate.id}}" catchtap="onCateTap">
+          <view class="cate-title">{{cate.title}}</view>
+          <view class="cate-children">
+            <block wx:for="{{cate.children}}" wx:key="" wx:for-item="item">
+              <view class="cate-child {{item.active ? 'active' : ''}}" data-id="{{item.id}}" catchtap="onChildCateTap">{{item.title}}</view>
+            </block>
+          </view>
+        </view>
       </block>
     </view>
   </view>
@@ -32,7 +31,7 @@
       <block wx:for="{{products}}" wx:key="" wx:for-item="product">
         <view class="product" data-id="{{product.id}}" catchtap="onProductTap">
           <view class="product-image">
-            <image src="{{product.images[0] + youImageMode}}" />
+            <image src="{{product.images[0] + youImageMode}}" mode="aspectFill" />
           </view>
           <view class="product-title">{{product.title}}</view>
           <view class="product-price">￥{{product.price}}</view>
@@ -40,56 +39,54 @@
         </view>
       </block>
     </view>
-
     <view class="products-empty" wx:if="{{!products.length}}">
       <view class="empty-line"></view>
       <view class="empty-text">没有相应的菜品</view>
       <view class="empty-line"></view>
     </view>
   </view>
-
 </view>
 
 <view class="popup {{popup.show ? 'popup-show': ''}}">
   <view class="popup-mask" wx:if="{{popup.show}}" catchtap="onPopupMaskTap"></view>
   <view class="popup-content">
-    <view class="popup-close" catchtap="onPopupClose">
+    <view class="popup-content-close" catchtap="onPopupClose">
       <image src="/images/icon/delete.png" />
     </view>
     <view class="shopping">
       <view class="shopping-info">
         <view class="shopping-image">
-          <image src="{{shopping.image ? shopping.image + youImageMode : ''}}" />
+          <image src="{{shopping.image ? shopping.image + youImageMode : ''}}" mode="aspectFill" />
         </view>
         <view class="shopping-text">
           <view class="shopping-title">{{shopping.title}}</view>
           <view class="shopping-descs">{{shopping.descs || shopping.title + '(500克)'}}</view>
           <view class="shopping-price">￥{{shopping.price}}</view>
+          <view class="shopping-number">
+            <view class="minus" catchtap="onMinusTap">
+              <view class="minus-inner">
+                <image src="/images/icon/minus.png" />
+              </view>
+            </view>
+            <view class="number">
+              <input value="{{shopping.num}}" type="number" maxlength="3" bindinput="onNumInput" cursor-spacing="20" />
+            </view>
+            <view class="plus" catchtap="onPlusTap">
+              <view class="plus-inner">
+                <image src="/images/icon/plus.png" />
+              </view>
+            </view>
+          </view>
         </view>
       </view>
-      <view class="shopping-number">
-        <view class="shopping-number-label">数量</view>
-        <view class="shopping-number-value">
-          <view class="minus" catchtap="onMinusTap">
-            <image src="/images/icon/minus.png" />
-          </view>
-          <view class="number">
-            <input value="{{shopping.num}}" type="number" maxlength="3" bindinput="onNumInput" cursor-spacing="20" />
-          </view>
-          <view class="plus" catchtap="onPlusTap">
-            <image src="/images/icon/plus.png" />
-          </view>
-        </view>
-      </view>
-      <view class="shopping-order">
+      <view class="shopping-foot">
         <view class="shopping-amount">
           <view class="shopping-amount-label">金额:</view>
           <view class="shopping-amount-value">￥{{shopping.amount || '0.00'}}</view>
         </view>
-        <view class="shopping-button">
-          <view class="shopping-button-inner" catchtap="onAddShopping" data-id="{{shopping.id}}">加入购物车</view>
-        </view>
+        <view class="shopping-button" catchtap="onAddShopping">加入购物车</view>
       </view>
     </view>
   </view>
+
 </view>

@@ -107,7 +107,6 @@ Page({
                       let index = -1
                       for (let k in shoppings) {
                         if (shoppings[k].iid == shopping.iid) {
-                          shoppings[k].num = shoppings[k].num + Number(shopping.num)
                           index = k
                           break
                         }
@@ -221,7 +220,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let index = wx.getStorageSync('orderIndex')
+    let index = wx.getStorageSync('orderIndex') || 0
     let navs = this.data.navs
     for (let i in navs) {
       navs[i].active = false

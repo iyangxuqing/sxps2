@@ -123,19 +123,17 @@ function add(cate, cb) {
   }
 
   /* server start */
-  if (app.user.role == 'admin') {
-    http.get({
-      url: 'sxps/category.php?m=set',
-      data: {
-        id: cate.id,
-        pid: cate.pid,
-        sort: cate.sort,
-        title: cate.title
-      }
-    }).then(function (res) {
-      cb && cb(cates)
-    })
-  }
+  http.get({
+    url: 'sxps/category.php?m=set',
+    data: {
+      id: cate.id,
+      pid: cate.pid,
+      sort: cate.sort,
+      title: cate.title
+    }
+  }).then(function (res) {
+    cb && cb(cates)
+  })
   /* server end */
   return cates
 }
@@ -164,18 +162,16 @@ function set(cate, cb) {
   }
 
   /* server start */
-  if (app.user.role == 'admin') {
-    http.get({
-      url: 'sxps/category.php?m=set',
-      data: {
-        id: cate.id,
-        pid: cate.pid,
-        title: cate.title
-      }
-    }).then(function (res) {
-      cb && cb(cates)
-    })
-  }
+  http.get({
+    url: 'sxps/category.php?m=set',
+    data: {
+      id: cate.id,
+      pid: cate.pid,
+      title: cate.title
+    }
+  }).then(function (res) {
+    cb && cb(cates)
+  })
   /* server end */
   return cates
 }
@@ -265,21 +261,19 @@ function del(cate) {
     })
 
     /* server start */
-    if (app.user.role == 'admin') {
-      http.get({
-        url: 'sxps/category.php?m=del',
-        data: cate
-      }).then(function (res) {
-        /**
-         * 如果后台数据库检测中该类目不可被删除，
-         * 则返回错误信息，信息中包含不可被删除的原因，
-         * 不可被删除的原因需要在界面上进行提示。
-         */
-        if (res.error) {
-          resolve(res)
-        }
-      })
-    }
+    http.get({
+      url: 'sxps/category.php?m=del',
+      data: cate
+    }).then(function (res) {
+      /**
+       * 如果后台数据库检测中该类目不可被删除，
+       * 则返回错误信息，信息中包含不可被删除的原因，
+       * 不可被删除的原因需要在界面上进行提示。
+       */
+      if (res.error) {
+        resolve(res)
+      }
+    })
     /* server end */
   })
 }
@@ -330,31 +324,29 @@ function sort(cate, up = false) {
   }
 
   /* server start */
-  if (app.user.role == 'admin') {
-    for (let i in cates) {
-      if (cates[i].sort != i) {
-        cates[i].sort = i
+  for (let i in cates) {
+    if (cates[i].sort != i) {
+      cates[i].sort = i
+      http.get({
+        url: 'sxps/category.php?m=set',
+        data: { id: cates[i].id, sort: i }
+      }).then(function (res) {
+        if (res.errno === 0) {
+          cates[i].sort = i
+        }
+      })
+    }
+    for (let j in cates[i].children) {
+      if (cates[i].children[j].sort != j) {
+        cates[i].children[j].sort = j
         http.get({
           url: 'sxps/category.php?m=set',
-          data: { id: cates[i].id, sort: i }
+          data: { id: cates[i].children[j].id, sort: j }
         }).then(function (res) {
           if (res.errno === 0) {
-            cates[i].sort = i
+            cates[i].children[j].sort = j
           }
         })
-      }
-      for (let j in cates[i].children) {
-        if (cates[i].children[j].sort != j) {
-          cates[i].children[j].sort = j
-          http.get({
-            url: 'sxps/category.php?m=set',
-            data: { id: cates[i].children[j].id, sort: j }
-          }).then(function (res) {
-            if (res.errno === 0) {
-              cates[i].children[j].sort = j
-            }
-          })
-        }
       }
     }
   }

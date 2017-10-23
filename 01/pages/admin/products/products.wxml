@@ -1,4 +1,4 @@
-<import src="/templates/listGridEditor/listGridEditor.wxml" />
+<import src="/template/listGridEditor/listGridEditor.wxml" />
 
 <view class="container" wx:if="{{ready}}">
   <view class="cate">

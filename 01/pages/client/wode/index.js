@@ -13,7 +13,7 @@ Page({
   data: {
     youImageMode: app.youImageMode,
     serviceProvider: {
-      phoneNumber: '15397553789'
+      phoneNumber: '13757950478'
     }
   },
 
@@ -73,14 +73,15 @@ Page({
   },
 
   onShopLongPress: function (e) {
-    wx.navigateTo({
-      url: '/pages/admin/index/index'
-    })
+    if (app.user.role == 'admin') {
+      wx.navigateTo({
+        url: '/pages/admin/index/index'
+      })
+    }
   },
 
   onShopTeleTap: function (e) {
     let phoneNumber = e.currentTarget.dataset.phoneNumber
-    console.log(phoneNumber)
     wx.makePhoneCall({
       phoneNumber: phoneNumber
     })

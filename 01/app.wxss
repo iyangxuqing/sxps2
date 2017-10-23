@@ -1,5 +1,5 @@
-@import '/templates/loading/loading.wxss';
-@import '/templates/netfail/netfail.wxss';
+@import '/template/loading/loading.wxss';
+@import '/template/netfail/netfail.wxss';
 
 page {
   box-sizing: border-box;

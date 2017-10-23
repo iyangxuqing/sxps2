@@ -1,4 +1,4 @@
-@import '/templates/swiperImagesEditor/swiperImagesEditor.wxss';
+@import '/template/swiperImagesEditor/swiperImagesEditor.wxss';
 
 .product{
   padding-top: 20rpx;

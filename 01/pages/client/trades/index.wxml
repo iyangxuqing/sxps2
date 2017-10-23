@@ -30,7 +30,7 @@
           <block wx:for="{{trade.orders}}" wx:key="" wx:for-item="order">
             <view class="trade-order">
               <view class="product-image">
-                <image src="{{order.image}}" />
+                <image src="{{order.image}}" mode="aspectFill" />
               </view>
               <view class="product-text">
                 <view class="product-title">{{order.title}}</view>

@@ -2,7 +2,7 @@ import { http } from 'http.js'
 
 let app = getApp()
 
-function getProducts(options={}) {
+function getProducts(options = {}) {
   return new Promise(function (resolve, reject) {
     let Products = app.Products
     if (Products && !options.nocache) {
@@ -45,7 +45,7 @@ function getProduct(options) {
   let products = app.Products
   for (let i in products) {
     for (let j in products[i]) {
-      if (products[i][j].id == options.id){
+      if (products[i][j].id == options.id) {
         return products[i][j]
       }
     }
@@ -77,14 +77,12 @@ function set(product, cb) {
     products[index] = product
   }
 
-  if (app.user.role == 'admin') {
-    http.get({
-      url: 'sxps/product.php?m=set',
-      data: product,
-    }).then(function (res) {
-      cb && cb(res)
-    })
-  }
+  http.get({
+    url: 'sxps/product.php?m=set',
+    data: product,
+  }).then(function (res) {
+    cb && cb(res)
+  })
   app.listener.trigger('products', products, product)
 }
 
@@ -99,12 +97,10 @@ function del(product) {
     }
   }
 
-  if (app.user.role == 'admin') {
-    http.get({
-      url: 'sxps/product.php?m=del',
-      data: product
-    })
-  }
+  http.get({
+    url: 'sxps/product.php?m=del',
+    data: product
+  })
   app.listener.trigger('products', products)
 }
 
@@ -116,12 +112,10 @@ function sort(products) {
     for (let j in oldProducts) {
       if (oldProducts[j].id == id) {
         if (i != j) {
-          if (app.user.role == 'admin') {
-            http.get({
-              url: 'sxps/product.php?m=set',
-              data: { id, sort: i }
-            })
-          }
+          http.get({
+            url: 'sxps/product.php?m=set',
+            data: { id, sort: i }
+          })
         }
         break
       }

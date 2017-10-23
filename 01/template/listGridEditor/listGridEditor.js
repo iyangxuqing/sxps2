@@ -5,40 +5,39 @@ let methods = {
   onItemTap: function (e) {
     let page = getCurrentPages().pop()
     let id = e.currentTarget.dataset.id
+    let items = page.data.listGridEditor.items
+    let item = {}
+    for (let i in items) {
+      if (items[i].id == id) {
+        item = items[i]
+        break
+      }
+    }
     page.setData({
       'listGridEditor.editItemId': ''
     })
-    this.onItemTap && this.onItemTap({ id })
+    this.onItemTap && this.onItemTap(item)
   },
 
   onItemDel: function (e) {
     let page = getCurrentPages().pop()
-    wx.showModal({
-      title: '提示',
-      content: '您确定要删除吗？删除之后不可恢复。',
-      showCancel: true,
-      success: function (res) {
-        if (res.confirm) {
-          let id = e.currentTarget.dataset.id
-          let items = page.data.listGridEditor.items
-          let index = -1
-          for (let i in items) {
-            if (items[i].id == id) {
-              index = i
-              break
-            }
-          }
-          items.splice(index, 1)
-          page.setData({
-            'listGridEditor.items': items
-          })
-          this.onItemDel && this.onItemDel({ id })
-        }
-      }.bind(this)
-    })
+    let id = e.currentTarget.dataset.id
+    let items = page.data.listGridEditor.items
+    let item = {}
+    let index = -1
+    for (let i in items) {
+      if (items[i].id == id) {
+        item = items[i]
+        index = i
+        break
+      }
+    }
+    items.splice(index, 1)
     page.setData({
       'listGridEditor.editItemId': '',
+      'listGridEditor.items': items
     })
+    this.onItemDel && this.onItemDel(item)
   },
 
   onItemSortUp: function (e) {

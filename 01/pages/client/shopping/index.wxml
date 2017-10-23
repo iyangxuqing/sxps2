@@ -4,7 +4,7 @@
     <block wx:for="{{products}}" wx:key="" wx:for-item="product">
       <view class="product">
         <view class="image">
-          <image src="{{product.image}}" />
+          <image src="{{product.image}}" mode="aspectFill" />
         </view>
         <view class="text">
           <view class="title">{{product.title}}</view>

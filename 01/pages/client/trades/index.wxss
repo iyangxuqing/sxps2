@@ -97,6 +97,7 @@
 .product-image {
   width: 120rpx;
   height: 120rpx;
+  border: 1px solid #eee;
 }
 
 .product-text {
@@ -105,11 +106,11 @@
 }
 
 .product-title {
-  font-size: 36rpx;
+  font-size: 34rpx;
   margin-bottom: 10rpx;
 }
 
-.product-desc {
+.product-descs {
   font-size: 26rpx;
   color: #888;
 }

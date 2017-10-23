@@ -1,0 +1,53 @@
+<template name="listRowsEditor">
+  <view class="list">
+    <block wx:for="{{items}}" wx:key="">
+      <view class="item item-{{itemTemplate}}" data-id="{{item.id}}" catchtap="{{onItemTap}}" bindtouchstart="{{touchstart}}" bindtouchmove="{{touchmove}}" bindtouchend="{{touchend}}">
+        <view class="item-inner {{swipeLeftId==item.id?'swipeleft':''}}">
+          <view class="item-left">
+            <template is="{{itemTemplate}}" data="{{...item, youImageMode}}" />
+          </view>
+          <view class="item-right">
+            <view class="item-sort-up" data-id="{{item.id}}" catchtap="{{onItemSortUp}}">
+              <image src="/images/icon/sort-up-white.png" />
+            </view>
+            <view class="item-sort-down" data-id="{{item.id}}" catchtap="{{onItemSortDown}}">
+              <image src="/images/icon/sort-up-white.png" />
+            </view>
+            <view class="item-delete" data-id="{{item.id}}" catchtap="{{onItemDel}}">
+              <image src="/images/icon/delete-white.png" />
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</template>
+
+<template name="anli">
+  <view class="anli">
+    <view class="anli-image">
+      <image src="{{image ? image + youImageMode: ''}}" mode="aspectFill"></image>
+    </view>
+    <view class="anli-text">
+      <view class="anli-title">{{subdistrict}}</view>
+      <view class="anli-subTitle">{{houseAddress}}</view>
+      <view class="anli-descs"><text>{{descs}}</text></view>
+      <view class="anli-time">{{time}}</view>
+    </view>
+  </view>
+</template>
+
+<template name="coupon">
+      <view class="coupon">
+        <view class="coupon-left">
+          <view class="coupon-image">
+            <image src="{{image ? image + youImageMode : ''}}" mode="aspectFill" />
+          </view>
+        </view>
+        <view class="coupon-right">
+          <view class="coupon-title">{{title}}</view>
+          <view class="coupon-descs">{{descs}}</view>
+          <view class="coupon-notes">{{notes}}</view>
+        </view>
+      </view>
+</template>
