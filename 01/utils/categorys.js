@@ -13,31 +13,19 @@ function getCategorys(options = {}) {
     if (app.cates && !options.nocache) {
       resolve(app.cates)
     } else {
-      getCategorysFromServer(options).then(function (cates) {
-        app.cates = cates
-        resolve(cates)
+      http.get({
+        url: 'sxps/category.php?m=get2',
+      }).then(function (res) {
+        if (res.errno === 0) {
+          app.cates = transformCategorys(res.categorys)
+          resolve(app.cates)
+        } else {
+          reject(res)
+        }
       }).catch(function (res) {
         reject(res)
       })
     }
-  })
-}
-
-function getCategorysFromServer(options) {
-  return new Promise(function (resolve, reject) {
-    http.get({
-      url: 'sxps/category.php?m=get',
-    }).then(function (res) {
-      if (res.errno === 0) {
-        let cates = res.categorys
-        cates = transformCategorys(cates)
-        resolve(cates)
-      } else {
-        reject(res)
-      }
-    }).catch(function (res) {
-      reject(res)
-    })
   })
 }
 

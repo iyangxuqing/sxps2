@@ -1,0 +1,84 @@
+.container {
+  padding: 30rpx;
+  padding-top: 0;
+  background-color: #f8f8f8;
+  background-clip: content-box;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 200rpx;
+  padding: 20rpx;
+}
+
+.shop-name {
+  font-size: 60rpx;
+}
+
+.shop-logo {
+  flex-shrink: 0;
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.shop-logo.empty{
+  border: 2rpx solid #ddd;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  min-height: 110rpx;
+  border-bottom: 1px solid #ddd;
+}
+
+.row:first-child {
+  border-top: 1px solid #ddd;
+}
+
+.row .icon {
+  flex-shrink: 0;
+  width: 100rpx;
+  height: 100rpx;
+  padding: 26rpx;
+  margin-left: -10rpx;
+}
+
+.row .text {
+  flex-grow: 1;
+  margin-left: -10rpx;
+}
+
+.shop-images {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30rpx;
+}
+
+.shop-image {
+  width: 100%;
+  height: 520rpx;
+  border: 1px solid #ddd;
+}
+
+.shop-thumbs {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30rpx;
+}
+
+.shop-thumb {
+  width: 210rpx;
+  height: 210rpx;
+  border: 1px solid #ddd;
+}
+
+input {
+  width: 100%;
+}
+
+.shop-name input {
+  height: 100rpx;
+}

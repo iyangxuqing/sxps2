@@ -1,0 +1,48 @@
+<view class="container" wx:if="{{ready}}">
+
+  <view class="header">
+    <view class="shop-name">
+      <input value="{{shop.name}}" placeholder="输入店铺名称" bindblur="onShopNameBlur" maxlength="8" />
+    </view>
+    <view class="shop-logo {{shop.logo ? '' : 'empty'}}" catchtap="onShopLogoTap">
+      <image src="{{shop.logo}}" mode="aspectFill" />
+    </view>
+  </view>
+
+  <view class="contacts">
+    <view class="row row-phone">
+      <view class="icon">
+        <image src="/images/icon/phone.png" />
+      </view>
+      <view class="text">
+        <input value="{{shop.phone}}" placeholder="输入联系电话" bindblur="onShopPhoneBlur" type="number" />
+      </view>
+    </view>
+    <view class="row row-address">
+      <view class="icon" catchtap="onAddressMapTap">
+        <image src="/images/icon/map-pin.png" />
+      </view>
+      <view class="text">
+        <input value="{{shop.address}}" placeholder="输入店铺地址" bindblur="onShopAddressBlur" maxlength="30" />
+      </view>
+    </view>
+  </view>
+
+  <view class="shop-images">
+    <view class="shop-image" data-index="0" catchtap="onShopImageTap">
+      <image src="{{shop.images[0] ? shop.images[0] + youImageMode : ''}}" mode="aspectFill" />
+    </view>
+    <view class="shop-thumbs">
+      <view class="shop-thumb" data-index="1" catchtap="onShopImageTap">
+        <image src="{{shop.images[1] ? shop.images[1] + youImageMode : ''}}" mode="aspectFill" />
+      </view>
+      <view class="shop-thumb" data-index="2" catchtap="onShopImageTap">
+        <image src="{{shop.images[2] ? shop.images[2] + youImageMode : ''}}" mode="aspectFill" />
+      </view>
+      <view class="shop-thumb" data-index="3" catchtap="onShopImageTap">
+        <image src="{{shop.images[3] ? shop.images[3] + youImageMode : ''}}" mode="aspectFill" />
+      </view>
+    </view>
+  </view>
+  
+</view>
