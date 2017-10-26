@@ -1,3 +1,6 @@
+<import src='/template/toptip/toptip.wxml' />
+<template is="toptip" data="{{...toptip}}" />
+
 <view class="container">
 
   <view class="register-head">
@@ -13,23 +16,23 @@
           <image src="/images/icon/user-white.png" />
         </view>
         <view class="register-field-input">
-          <input value="" placeholder="用户名" />
+          <input value="" placeholder="用户名/手机号" maxlength="20" bindinput="onRegisterNameInput" />
         </view>
       </view>
-      <view class="register-field">
+      <view class="register-field" style="display:none">
         <view class="register-field-icon">
           <image src="/images/icon/phone-white.png" />
         </view>
         <view class="register-field-input">
-          <input value="" placeholder="手机号" />
+          <input value="" placeholder="手机号" type="number" maxlength="11" bindinput="onRegisterPhoneInput" />
         </view>
       </view>
-      <view class="register-field">
+      <view class="register-field" style="display:none">
         <view class="register-field-icon">
           <image src="/images/icon/code-white.png" />
         </view>
         <view class="register-field-input">
-          <input value="" placeholder="验证码" />
+          <input value="" placeholder="验证码" type="number" maxlength="5" bindinput="onRegisterCodeInput" />
         </view>
         <view class="register-field-mark">
           <text>获取验证码</text>
@@ -40,16 +43,24 @@
           <image src="/images/icon/lock-white.png" />
         </view>
         <view class="register-field-input">
-          <input value="" placeholder="设置密码" />
+          <input value="" placeholder="设置密码" type="password" maxlength="20" bindinput="onRegisterPasswordInput" />
+        </view>
+      </view>
+      <view class="register-field">
+        <view class="register-field-icon">
+          <image src="/images/icon/lock-white.png" />
+        </view>
+        <view class="register-field-input">
+          <input value="" placeholder="再次输入密码" type="password" maxlength="20" bindinput="onRegisterPassword2Input" />
         </view>
       </view>
     </view>
     <view class="register-notes">用户名为6-20位数字、字母组合，可含下滑线</view>
-    <view class="register-button">注 册</view>
+    <view class="register-button" catchtap="onRegisterTap">注 册</view>
   </view>
 
   <view class="register-foot">
-    <view class="register-link">已有账号，立即登录</view>
+    <view class="register-link" catchtap="onLoginLinkTap">已有账号，立即登录</view>
   </view>
 
 </view>

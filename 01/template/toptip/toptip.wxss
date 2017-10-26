@@ -8,6 +8,7 @@
   justify-content: center;
   width: 100%;
   height: 90rpx;
+  font-size: 32rpx;
   color: #2a90d7;
   background-color: #d5e9f7;
   transition: all 300ms ease;

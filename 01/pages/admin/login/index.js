@@ -24,25 +24,25 @@ Page({
     let accountPass = this.accountPass
     if (!accountName && !accountPass) return
 
-    let sellerId = ''
+    let shopName = ''
     if (accountName == 's000001' && accountPass == '123456') {
-      sellerId = 's000001'
+      shopName = 's000001'
     }
     if (accountName == 's000002' && accountPass == '123456') {
-      sellerId = 's000002'
+      shopName = 's000002'
     }
     if (accountName == 's000003' && accountPass == '123456') {
-      sellerId = 's000003'
+      shopName = 's000003'
     }
     if (accountName == 's000004' && accountPass == '123456') {
-      sellerId = 's000004'
+      shopName = 's000004'
     }
     if (accountName == 's000005' && accountPass == '123456') {
-      sellerId = 's000005'
+      shopName = 's000005'
     }
 
-    if (sellerId) {
-      wx.setStorageSync('sellerId', sellerId)
+    if (shopName) {
+      wx.setStorageSync('shopName', shopName)
       this.toptip.show({
         title: '登录成功',
         success: function (e) {
@@ -63,8 +63,8 @@ Page({
    */
   onLoad: function (options) {
     this.toptip = new Toptip()
-    let sellerId = wx.getStorageSync('sellerId') || ''
-    if (sellerId) {
+    let shopName = wx.getStorageSync('shopName') || ''
+    if (shopName) {
       wx.redirectTo({
         url: '../index/index',
       })

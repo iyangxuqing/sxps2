@@ -61,7 +61,25 @@ function setShop(shop) {
   })
 }
 
+function registerShop(shop) {
+  return new Promise(function (resolve, reject) {
+    http.get({
+      url: 'sxps/shop.php?m=register',
+      data: shop
+    }).then(function (res) {
+      if (res.errno === 0) {
+        resolve(res)
+      } else {
+        reject(res)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
+  })
+}
+
 export var Shop = {
   get: getShop,
   set: setShop,
+  register: registerShop,
 }

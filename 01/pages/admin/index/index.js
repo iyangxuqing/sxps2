@@ -33,7 +33,7 @@ Page({
       content: '要退出当前登录的账号吗？',
       success: function (e) {
         if (e.confirm) {
-          wx.setStorageSync('sellerId', '')
+          wx.setStorageSync('shopName', '')
           wx.redirectTo({
             url: '../login/index',
           })
@@ -70,9 +70,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let sellerId = wx.getStorageSync('sellerId')
+    let shopName = wx.getStorageSync('shopName')
     Shop.get({
-      id: sellerId,
+      id: shopName,
       nocache: true
     }).then(function (shop) {
       this.setData({ shop })
