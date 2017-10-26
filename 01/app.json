@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/admin/shopRegister/index",
     "pages/admin/login/index",
     "pages/admin/shop/index",
     "pages/client/products/index",
@@ -13,7 +14,8 @@
     "pages/admin/product/product",
     "pages/admin/trades/index",
     "pages/admin/shop/index",
-    "pages/admin/login/index"
+    "pages/admin/login/index",
+    "pages/admin/shopRegister/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

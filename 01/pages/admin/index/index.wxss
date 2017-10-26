@@ -4,8 +4,44 @@
   margin: 0;
 }
 
+.account{
+  display: flex;
+  align-items: center;
+  height: 110rpx;
+  margin-bottom: 30rpx;
+  background-color: #f0f0f0;
+}
+
+.account-logo{
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80rpx;
+  height: 80rpx;
+  font-size: 28rpx;
+  color: #888;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-left: 20rpx;
+  background-color: #fff;
+}
+
+.account-name{
+  flex-grow: 1;
+  padding-left: 20rpx;
+}
+
+.account-exit{
+  flex-shrink: 0;
+  width: 100rpx;
+  height: 100rpx;
+  padding: 30rpx;
+}
+
 .links {
   margin-bottom: 0;
+  background-color: #f0f0f0;
 }
 
 .link {
@@ -15,8 +51,8 @@
   border-bottom: 1px solid #ddd;
 }
 
-.link:first-child {
-  border-top: 1px solid #ddd;
+.link:last-child {
+  border-top: 0px solid #ddd;
 }
 
 .link-text {

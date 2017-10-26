@@ -1,0 +1,92 @@
+page {
+  background-color: #e6edf5;
+}
+
+.container {
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+}
+
+.register-head{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300rpx;
+}
+
+.register-image{
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+.register-fields {
+  margin-bottom: 30rpx;
+}
+
+.register-field{
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  font-size: 32rpx;
+  margin-bottom: 30rpx;
+  border-top-left-radius: 20rpx;
+  background-color: #fff;
+}
+
+.register-field-icon{
+  flex-shrink: 0;
+  width: 100rpx;
+  height: 100rpx;
+  padding: 20rpx;
+  border-top-left-radius: 20rpx;
+  border-top-right-radius: 20rpx;
+  background-color: #42bfff;
+}
+
+.register-field-input{
+  flex-grow: 1;
+  margin-left: 20rpx;
+}
+
+.register-field-mark{
+  flex-shrink: 0;
+  font-size: 28rpx;
+  color: #888;
+  padding: 20rpx;
+  margin-right: 16rpx;
+  border-radius: 10rpx;
+  background-color: #eee;
+}
+
+.register-notes{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: #666;
+  margin-top: -10rpx;
+}
+
+.register-button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96rpx;
+  color: #fff;
+  border-radius: 10rpx;
+  margin-top: 60rpx;
+  margin-bottom: 30rpx;
+  background-color: #42bfff;
+}
+
+.register-foot{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100rpx;
+  font-size: 32rpx;
+  color: #555;
+  margin-top: 60rpx;
+}

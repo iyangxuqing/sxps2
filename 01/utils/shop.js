@@ -10,9 +10,11 @@ function getShop(options = {}) {
     } else {
       http.get({
         url: 'sxps/shop.php?m=get',
+        data: options
       }).then(function (res) {
         if (res.errno === 0) {
           let shop = res.shop || {
+            id: options.id,
             name: '',
             phone: '',
             address: '',
@@ -38,30 +40,20 @@ function getShop(options = {}) {
 
 function setShop(shop) {
   return new Promise(function (resolve, reject) {
-    let data = {
-      id: shop.id,
-      name: shop.name,
-      phone: shop.phone,
-      address: shop.address,
-      logo: shop.logo,
-      images: JSON.stringify(shop.images),
-      latitude: shop.latitude,
-      longitude: shop.longitude,
-    }
-    if (app.user.role == 'admin') {
-      http.post({
-        url: 'sxps/shop.php?m=set',
-        data: data
-      }).then(function (res) {
-        if (res.errno === 0) {
-          resolve(res)
-        } else {
-          reject(res)
-        }
-      }).catch(function (res) {
+    let data = Object.assign({}, shop)
+    data.images = JSON.stringify(data.images)
+    http.post({
+      url: 'sxps/shop.php?m=set',
+      data: data
+    }).then(function (res) {
+      if (res.errno === 0) {
+        resolve(res)
+      } else {
         reject(res)
-      })
-    }
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
 
     /* app.shop */
     app.shop = shop

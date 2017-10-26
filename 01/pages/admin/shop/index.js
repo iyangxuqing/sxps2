@@ -8,7 +8,7 @@ Page({
   hasChanged: false,
 
   data: {
-    youImageMode: app.youImageMode,
+    youImageMode: app.youImageMode_v5,
   },
 
   onShopNameBlur: function (e) {
@@ -58,7 +58,7 @@ Page({
     let index = e.currentTarget.dataset.index
     let images = this.data.shop.images
     let page = this
-    http.chooseImage().then(function(image){
+    http.chooseImage().then(function (image) {
       images[index] = image
       page.setData({
         'shop.images': images
@@ -94,7 +94,8 @@ Page({
    */
   onLoad: function (options) {
     let page = this
-    Shop.get().then(function (shop) {
+    let sellerId = wx.getStorageSync('sellerId')
+    Shop.get({ id: sellerId }).then(function (shop) {
       page.setData({
         shop: shop,
         ready: true,

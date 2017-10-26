@@ -1,3 +1,4 @@
+import { Shop } from '../../../utils/shop.js'
 import { Product } from '../../../utils/products.js'
 
 Page({
@@ -6,6 +7,10 @@ Page({
    * 页面的初始数据
    */
   data: {
+    account: {
+      logo: '',
+      name: '田歌农产品批发公司'
+    },
     links: [
       {
         text: '店铺信息',
@@ -20,6 +25,21 @@ Page({
         url: '../trades/index'
       }
     ]
+  },
+
+  onLogout: function (e) {
+    wx.showModal({
+      title: '账号管理',
+      content: '要退出当前登录的账号吗？',
+      success: function (e) {
+        if (e.confirm) {
+          wx.setStorageSync('sellerId', '')
+          wx.redirectTo({
+            url: '../login/index',
+          })
+        }
+      }
+    })
   },
 
   onLinkTap: function (e) {
@@ -50,7 +70,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let sellerId = wx.getStorageSync('sellerId')
+    Shop.get({
+      id: sellerId,
+      nocache: true
+    }).then(function (shop) {
+      this.setData({ shop })
+    }.bind(this))
   },
 
   /**

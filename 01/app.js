@@ -11,6 +11,7 @@ App({
   init: function () {
     this.listener = new Listener()
     this.youImageMode = config.youImageMode
+    this.youImageMode_v5 = config.youImageMode_v5
 
     User.login().then(function () {
       User.getUser({

@@ -1,7 +1,6 @@
 .container {
   padding: 30rpx;
   padding-top: 0;
-  background-color: #f8f8f8;
   background-clip: content-box;
 }
 
@@ -9,18 +8,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 200rpx;
+  height: 160rpx;
   padding: 20rpx;
+  background-color: #f4f4f4;
 }
 
 .shop-name {
   font-size: 60rpx;
+  font-weight: 400;
 }
 
 .shop-logo {
   flex-shrink: 0;
-  width: 120rpx;
-  height: 120rpx;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 .shop-logo.empty{
@@ -31,11 +34,8 @@
   display: flex;
   align-items: center;
   min-height: 110rpx;
-  border-bottom: 1px solid #ddd;
-}
-
-.row:first-child {
   border-top: 1px solid #ddd;
+  background-color: #f4f4f4;
 }
 
 .row .icon {
@@ -61,6 +61,7 @@
   width: 100%;
   height: 520rpx;
   border: 1px solid #ddd;
+  background-color: #f4f4f4;
 }
 
 .shop-thumbs {
@@ -73,6 +74,7 @@
   width: 210rpx;
   height: 210rpx;
   border: 1px solid #ddd;
+  background-color: #f4f4f4;
 }
 
 input {
