@@ -1,8 +1,8 @@
 <view class="container" wx:if="{{ready}}">
 
   <view class="header">
-    <view class="shop-name">
-      <input value="{{shop.name}}" placeholder="输入店铺名称" bindblur="onShopNameBlur" maxlength="8" />
+    <view class="shop-title">
+      <input value="{{shop.title}}" placeholder="输入店铺名称" bindblur="onShopTitleBlur" maxlength="10" />
     </view>
     <view class="shop-logo {{shop.logo ? '' : 'empty'}}" catchtap="onShopLogoTap">
       <image src="{{shop.logo}}" mode="aspectFill" />
@@ -15,7 +15,7 @@
         <image src="/images/icon/phone.png" />
       </view>
       <view class="text">
-        <input value="{{shop.phone}}" placeholder="输入联系电话" bindblur="onShopPhoneBlur" type="number" />
+        <input value="{{shop.phone}}" placeholder="输入联系电话" bindblur="onShopPhoneBlur" type="number" maxlength="11" />
       </view>
     </view>
     <view class="row row-address">

@@ -60,7 +60,6 @@ export class SwiperImagesEditor {
 
   constructor(options) {
     this.delImageTimer = null
-    this.imagesChanged = options.imagesChanged || false
     this.onImagesChanged = options.onImagesChanged || null
     this.onSwiperChanged = options.onSwiperChanged || null
 

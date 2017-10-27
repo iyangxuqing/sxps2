@@ -72,7 +72,7 @@ Page({
   onShow: function () {
     let shopName = wx.getStorageSync('shopName')
     Shop.get({
-      id: shopName,
+      name: shopName,
       nocache: true
     }).then(function (shop) {
       this.setData({ shop })

@@ -11,12 +11,12 @@ Page({
     youImageMode: app.youImageMode_v5,
   },
 
-  onShopNameBlur: function (e) {
-    let name = e.detail.value
-    let oldName = this.data.shop.Name
-    if (name != oldName) {
+  onShopTitleBlur: function (e) {
+    let title = e.detail.value
+    let oldTitle = this.data.shop.title
+    if (title != oldTitle) {
       this.setData({
-        'shop.name': name
+        'shop.title': title
       })
       this.hasChanged = true
     }

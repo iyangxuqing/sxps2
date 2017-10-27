@@ -13,8 +13,8 @@
   background-color: #f4f4f4;
 }
 
-.shop-name {
-  font-size: 60rpx;
+.shop-title {
+  font-size: 48rpx;
   font-weight: 400;
 }
 
@@ -81,6 +81,6 @@ input {
   width: 100%;
 }
 
-.shop-name input {
+.shop-title input {
   height: 100rpx;
 }

@@ -23,6 +23,9 @@ function getShop(options = {}) {
             latitude: 29.26948,
             longitude: 120.05691,
           }
+          if (!shop.images) shop.images = '[]'
+          if (!shop.latitude) shop.latitude = '29.26948'
+          if (!shop.longitude) shop.longitude = '120.05691'
           shop.images = JSON.parse(shop.images)
           shop.latitude = Number(shop.latitude)
           shop.longitude = Number(shop.longitude)
@@ -78,8 +81,26 @@ function registerShop(shop) {
   })
 }
 
+function seller_login(seller) {
+  return new Promise(function (resolve, reject) {
+    http.get({
+      url: 'sxps/shop.php?m=login',
+      data: seller
+    }).then(function (res) {
+      if (res.errno === 0) {
+        resolve(res)
+      } else {
+        reject(res)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
+  })
+}
+
 export var Shop = {
   get: getShop,
   set: setShop,
   register: registerShop,
+  login: seller_login,
 }

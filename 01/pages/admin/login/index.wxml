@@ -9,7 +9,7 @@
   <view class="account">
     <view class="account-row">
       <view class="icon">
-        <image src="/images/icon/account-user.png"/>
+        <image src="/images/icon/account-user.png" />
       </view>
       <view class="text">
         <input value="" placeholder="手机号/用户名" bindinput="onAccountNameInput" />
@@ -17,7 +17,7 @@
     </view>
     <view class="account-row">
       <view class="icon">
-        <image src="/images/icon/account-lock.png"/>
+        <image src="/images/icon/account-lock.png" />
       </view>
       <view class="text">
         <input value="" placeholder="密码" password="true" bindinput="onAccountPassInput" />
@@ -26,8 +26,8 @@
   </view>
   <view class="button" catchtap="onLogin">登 录</view>
   <view class="foot">
-    <view class="foot-link">忘记密码</view>
-    <view class="foot-link">立即注册</view>
+    <view class="foot-link" catchtap="onPasswordForget">忘记密码</view>
+    <view class="foot-link" catchtap="onRegisterLink">立即注册</view>
   </view>
 
 </view>

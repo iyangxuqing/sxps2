@@ -1,4 +1,5 @@
 import { Toptip } from '../../../template/toptip/toptip.js'
+import { Shop } from '../../../utils/shop.js'
 
 Page({
 
@@ -24,38 +25,43 @@ Page({
     let accountPass = this.accountPass
     if (!accountName && !accountPass) return
 
-    let shopName = ''
-    if (accountName == 's000001' && accountPass == '123456') {
-      shopName = 's000001'
-    }
-    if (accountName == 's000002' && accountPass == '123456') {
-      shopName = 's000002'
-    }
-    if (accountName == 's000003' && accountPass == '123456') {
-      shopName = 's000003'
-    }
-    if (accountName == 's000004' && accountPass == '123456') {
-      shopName = 's000004'
-    }
-    if (accountName == 's000005' && accountPass == '123456') {
-      shopName = 's000005'
-    }
-
-    if (shopName) {
-      wx.setStorageSync('shopName', shopName)
-      this.toptip.show({
-        title: '登录成功',
-        success: function (e) {
-          wx.redirectTo({
-            url: '../index/index',
-          })
-        }
-      })
-    } else {
-      this.toptip.show({
+    let that = this
+    Shop.login({
+      name: accountName,
+      password: accountPass,
+    }).then(function (res) {
+      console.log(res, res.errno, res.errno === 0)
+      if (res.errno === 0) {
+        console.log('t')
+        wx.setStorageSync('shopName', accountName)
+        that.toptip.show({
+          title: '登录成功',
+          success: function (e) {
+            wx.redirectTo({
+              url: '../index/index',
+            })
+          }
+        })
+      } else {
+        that.toptip.show({
+          title: '账号或密码错误'
+        })
+      }
+    }).catch(function (res) {
+      that.toptip.show({
         title: '账号或密码错误'
       })
-    }
+    })
+  },
+
+  onPasswordForget: function (e) {
+
+  },
+
+  onRegisterLink: function (e) {
+    wx.navigateTo({
+      url: '../shopRegister/index',
+    })
   },
 
   /**

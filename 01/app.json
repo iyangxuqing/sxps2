@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/admin/shopRegister/index",
+    "pages/item/index",
     "pages/admin/login/index",
+    "pages/admin/shopRegister/index",
     "pages/admin/shop/index",
     "pages/client/products/index",
     "pages/client/shopping/index",
@@ -12,10 +13,7 @@
     "pages/admin/categorys/categorys",
     "pages/admin/products/products",
     "pages/admin/product/product",
-    "pages/admin/trades/index",
-    "pages/admin/shop/index",
-    "pages/admin/login/index",
-    "pages/admin/shopRegister/index"
+    "pages/admin/trades/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

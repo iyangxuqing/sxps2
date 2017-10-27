@@ -3,6 +3,7 @@
 
 page {
   box-sizing: border-box;
+  font-size: 32rpx;
 }
 
 view {

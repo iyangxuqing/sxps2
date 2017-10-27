@@ -82,7 +82,7 @@ Page({
   },
 
   onLoginLinkTap: function (e) {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '../login/index',
     })
   },
