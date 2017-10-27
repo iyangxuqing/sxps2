@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/seller/items/index",
     "pages/item/index",
     "pages/admin/login/index",
     "pages/admin/shopRegister/index",
@@ -13,7 +14,8 @@
     "pages/admin/categorys/categorys",
     "pages/admin/products/products",
     "pages/admin/product/product",
-    "pages/admin/trades/index"
+    "pages/admin/trades/index",
+    "pages/seller/items/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
