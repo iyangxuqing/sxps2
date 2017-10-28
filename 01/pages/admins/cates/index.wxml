@@ -1,0 +1,45 @@
+<view class="container" wx:if="{{ready}}">
+  <view class="cates">
+    <block wx:for="{{cates}}" wx:key="" wx:for-item="cate">
+      <view class="cate">
+        <view class="cate-text">
+          <input value="{{cate.title}}" placeholder="类目名称" maxlength="8" data-id="{{cate.id}}" data-pid="0" bindblur="onCateBlur" />
+        </view>
+        <template is="editor" data="{{...cate, editId}}" />
+        <view class="cate-icon {{cate.active ? 'expand' : ''}}" data-id="{{cate.id}}" catchtap="onExpandTap">
+          <image src="/images/icon/enter.png" />
+        </view>
+      </view>
+      <view class="cate-children" wx:if="{{cate.active}}">
+        <block wx:for="{{cate.children}}" wx:key="" wx:for-item="child">
+          <view class="cate-child">
+            <input value="{{child.title}}" placeholder="子类目名称" maxlength="8" data-id="{{child.id}}" data-pid="{{cate.id}}" bindblur="onCateBlur" />
+            <template is="editor" data="{{...child, editId}}" />
+          </view>
+        </block>
+        <view class="cate-child cate-child-new">
+          <input value="" placeholder="新增子类目名称" data-id="" data-pid="{{cate.id}}" bindblur="onCateBlur" />
+        </view>
+      </view>
+    </block>
+    <view class="cate cate-new">
+      <input value="" placeholder="新增类目名称" data-id="" data-pid="0" bindblur="onCateBlur" />
+    </view>
+  </view>
+</view>
+
+<template name="editor">
+  <view class="editor" data-id="{{id}}" catchlongpress="onEditorLongPress">
+    <view class="editor-inner" wx:if="{{id==editId}}">
+      <view class="sort-up" data-id="{{id}}" catchtap="onSortUp">
+        <image src="/images/icon/sort-up-white.png" />
+      </view>
+      <view class="sort-down" data-id="{{id}}" catchtap="onSortDown">
+        <image src="/images/icon/sort-down-white.png" />
+      </view>
+      <view class="delete" data-id="{{id}}" catchtap="onDelete">
+        <image src="/images/icon/delete-white.png" />
+      </view>
+    </view>
+  </view>
+</template>

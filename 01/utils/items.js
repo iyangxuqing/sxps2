@@ -17,9 +17,10 @@ function getSellerItems(options = {}) {
         if (res.errno === 0) {
           let items = res.items
           for (let i in items) {
+            if (!items[i].images) items[i].images = '[]'
             items[i].images = JSON.parse(items[i].images)
           }
-          app.sellerItem = items
+          app.sellerItems = items
           resolve(items)
         } else {
           reject(res)
@@ -31,135 +32,87 @@ function getSellerItems(options = {}) {
   })
 }
 
-function getProducts(options = {}) {
-  return new Promise(function (resolve, reject) {
-    let Products = app.Products
-    if (Products && !options.nocache) {
-      if (options.cid) {
-        resolve(Products['c' + options.cid] || [])
-      } else {
-        resolve(Products)
-      }
-    } else {
-      http.get({
-        url: 'sxps/product.php?m=get'
-      }).then(function (res) {
-        if (res.errno === 0) {
-          let Products = []
-          let products = res.products
-          for (let i in products) {
-            let cid = products[i].cid
-            products[i].images = JSON.parse(products[i].images)
-            if (!Products['c' + cid]) Products['c' + cid] = []
-            Products['c' + cid].push(products[i])
-          }
-          app.Products = Products
-          if (options.cid) {
-            resolve(Products['c' + options.cid] || [])
-          } else {
-            resolve(Products)
-          }
-        } else {
-          reject(res)
-        }
-      }).catch(function (res) {
-        reject(res)
-      })
-    }
-  })
-}
-
-function getProduct(options) {
-  let id = options.id
-  let products = app.Products
-  for (let i in products) {
-    for (let j in products[i]) {
-      if (products[i][j].id == options.id) {
-        return products[i][j]
-      }
+function getSellerItem(options) {
+  let sellerItems = app.sellerItems
+  for (let i in sellerItems) {
+    if (sellerItems[i].id == options.id) {
+      return sellerItems[i]
     }
   }
 }
 
-function set(product, cb) {
-  let id = product.id
-  let cid = product.cid
-  let products = app.Products['c' + cid]
+function setSellerItem(item) {
+  let id = item.id
+  let items = app.sellerItems
 
   let index = -1
-  for (let i in products) {
-    if (products[i].id == id) {
+  for (let i in items) {
+    if (items[i].id == id) {
       index = i
       break
     }
   }
   if (index < 0) {
     let max = -1
-    for (let i in products) {
-      if (Number(products[i].sort) > max) {
-        max = Number(products[i].sort)
+    for (let i in items) {
+      if (Number(items[i].sort) > max) {
+        max = Number(items[i].sort)
       }
     }
-    product.sort = max + 1
-    products.push(product)
+    item.sort = max + 1
+    items.push(item)
   } else {
-    products[index] = product
+    items[index] = item
   }
 
   http.get({
-    url: 'sxps/product.php?m=set',
-    data: product,
+    url: 'sxps/item.php?m=set',
+    data: item,
   }).then(function (res) {
-    cb && cb(res)
+    if (res.errno === 0) {
+      if (res.insertId) item.id = res.insertId
+      app.listener.trigger('items', items, item)
+    }
   })
-  app.listener.trigger('products', products, product)
 }
 
-function del(product) {
-  let id = product.id
-  let cid = product.cid
-  let products = app.products['c' + cid]
-  for (let i in products) {
-    if (products[i].id == id) {
-      products.splice(i, 1)
+function delSellerItem(item) {
+  let id = item.id
+  let items = app.sellerItems
+  for (let i in items) {
+    if (items[i].id == id) {
+      items.splice(i, 1)
       break
     }
   }
-
   http.get({
-    url: 'sxps/product.php?m=del',
-    data: product
+    url: 'sxps/item.php?m=del',
+    data: item
   })
-  app.listener.trigger('products', products)
+  app.listener.trigger('items', items)
 }
 
-function sort(products) {
-  let cid = products[0].cid
-  let oldProducts = app.products['c' + cid]
-  for (let i in products) {
-    let id = products[i].id
-    for (let j in oldProducts) {
-      if (oldProducts[j].id == id) {
+function sortSellerItems(items) {
+  let oldItems = app.sellerItems
+  for (let i in items) {
+    let id = items[i].id
+    for (let j in oldItems) {
+      if (oldItems[j].id == id) {
         if (i != j) {
           http.get({
-            url: 'sxps/product.php?m=set',
+            url: 'sxps/item.php?m=set',
             data: { id, sort: i }
           })
         }
-        break
       }
     }
   }
-
-  app.products['c' + cid] = products
-  app.listener.trigger('products', products)
 }
 
 export var Item = {
   getSellerItems: getSellerItems,
-  getProducts: getProducts,
-  getProduct: getProduct,
-  set: set,
-  del: del,
-  sort: sort
+  getSellerItem: getSellerItem,
+  setSellerItem: setSellerItem,
+  delSellerItem: delSellerItem,
+  sortSellerItems: sortSellerItems,
 }

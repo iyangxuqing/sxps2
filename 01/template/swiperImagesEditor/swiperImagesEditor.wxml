@@ -1,6 +1,6 @@
 <template name="swiper-images-editor">
   <view class="swiper-images-editor">
-    <swiper indicator-dots="{{images.length}}" bindchange="{{onSwiperChanged}}">
+    <swiper indicator-dots="{{images.length>1}}" bindchange="{{onSwiperChanged}}">
       <block wx:for="{{images}}" wx:key="" wx:for-item="image">
         <swiper-item>
           <view class="swiper-image" data-index="{{index}}" catchtap="{{onImageTap}}" catchlongpress="{{onImageLongPress}}">

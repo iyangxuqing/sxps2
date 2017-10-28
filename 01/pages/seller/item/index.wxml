@@ -1,0 +1,76 @@
+<import src='/template/swiperImagesEditor/swiperImagesEditor.wxml' />
+
+<view class="container" wx:if="{{ready}}">
+
+  <view class="section item-cates">
+    <picker mode="multiSelector" bindchange="onCatesPickerChange" bindcolumnchange="onCatesPickerColumnChange" value="{{value}}" range="{{range}}" range-key="title">
+      <view class="picker" wx:if="{{value[0]>=0}}">
+        所属类目：{{range[0][value[0]].title}} > {{range[1][value[1]].title}}
+      </view>
+      <view class="picker" wx:if="{{value[0]<0}}">
+        所属类目：<text style="color:#888">请选择 > 请选择</text>
+      </view>
+    </picker>
+  </view>
+
+  <view class="section item-images">
+    <template is="swiper-images-editor" data="{{...swiperImagesEditor, youImageMode}}" />
+  </view>
+
+  <view class="section item-props">
+    <view class="fields">
+      <view class="field">
+        <view class="label">商品名称</view>
+        <view class="input">
+          <input value="{{item.title}}" placeholder="输入商品名称" bindblur="onTitleBlur" maxlength="10" />
+        </view>
+      </view>
+      <view class="field">
+        <view class="label">商品附注</view>
+        <view class="input">
+          <input value="{{item.descs}}" placeholder="输入商品附注说明" bindblur="onDescsBlur" maxlength="20" />
+        </view>
+      </view>
+      <view class="field">
+        <view class="label">最低批量</view>
+        <view class="input">
+          <input value="{{item.minVol}}" placeholder="输入最低批量" bindblur="onMinVolBlur" type="number" maxlength="5" />
+        </view>
+        <view class="mark">斤</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section item-props">
+    <view class="fields">
+      <view class="field">
+        <view class="label">今日价格</view>
+        <view class="input">
+          <view>￥</view>
+          <input value="{{item.price}}" placeholder="0.00" bindblur="onPriceBlur" type="digit" maxlength="6" />
+        </view>
+        <view class="mark">元</view>
+      </view>
+      <view class="field">
+        <view class="label">可供数量</view>
+        <view class="input">
+          <input value="{{item.volumn}}" placeholder="输入可供数量" bindblur="onVolumnBlur" type="number" maxlength="5" />
+        </view>
+        <view class="mark">斤</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section item-props">
+    <view class="fields">
+      <view class="field">
+        <view class="label">上架销售</view>
+        <view class="input"></view>
+        <view class="mark">
+          <switch type="checkbox" checked="{{item.onSell==1}}" bindchange="onSellingChanged" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+</view>

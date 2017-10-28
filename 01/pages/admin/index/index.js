@@ -1,16 +1,10 @@
 import { Shop } from '../../../utils/shop.js'
-import { Product } from '../../../utils/products.js'
+
+let app = getApp()
 
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
-    account: {
-      logo: '',
-      name: '田歌农产品批发公司'
-    },
     links: [
       {
         text: '店铺信息',
@@ -18,7 +12,7 @@ Page({
       },
       {
         text: '菜品管理',
-        url: '../categorys/categorys'
+        url: '../../seller/items/index'
       },
       {
         text: '订单管理',
@@ -33,7 +27,8 @@ Page({
       content: '要退出当前登录的账号吗？',
       success: function (e) {
         if (e.confirm) {
-          wx.setStorageSync('shopName', '')
+          app.sellerItems = null
+          wx.setStorageSync('sellerId', '')
           wx.redirectTo({
             url: '../login/index',
           })
@@ -50,66 +45,42 @@ Page({
     })
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-
-    Product.getProducts()
 
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
-    let shopName = wx.getStorageSync('shopName')
+    let sid = wx.getStorageSync('sellerId')
     Shop.get({
-      name: shopName,
+      id: sid,
       nocache: true
     }).then(function (shop) {
-      this.setData({ shop })
+      this.setData({
+        shop: shop
+      })
     }.bind(this))
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
 
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {
 
   }

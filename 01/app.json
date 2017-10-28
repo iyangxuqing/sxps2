@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/seller/items/index",
-    "pages/item/index",
+    "pages/admins/cates/index",
+    "pages/admins/categorys/index",
     "pages/admin/login/index",
     "pages/admin/shopRegister/index",
     "pages/admin/shop/index",
@@ -15,7 +15,9 @@
     "pages/admin/products/products",
     "pages/admin/product/product",
     "pages/admin/trades/index",
-    "pages/seller/items/index"
+    "pages/seller/items/index",
+    "pages/seller/item/index",
+    "pages/admins/cates/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

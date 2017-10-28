@@ -1,12 +1,7 @@
-<import src="/template/listGridEditor/listGridEditor.wxml" />
+<import src="/template/sellerItemsGrid/index.wxml" />
 
 <view class="container" wx:if="{{ready}}">
-  <view class="tabs">
-    <block wx:for="{{tabs}}" wx:key="" wx:for-item="tab">
-      <view class="tab {{tab.active ? 'active' : ''}}" data-index="{{index}}" catchtap="onTabTap">{{tab.title}}</view>
-    </block>
-  </view>
-  <view class="products">
-    <template is="list-grid-editor" data="{{...listGridEditor, youImageMode}}" />
+  <view class="seller-items">
+    <template is="sellerItemsGrid" data="{{...sellerItemsGrid, youImageMode}}" />
   </view>
 </view>

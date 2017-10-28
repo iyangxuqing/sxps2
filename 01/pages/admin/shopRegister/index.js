@@ -58,26 +58,30 @@ Page({
       return
     }
 
+    let that = this
     Shop.register({
       name: this.RegisterName,
       password: this.RegisterPassword
     }).then(function (res) {
-      this.toptip.show({
-        title: '用户注册成功',
-        success: function () {
-          wx.setStorageSync('shopName', this.RegisterName)
-          wx.redirectTo({
-            url: '../index/index',
-          })
-        }.bind(this)
-      })
-    }.bind(this)).catch(function (res) {
+      if (res.errno === 0) {
+        let sid = res.insertId
+        wx.setStorageSync('sellerId', sid)
+        that.toptip.show({
+          title: '用户注册成功',
+          success: function () {
+            wx.redirectTo({
+              url: '../index/index',
+            })
+          }
+        })
+      }
+    }).catch(function (res) {
       if (res.data.errno === 1001) {
-        this.toptip.show({
+        that.toptip.show({
           title: '用户名已经存在'
         })
       }
-    }.bind(this))
+    })
 
   },
 

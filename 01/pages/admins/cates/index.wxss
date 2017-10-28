@@ -1,0 +1,91 @@
+.container {
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.cates {
+  font-size: 32rpx;
+}
+
+.cate {
+  display: flex;
+  align-items: center;
+  height: 110rpx;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+  border-bottom: 2rpx solid #ccc;
+}
+
+.cate:first-child {
+  height: 112rpx;
+  border-top: 2rpx solid #ccc;
+}
+
+.cate-text {
+  flex-grow: 1;
+}
+
+.cate-icon {
+  flex-shrink: 0;
+  width: 100rpx;
+  height: 100rpx;
+  padding: 30rpx;
+  margin-right: -20rpx;
+  transform: rotate(90deg);
+}
+
+.cate-icon.expand {
+  transform: rotate(270deg);
+}
+
+.cate-children {
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  border-bottom: 2rpx solid #ccc;
+}
+
+.cate-child {
+  display: flex;
+  align-items: center;
+  height: 110rpx;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+  border-bottom: 2rpx solid #ddd;
+}
+
+.cate-child:last-child {
+  border-bottom: 0;
+}
+
+.editor, .cate-edit {
+  flex-shrink: 0;
+  width: 300rpx;
+  height: 100%;
+}
+
+.editor-inner, .cate-edit-inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.sort-up {
+  width: 100rpx;
+  height: 100rpx;
+  padding: 30rpx;
+  background-color: seagreen;
+}
+
+.sort-down {
+  width: 100rpx;
+  height: 100rpx;
+  padding: 30rpx;
+  background-color: orange;
+}
+
+.delete {
+  width: 100rpx;
+  height: 100rpx;
+  padding: 30rpx;
+  background-color: red;
+}

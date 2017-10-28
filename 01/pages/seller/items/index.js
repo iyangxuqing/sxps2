@@ -1,6 +1,5 @@
-import { ListGridEditor } from '../../../template/listGridEditor/listGridEditor.js'
-import { Category } from '../../../utils/categorys.js'
-import { Product } from '../../../utils/products.js'
+import { Tabs } from '../../../template/tabs/tabs.js'
+import { SellerItemsGrid } from '../../../template/sellerItemsGrid/index.js'
 import { Item } from '../../../utils/items.js'
 
 let app = getApp()
@@ -8,54 +7,26 @@ let app = getApp()
 Page({
 
   data: {
-    tabs: [
-      {
-        title: '全部商品',
-        active: false,
-      },
-      {
-        title: '上架商品',
-        active: true,
-      },
-      {
-        title: '下架商品',
-        active: false,
-      }
-    ],
     youImageMode: app.youImageMode,
   },
 
-  onTabTap: function (e) {
-    let index = e.currentTarget.dataset.index
-    let tabs = this.data.tabs
-    for (let i in tabs) {
-      tabs[i].active = false
-    }
-    tabs[index].active = true
-    this.setData({
-      tabs: tabs
-    })
-  },
-
-  onProductTap: function (product) {
-    let id = product.id || ''
-    let cid = product.cid || this.data.cate.id
+  onItemTap: function (item) {
     wx.navigateTo({
-      url: '../product/product?id=' + id + '&cid=' + cid,
+      url: '../item/index?id=' + item.id,
     })
   },
 
-  onProductDel: function (product) {
-    Product.del(product)
+  onItemDel: function (item) {
+    Item.delSellerItem(item)
   },
 
-  onProductSort: function (products) {
-    Product.sort(products)
+  onItemSort: function (items) {
+    Item.sortSellerItems(items)
   },
 
-  onProductsUpdate: function (products, product) {
+  onItemsUpdate: function (items, item) {
     this.setData({
-      'listGridEditor.items': products
+      'sellerItemsGrid.items': items
     })
   },
 
@@ -63,10 +34,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    app.listener.on('items', this.onItemsUpdate)
     Item.getSellerItems().then(function (items) {
-      console.log(items)
-      this.listGridEditor = new ListGridEditor({
+      this.sellerItemsGrid = new SellerItemsGrid({
         items: items,
         onItemTap: this.onItemTap,
         onItemDel: this.onItemDel,
@@ -76,23 +46,6 @@ Page({
         ready: true
       })
     }.bind(this))
-
-    // app.listener.on('products', this.onProductsUpdate)
-
-    // let cid = options.cid
-    // let cate = Category.getCategory(cid)
-    // Product.getProducts({ cid: cate.id }).then(function (products) {
-    //   this.listGridEditor = new ListGridEditor({
-    //     items: products,
-    //     onItemTap: this.onProductTap,
-    //     onItemDel: this.onProductDel,
-    //     onItemSort: this.onProductSort
-    //   })
-    //   this.setData({
-    //     cate: cate,
-    //     ready: true,
-    //   })
-    // }.bind(this))
   },
 
   /**

@@ -1,0 +1,7 @@
+<template name="tabs">
+  <view class="tabs" wx:if="{{items}}">
+    <block wx:for="{{items}}" wx:key="" wx:for-item="item">
+      <view class="tab {{item.active ? 'active' : ''}}" data-index="{{index}}" catchtap="{{onTabTap}}">{{item.title}}</view>
+    </block>
+  </view>
+</template>

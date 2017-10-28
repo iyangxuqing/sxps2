@@ -1,58 +1,23 @@
-@import '/template/listGridEditor/listGridEditor.wxss';
+@import '/template/sellerItemsGrid/index.wxss';
 
 .container {
   padding-left: 30rpx;
   padding-right: 30rpx;
 }
 
-.cate {
-  margin-bottom: 20rpx;
+.seller-items {
+  padding-bottom: 30rpx;
 }
 
-.cate-title {
-  height: 70rpx;
-  line-height: 70rpx;
-  padding-left: 20rpx;
-  background-color: #eee;
+.unSell{
+  position: relative;
 }
 
-.products {
-  padding-bottom: 0;
-}
-
-.tabs {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 70rpx;
-  font-size: 28rpx;
-  margin-bottom: 30rpx;
-}
-
-.tab {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 180rpx;
-  height: 100%;
-  border: 1px solid #ddd;
-  background-color: #eee;
-}
-
-.tab + .tab {
-  border-left: 0;
-}
-
-.tab:first-child {
-  border-top-left-radius: 10rpx;
-  border-bottom-left-radius: 10rpx;
-}
-
-.tab:last-child {
-  border-top-right-radius: 10rpx;
-  border-bottom-right-radius: 10rpx;
-}
-
-.tab.active{
-  background-color: #fff;
+.unSell::after{
+  content: '下架';
+  position: absolute;
+  top: 8rpx;
+  left: 8rpx;
+  color: red;
+  font-size: 24rpx;
 }
