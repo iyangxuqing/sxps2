@@ -1,3 +1,4 @@
+@import '/template/toptip/toptip.wxss';
 @import '/template/swiperImagesEditor/swiperImagesEditor.wxss';
 
 page {
@@ -10,7 +11,7 @@ page {
   margin-bottom: 20rpx;
 }
 
-.item-cates{
+.item-cates {
   display: flex;
   align-items: center;
   height: 90rpx;
@@ -18,8 +19,16 @@ page {
   margin-bottom: 0;
 }
 
-.item-cates picker{
-  width: 100%;
+.item-cates picker {
+  flex-grow: 1;
+}
+
+.item-cates-editor {
+  flex-shrink: 0;
+  color: #888;
+  padding: 20rpx;
+  margin-top: -10rpx;
+  margin-right: -20rpx;
 }
 
 .item-images {
@@ -61,4 +70,38 @@ page {
   justify-content: center;
   width: 60rpx;
   color: #888;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 40rpx;
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 240rpx;
+  height: 72rpx;
+  font-size: 30rpx;
+  border-radius: 10rpx;
+  border: 1px solid #ccc;
+}
+
+.button.disabled {
+  opacity: 0.5;
+}
+
+.button-primary {
+  color: #fff;
+  background-color: #1aac19;
+}
+
+.button-warn {
+  color: #fff;
+  background-color: #e64240;
 }

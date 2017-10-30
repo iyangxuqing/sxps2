@@ -1,7 +1,7 @@
 <template name="sellerItemsGrid">
   <view class="items">
     <block wx:for="{{items}}" wx:key="">
-      <view class="item {{item.onSell==0 ? 'unSell' : ''}}" data-id="{{item.id}}" catchtap="{{onItemTap}}" catchlongpress="{{onItemLongPress}}">
+      <view class="item" data-id="{{item.id}}" catchtap="{{onItemTap}}" catchlongpress="{{onItemLongPress}}">
         <view class="item-edit" wx:if="{{editItemId==item.id}}">
           <view class="item-del" data-id="{{item.id}}" catchtap="{{onItemDel}}">
             <image src="/images/icon/delete.png" />

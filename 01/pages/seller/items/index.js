@@ -1,4 +1,3 @@
-import { Tabs } from '../../../template/tabs/tabs.js'
 import { SellerItemsGrid } from '../../../template/sellerItemsGrid/index.js'
 import { Item } from '../../../utils/items.js'
 

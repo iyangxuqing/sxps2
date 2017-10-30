@@ -1,24 +1,22 @@
 .container {
+  position: relative;
   padding-left: 30rpx;
   padding-right: 30rpx;
+  overflow-x: hidden;
 }
 
 .cates {
-  font-size: 32rpx;
+  font-size: 34rpx;
+  border-top: 2rpx solid #ccc;
 }
 
 .cate {
   display: flex;
   align-items: center;
-  height: 110rpx;
+  height: 120rpx;
   padding-left: 10rpx;
   padding-right: 10rpx;
   border-bottom: 2rpx solid #ccc;
-}
-
-.cate:first-child {
-  height: 112rpx;
-  border-top: 2rpx solid #ccc;
 }
 
 .cate-text {
@@ -39,53 +37,52 @@
 }
 
 .cate-children {
-  padding-left: 30rpx;
-  padding-right: 30rpx;
   border-bottom: 2rpx solid #ccc;
 }
 
 .cate-child {
   display: flex;
   align-items: center;
-  height: 110rpx;
-  padding-left: 10rpx;
-  padding-right: 10rpx;
-  border-bottom: 2rpx solid #ddd;
+  height: 120rpx;
+  font-size: 32rpx;
+  padding-left: 60rpx;
+  border-bottom: 2rpx dashed #ddd;
 }
 
 .cate-child:last-child {
   border-bottom: 0;
 }
 
-.editor, .cate-edit {
-  flex-shrink: 0;
-  width: 300rpx;
-  height: 100%;
-}
-
-.editor-inner, .cate-edit-inner {
+.editor {
+  position: absolute;
+  top: 0;
+  z-index: 9999;
+  right: -360rpx;
   display: flex;
   align-items: center;
-  height: 100%;
+  width: 360rpx;
+  height: 120rpx;
+  transition: right 300ms ease;
 }
 
-.sort-up {
-  width: 100rpx;
-  height: 100rpx;
-  padding: 30rpx;
+.editor.show {
+  right: 30rpx;
+}
+
+.editor-icon {
+  width: 120rpx;
+  height: 120rpx;
+  padding: 36rpx;
+}
+
+.editor-sort-up {
   background-color: seagreen;
 }
 
-.sort-down {
-  width: 100rpx;
-  height: 100rpx;
-  padding: 30rpx;
+.editor-sort-down {
   background-color: orange;
 }
 
-.delete {
-  width: 100rpx;
-  height: 100rpx;
-  padding: 30rpx;
+.editor-delete {
   background-color: red;
 }

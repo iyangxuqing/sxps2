@@ -126,6 +126,75 @@ function add(cate, cb) {
   return cates
 }
 
+function set2(cate) {
+  return new Promise(function (resolve, reject) {
+    let cates = app.cates
+    let id = cate.id
+    let pid = cate.pid
+    let title = cate.title
+    if (id == '') {
+      if (pid == 0) {
+        cate.sort = cates.length
+        cate.children = []
+        cates.push(cate)
+      } else {
+        for (let i in cates) {
+          if (cates[i].id == pid) {
+            cate.sort = cates[i].children.length
+            cates[i].children.push(cate)
+            break
+          }
+        }
+      }
+    } else {
+      if (pid == 0) {
+        for (let i in cates) {
+          if (cates[i].id == id) {
+            if (cates[i].title != title) {
+              cates[i].title = title
+            }
+            break
+          }
+        }
+      } else {
+        for (let i in cates) {
+          if (cates[i].id == pid) {
+            for (let j in cates[i].children) {
+              if (cates[i].children[j].id == id) {
+                if (cates[i].children[j].title != title) {
+                  cates[i].children[j].title = title
+                }
+                break
+              }
+            }
+            break
+          }
+        }
+      }
+    }
+
+    let data = {
+      pid: cate.pid,
+      title: cate.title,
+    }
+    if (cate.id) data.id = cate.id
+    if (cate.sort) data.sort = cate.sort
+    http.get({
+      url: 'sxps/category.php?m=set2',
+      data: data
+    }).then(function (res) {
+      if (res.errno === 0) {
+        if (res.insertId) cate.id = res.insertId
+        resolve(cates)
+      } else {
+        reject(res)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
+  })
+}
+
 function set(cate, cb) {
   let cates = app.cates
   if (cate.pid == 0) {

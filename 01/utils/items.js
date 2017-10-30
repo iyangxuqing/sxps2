@@ -42,37 +42,44 @@ function getSellerItem(options) {
 }
 
 function setSellerItem(item) {
-  let id = item.id
-  let items = app.sellerItems
+  return new Promise(function (resolve, reject) {
+    let id = item.id
+    let items = app.sellerItems
 
-  let index = -1
-  for (let i in items) {
-    if (items[i].id == id) {
-      index = i
-      break
-    }
-  }
-  if (index < 0) {
-    let max = -1
+    let index = -1
     for (let i in items) {
-      if (Number(items[i].sort) > max) {
-        max = Number(items[i].sort)
+      if (items[i].id == id) {
+        index = i
+        break
       }
     }
-    item.sort = max + 1
-    items.push(item)
-  } else {
-    items[index] = item
-  }
-
-  http.get({
-    url: 'sxps/item.php?m=set',
-    data: item,
-  }).then(function (res) {
-    if (res.errno === 0) {
-      if (res.insertId) item.id = res.insertId
-      app.listener.trigger('items', items, item)
+    if (index < 0) {
+      let max = -1
+      for (let i in items) {
+        if (Number(items[i].sort) > max) {
+          max = Number(items[i].sort)
+        }
+      }
+      item.sort = max + 1
+      items.push(item)
+    } else {
+      items[index] = item
     }
+
+    http.get({
+      url: 'sxps/item.php?m=set',
+      data: item,
+    }).then(function (res) {
+      if (res.errno === 0) {
+        if (res.insertId) item.id = res.insertId
+        app.listener.trigger('items', items, item)
+        resolve(items, item)
+      } else {
+        reject(res)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
   })
 }
 

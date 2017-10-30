@@ -1,4 +1,6 @@
-<import src='/template/swiperImagesEditor/swiperImagesEditor.wxml' />
+<import src="/template/toptip/toptip.wxml" />
+<template is="toptip" data="{{...toptip}}" />
+<import src="/template/swiperImagesEditor/swiperImagesEditor.wxml" />
 
 <view class="container" wx:if="{{ready}}">
 
@@ -11,6 +13,7 @@
         所属类目：<text style="color:#888">请选择 > 请选择</text>
       </view>
     </picker>
+    <view class="item-cates-editor" catchtap="onCatesEditor">...</view>
   </view>
 
   <view class="section item-images">
@@ -61,15 +64,10 @@
     </view>
   </view>
 
-  <view class="section item-props">
-    <view class="fields">
-      <view class="field">
-        <view class="label">上架销售</view>
-        <view class="input"></view>
-        <view class="mark">
-          <switch type="checkbox" checked="{{item.onSell==1}}" bindchange="onSellingChanged" />
-        </view>
-      </view>
+  <view class="section">
+    <view class="buttons">
+      <view class="button button-default" catchtap="onItemCancel">取 消</view>
+      <view class="button button-primary {{hasChanged ? '' : 'disabled'}}" catchtap="onItemConfirm">保 存</view>
     </view>
   </view>
 

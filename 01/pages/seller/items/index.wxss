@@ -8,16 +8,3 @@
 .seller-items {
   padding-bottom: 30rpx;
 }
-
-.unSell{
-  position: relative;
-}
-
-.unSell::after{
-  content: '下架';
-  position: absolute;
-  top: 8rpx;
-  left: 8rpx;
-  color: red;
-  font-size: 24rpx;
-}

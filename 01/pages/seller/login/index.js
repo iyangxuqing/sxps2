@@ -54,8 +54,8 @@ Page({
   },
 
   onRegisterLink: function (e) {
-    wx.navigateTo({
-      url: '../shopRegister/index',
+    wx.redirectTo({
+      url: '../register/index',
     })
   },
 

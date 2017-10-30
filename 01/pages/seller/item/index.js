@@ -1,12 +1,11 @@
+import { Toptip } from '../../../template/toptip/toptip.js'
 import { SwiperImagesEditor } from '../../../template/swiperImagesEditor/swiperImagesEditor.js'
-import { Category } from '../../../utils/categorys.js'
+import { Cate } from '../../../utils/cates.js'
 import { Item } from '../../../utils/items.js'
 
 let app = getApp()
 
 Page({
-
-  hasChanged: false,
 
   data: {
     youImageMode: app.youImageMode_v5
@@ -17,7 +16,7 @@ Page({
     this.setData({
       value
     })
-    this.onCategoryChanged(value)
+    this.onCateChanged(value)
   },
 
   onCatesPickerColumnChange: function (e) {
@@ -31,24 +30,30 @@ Page({
     }
   },
 
-  onCategoryChanged: function (value) {
+  onCateChanged: function (value) {
     let level1Index = value[0]
     let level2Index = value[1]
     let cid = this.cates[level1Index].children[level2Index].id
     let oldCid = this.data.item.cid
     if (cid != oldCid) {
       this.setData({
-        'item.cid': cid
+        'item.cid': cid,
+        hasChanged: true
       })
-      this.hasChanged = true
     }
+  },
+
+  onCatesEditor: function (e) {
+    wx.navigateTo({
+      url: '/pages/admins/cates/index',
+    })
   },
 
   onImagesChanged: function (images) {
     this.setData({
-      'item.images': images
+      'item.images': images,
+      hasChanged: true
     })
-    this.hasChanged = true
   },
 
   onTitleBlur: function (e) {
@@ -60,9 +65,9 @@ Page({
       })
     } else {
       this.setData({
-        'item.title': title
+        'item.title': title,
+        hasChanged: true
       })
-      this.hasChanged = true
     }
   },
 
@@ -71,9 +76,9 @@ Page({
     let oldDescs = this.data.item.descs
     if (descs != oldDescs) {
       this.setData({
-        'item.descs': descs
+        'item.descs': descs,
+        hasChanged: true
       })
-      this.hasChanged = true
     }
   },
 
@@ -82,20 +87,20 @@ Page({
     let oldPrice = this.data.item.price
     if (price != oldPrice) {
       this.setData({
-        'item.price': price
+        'item.price': price,
+        hasChanged: true
       })
-      this.hasChanged = true
     }
   },
 
   onMinVolBlur: function (e) {
     let minVol = e.detail.value
     let oldMinVol = this.data.item.minVol
-    if (minVol != oldminVol) {
+    if (minVol != oldMinVol) {
       this.setData({
-        'item.minVol': minVol
+        'item.minVol': minVol,
+        hasChanged: true
       })
-      this.hasChanged = true
     }
   },
 
@@ -104,24 +109,30 @@ Page({
     let oldVolumn = this.data.item.volumn
     if (volumn != oldVolumn) {
       this.setData({
-        'item.volumn': volumn
+        'item.volumn': volumn,
+        hasChanged: true
       })
-      this.hasChanged = true
     }
   },
 
-  onSellingChanged: function (e) {
-    let onSell = e.detail.value ? 1 : 0
-    this.setData({
-      'item.onSell': onSell
-    })
-    this.hasChanged = true
+  onItemCancel: function (e) {
+    wx.navigateBack()
   },
 
-  saveData() {
-    let item = this.data.item
-    item.sid = wx.getStorageSync('sellerId')
-    Item.setSellerItem(item)
+  onItemConfirm: function (e) {
+    let hasChanged = this.data.hasChanged
+    if (hasChanged) {
+      let item = this.data.item
+      item.sid = wx.getStorageSync('sellerId')
+      Item.setSellerItem(item).then(function (items, item) {
+        this.toptip.show({
+          title: '保存成功',
+          success: function () {
+            wx.navigateBack()
+          }
+        })
+      }.bind(this))
+    }
   },
 
   onLoad: function (options) {
@@ -129,27 +140,33 @@ Page({
     let item = Item.getSellerItem({ id })
     if (!item) {
       item = {
-        price: 0,
+        price: '',
         minVol: 10,
         volumn: 2000,
-        onSell: true,
       }
     }
-    item.price = Number(item.price).toFixed(2)
+    if (item.price) item.price = Number(item.price).toFixed(2)
     this.setData({
       item: item
     })
 
+    this.toptip = new Toptip()
     this.swiperImagesEditor = new SwiperImagesEditor({
       maxImagesLength: 1,
       images: item.images,
       onImagesChanged: this.onImagesChanged
     })
 
-    let that = this
-    Category.getCategorys().then(function (cates) {
-      that.cates = cates
-      let range = [cates, cates[0].children]
+  },
+
+  onReady: function () {
+
+  },
+
+  onShow: function () {
+    let item = this.data.item
+    Cate.getCates().then(function (cates) {
+      this.cates = cates
       let level1Index = -1
       let level2Index = -1
       for (let i in cates) {
@@ -162,33 +179,27 @@ Page({
         }
         if (level1Index >= 0) break
       }
+      let range = []
+      if (level1Index < 0) {
+        range = [cates, cates[0].children]
+      } else {
+        range = [cates, cates[level1Index].children]
+      }
       let value = [level1Index, level2Index]
-      that.setData({
+      this.setData({
         range,
         value,
         ready: true
       })
-    })
-  },
-
-  onReady: function () {
-
-  },
-
-  onShow: function () {
-
+    }.bind(this))
   },
 
   onHide: function () {
-    if (this.hasChanged) {
-      this.saveData()
-    }
+
   },
 
   onUnload: function () {
-    if (this.hasChanged) {
-      this.saveData()
-    }
+
   },
 
 })

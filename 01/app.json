@@ -1,23 +1,22 @@
 {
   "pages": [
+    "pages/seller/login/index",
+    "pages/seller/register/index",
+    "pages/seller/index/index",
+    "pages/seller/shop/index",
+    "pages/seller/items/index",
+    "pages/seller/item/index",
+    
     "pages/admins/cates/index",
-    "pages/admins/categorys/index",
-    "pages/admin/login/index",
-    "pages/admin/shopRegister/index",
-    "pages/admin/shop/index",
     "pages/client/products/index",
     "pages/client/shopping/index",
     "pages/client/wode/index",
     "pages/client/address/index",
     "pages/client/trades/index",
-    "pages/admin/index/index",
-    "pages/admin/categorys/categorys",
     "pages/admin/products/products",
     "pages/admin/product/product",
     "pages/admin/trades/index",
-    "pages/seller/items/index",
-    "pages/seller/item/index",
-    "pages/admins/cates/index"
+    "pages/log/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
