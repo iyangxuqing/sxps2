@@ -2,11 +2,40 @@ import { http } from 'http.js'
 
 let app = getApp()
 
+function getShops(options = {}) {
+  return new Promise(function (resolve, reject) {
+    // let shops = app.shops
+    let shops = wx.getStorageSync('shops')
+    if (shops && !options.nocache) {
+      resolve(shops)
+    } else {
+      http.get({
+        url: 'sxps/shop.php?m=getShops',
+      }).then(function (res) {
+        if (res.errno === 0) {
+          let shops = res.shops
+          for (let i in shops) {
+            if (!shops[i].images) shops[i].images = '[]'
+            shops[i].images = JSON.parse(shops[i].images)
+          }
+          // app.shops = shops
+          wx.setStorageSync('shops', shops)
+          resolve(shops)
+        } else {
+          reject(res)
+        }
+      }).catch(function (res) {
+        reject(res)
+      })
+    }
+  })
+}
+
 function getShop(options = {}) {
   return new Promise(function (resolve, reject) {
     let shop = app.shop
     if (shop && !options.nocache) {
-      resolve(app.shop)
+      resolve(shop)
     } else {
       http.get({
         url: 'sxps/shop.php?m=get',
@@ -103,4 +132,6 @@ export var Shop = {
   set: setShop,
   register: registerShop,
   login: seller_login,
+
+  getShops: getShops,
 }
