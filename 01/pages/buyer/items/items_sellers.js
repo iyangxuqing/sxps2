@@ -1,41 +1,37 @@
-// index.js
+import { Shop } from '../../../utils/shop.js'
+import { Item } from '../../../utils/items.js'
+
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
-    links: [
-      {
-        id: 1,
-        text: '卖家版',
-        url: '/pages/seller/index/index'
-      },
-      {
-        id: 2,
-        text: '买家版',
-        url: '/pages/buyer/index/index'
-      },
-      {
-        id: 3,
-        text: '管理版',
-        url: '/pages/admins/index/index'
-      }
-    ]
+
   },
 
-  onLinkTap: function (e) {
-    let index = e.currentTarget.dataset.index
-    let url = this.data.links[index].url
+  onSellerTap: function (e) {
+    let id = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: url,
+      url: './items_seller?id=' + id,
     })
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
+    Promise.all([Shop.getShops(), Item.getItems()]).then(function (res) {
+      let shops = res[0]
+      let items = res[1]
+      for (let i in shops) {
+        let id = shops[i].id
+        shops[i].items = []
+        for (let j in items) {
+          if (items[j].sid == id) {
+            items[j].price = Number(items[j].price).toFixed(2)
+            shops[i].items.push(items[j])
+          }
+        }
+      }
+      this.setData({
+        shops
+      })
+    }.bind(this))
 
   },
 

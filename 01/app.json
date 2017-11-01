@@ -16,10 +16,12 @@
     "pages/admin/products/products",
     "pages/admin/product/product",
     "pages/admin/trades/index",
-    "pages/log/index",
     "pages/buyer/index/index",
+    "pages/buyer/items/items_sellers",
     "pages/buyer/items/items_seller",
-    "pages/admins/index/index"
+    "pages/buyer/items/items_category",
+    "pages/admins/index/index",
+    "pages/log/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

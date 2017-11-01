@@ -1,36 +1,25 @@
 <view class="container">
-  <view class="shops">
-    <block wx:for="{{shops}}" wx:key="" wx:for-item="shop">
-      <view class="shop">
-        <view class="shop-info">
-          <view class="shop-logo">
-            <image src="{{shop.logo}}" />
-          </view>
-          <view class="shop-text">
-            <view class="shop-title">{{shop.title}}<text style="display:none"> ({{shop.phone}})</text></view>
-            <view class="shop-phone" style="display:none">
-              <view class="shop-phone-icon">
-                <image src="/images/icon/telephone.png" />
-              </view>
-              <view class="shop-phone-text">{{shop.phone}}</view>
-            </view>
-            <view class="shop-address">{{shop.address}}</view>
-          </view>
-          <view class="shop-icon">
-            <image src="/images/icon/enter.png" />
-          </view>
+  <view class="seller-info">
+    <swiper class="seller-info-images">
+      <block wx:for="{{seller.images}}" wx:key="" wx:for-item="image">
+        <swiper-item>
+          <image src="{{image + youImageMode_v5}}" mode="aspectFill" />
+        </swiper-item>
+      </block>
+    </swiper>
+    <view class="seller-info-text">
+      <view class="seller-info-address">地址：{{seller.address}}</view>
+      <view class="seller-info-phone">电话：{{seller.phone}}</view>
+    </view>
+  </view>
+  <view class="items">
+    <block wx:for="{{items}}" wx:key="">
+      <view class="item">
+        <view class="item-image">
+          <image src="{{item.images[0] + youImageMode_v2}}" />
         </view>
-        <view class="shop-items">
-          <block wx:for="{{shop.items}}" wx:key="" wx:for-item="item">
-            <view class="shop-item" wx:if="{{index<3}}">
-              <view class="shop-item-image">
-                <image src="{{item.images[0]}}" mode="aspectFill" />
-              </view>
-              <!-- <view class="shop-item-title">{{item.title}}</view> -->
-              <!-- <view class="shop-item-price">￥{{item.price}}</view> -->
-            </view>
-          </block>
-        </view>
+        <view class="item-title">{{item.title}}</view>
+        <view class="item-price">￥{{item.price}}</view>
       </view>
     </block>
   </view>

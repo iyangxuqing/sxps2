@@ -17,6 +17,7 @@ function getItems(options = {}) {
           for (let i in items) {
             if (!items[i].images) items[i].images = '[]'
             items[i].images = JSON.parse(items[i].images)
+            items[i].price = Number(items[i].price).toFixed(2)
           }
           // app.items = items
           wx.setStorageSync('items', items)
@@ -28,6 +29,34 @@ function getItems(options = {}) {
         reject(res)
       })
     }
+  })
+}
+
+function getSellerItems_buyer(options = {}) {
+  return new Promise(function(resolve, reject){
+    getItems().then(function(items){
+      let sellerItems = []
+      for (let i in items) {
+        if (items[i].sid == options.sid) {
+          sellerItems.push(items[i])
+        }
+      }
+      resolve(sellerItems)
+    })
+  })
+}
+
+function getCategoryItems_buyer(options = {}) {
+  return new Promise(function (resolve, reject) {
+    getItems().then(function (items) {
+      let categoryItems = []
+      for (let i in items) {
+        if (items[i].cid == options.cid) {
+          categoryItems.push(items[i])
+        }
+      }
+      resolve(categoryItems)
+    })
   })
 }
 
@@ -125,7 +154,6 @@ function delSellerItem(item) {
     url: 'sxps/item.php?m=del',
     data: item
   })
-  app.listener.trigger('items', items)
 }
 
 function sortSellerItems(items) {
@@ -143,6 +171,7 @@ function sortSellerItems(items) {
       }
     }
   }
+  app.sellerItems = items
 }
 
 export var Item = {
@@ -153,4 +182,6 @@ export var Item = {
   sortSellerItems: sortSellerItems,
 
   getItems: getItems,
+  getSellerItems_buyer: getSellerItems_buyer,
+  getCategoryItems_buyer: getCategoryItems_buyer,
 }

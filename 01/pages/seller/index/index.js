@@ -55,6 +55,13 @@ Page({
 
   onShow: function () {
     let sid = wx.getStorageSync('sellerId')
+    if(!sid){
+      wx.redirectTo({
+        url: '../login/index',
+      })
+      return
+    }
+    
     Shop.get({
       id: sid,
       nocache: true

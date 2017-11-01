@@ -31,6 +31,15 @@ function getShops(options = {}) {
   })
 }
 
+function getShop_buyer(options = { id: '' }) {
+  let shops = app.shops || wx.getStorageSync('shops')
+  for (let i in shops) {
+    if (shops[i].id == options.id) {
+      return shops[i]
+    }
+  }
+}
+
 function getShop(options = {}) {
   return new Promise(function (resolve, reject) {
     let shop = app.shop
@@ -134,4 +143,5 @@ export var Shop = {
   login: seller_login,
 
   getShops: getShops,
+  getShop_buyer: getShop_buyer,
 }

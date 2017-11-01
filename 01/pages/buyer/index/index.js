@@ -7,9 +7,12 @@ Page({
   data: {
     links: [
       {
-        id: 1,
-        text: '按商家商品列表页面',
-        url: '/pages/buyer/items/items_seller'
+        text: '按卖家商品列表页面',
+        url: '/pages/buyer/items/items_sellers'
+      },
+      {
+        text: '按类目商品列表页面',
+        url: '/pages/buyer/items/items_category'
       },
     ]
   },

@@ -1,44 +1,27 @@
-
 import { Shop } from '../../../utils/shop.js'
 import { Item } from '../../../utils/items.js'
 
+let app = getApp()
+
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    youImageMode_v2: app.youImageMode_v2,
+    youImageMode_v5: app.youImageMode_v5,
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-
-    let t1 = Date.now()
-    Promise.all([Shop.getShops(), Item.getItems()]).then(function (res) {
-      let t2 = Date.now()
-      let shops = res[0]
-      let items = res[1]
-      for (let i in shops) {
-        let id = shops[i].id
-        shops[i].items = []
-        for (let j in items) {
-          if (items[j].sid == id) {
-            items[j].price = Number(items[j].price).toFixed(2)
-            shops[i].items.push(items[j])
-          }
-        }
-      }
-      let t3 = Date.now()
-      console.log(t2 - t1, t3 - t2)
-      console.log(shops)
+    let id = options.id || 10
+    let seller = Shop.getShop_buyer({ id })
+    Item.getSellerItems_buyer({ sid: id }).then(function(items){
       this.setData({
-        shops
+        seller,
+        items,
       })
     }.bind(this))
-
+    wx.setNavigationBarTitle({
+      title: seller.title,
+    })
   },
 
   /**
