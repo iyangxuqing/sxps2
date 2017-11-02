@@ -168,6 +168,13 @@ Page({
     }.bind(this))
   },
 
+  onItemTap: function (e) {
+    let id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '../item/index?id=' + id,
+    })
+  },
+
   onSellerTap: function (e) {
     let id = e.currentTarget.dataset.id
     wx.navigateTo({
@@ -185,9 +192,13 @@ Page({
       let shops = res[1]
       let items = res[2]
 
+      console.log(cates)
+
       cates[0].active = !0
       for (let i in cates) {
-        cates[i].children[0].active = !0
+        if (cates[i].children.length) {
+          cates[i].children[0].active = !0
+        }
       }
       let level1Cates = cates
       let level2Cates = level1Cates[0].children

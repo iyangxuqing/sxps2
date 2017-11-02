@@ -23,7 +23,7 @@
         <view class="level1Cate {{level1Cate.active ? 'active' : ''}}" data-id="{{level1Cate.id}}" catchtap="onLevel1CateTap">{{level1Cate.title}}</view>
       </block>
     </view>
-    <view class="level2Cates">
+    <view class="level2Cates" wx:if="{{level2Cates.length}}">
       <block wx:for="{{level2Cates}}" wx:key="" wx:for-item="level2Cate">
         <view class="level2Cate {{level2Cate.active ? 'active' : ''}}" data-id="{{level2Cate.id}}" catchtap="onLevel2CateTap">{{level2Cate.title}}</view>
       </block>
@@ -50,7 +50,7 @@
 <template name="items">
   <view class="items">
     <block wx:for="{{items}}" wx:key="">
-      <view class="item">
+      <view class="item" data-id="{{item.id}}" catchtap="onItemTap">
         <view class="item-image">
           <image src="{{item.images[0] + youImageMode_v2}}" />
         </view>

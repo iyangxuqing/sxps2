@@ -1,0 +1,64 @@
+<view class="container">
+  <view class="item">
+    <swiper class="item-images">
+      <block wx:for="{{item.images}}" wx:key="" wx:for-item="image">
+        <swiper-item>
+          <image src="{{image + youImageMode_v5}}" mode="aspectFill" />
+        </swiper-item>
+      </block>
+    </swiper>
+
+    <view class="section title">
+      <view class="item-title">{{item.title}}</view>
+      <view class="item-descs">{{item.descs || item.title + '(每500g)'}}</view>
+      <view class="item-price">
+        <view class="item-price-label">价格：</view>
+        <view class="item-price-value">￥{{item.price}}</view>
+      </view>
+    </view>
+
+    <view class="section amountAndNumber">
+      <view class="item-amount">
+        <view class="item-amount-label">金额：</view>
+        <view class="item-amount-value">￥{{item.amount || '123.00'}}</view>
+      </view>
+      <view class="item-number">
+        <view class="item-number-icon">
+          <view class="item-number-icon-inner">
+            <image src="/images/icon/minus.png" />
+          </view>
+        </view>
+        <view class="item-number-input">
+          <input value="{{item.num}}" placeholder="0" type="number" maxlength="4" />
+        </view>
+        <view class="item-number-icon">
+          <view class="item-number-icon-inner">
+            <image src="/images/icon/plus.png" />
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section seller">
+      <view class="seller-row">
+        <view class="seller-label">商铺</view>
+        <view class="seller-value">{{seller.title}}</view>
+      </view>
+      <view class="seller-row">
+        <view class="seller-label">电话</view>
+        <view class="seller-value">{{seller.phone}}</view>
+      </view>
+      <view class="seller-row">
+        <view class="seller-label">地址</view>
+        <view class="seller-value">{{seller.address}}</view>
+      </view>
+    </view>
+
+    <view class="section buttons">
+      <view class="button">继续选购</view>
+      <view class="button">查看购物车</view>
+      <view class="button">加入购物车</view>
+    </view>
+
+  </view>
+</view>
