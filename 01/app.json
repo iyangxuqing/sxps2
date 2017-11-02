@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/buyer/items2/items_category",
     "pages/index/index",
     "pages/seller/login/index",
     "pages/seller/register/index",
@@ -19,6 +20,7 @@
     "pages/buyer/index/index",
     "pages/buyer/items/items_sellers",
     "pages/buyer/items/items_seller",
+    "pages/buyer/items2/items_seller",
     "pages/buyer/items/items_category",
     "pages/admins/index/index",
     "pages/log/index"
