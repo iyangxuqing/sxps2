@@ -1,17 +1,10 @@
 // index.js
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
     links: [
       {
-        text: '按卖家商品列表页面',
-        url: '/pages/buyer/items/items_sellers'
-      },
-      {
-        text: '按类目商品列表页面',
+        text: '商品列表',
         url: '/pages/buyer/items/items_category'
       },
     ]
