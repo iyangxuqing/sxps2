@@ -1,59 +1,36 @@
 import { http } from 'http.js'
+import { Dataver } from 'dataver.js'
 
 let app = getApp()
 
 function getShops(options = {}) {
   return new Promise(function (resolve, reject) {
     let shops = wx.getStorageSync('shops')
-    if (shops && !options.nocache) {
+    let expired = Dataver.getExpired('shops')
+    if (shops && !expired && !options.nocache) {
       resolve(shops)
-    }
-    http.get({
-      url: 'sxps/shop.php?m=getShops',
-    }).then(function (res) {
-      if (res.errno === 0) {
-        let shops = res.shops
-        for (let i in shops) {
-          if (!shops[i].images) shops[i].images = '[]'
-          shops[i].images = JSON.parse(shops[i].images)
+    } else {
+      http.get({
+        url: 'sxps/shop.php?m=getShops',
+      }).then(function (res) {
+        if (res.errno === 0) {
+          let shops = res.shops
+          for (let i in shops) {
+            if (!shops[i].images) shops[i].images = '[]'
+            shops[i].images = JSON.parse(shops[i].images)
+          }
+          wx.setStorageSync('shops', shops)
+          Dataver.setExpired('shops', res.dataver)
+          resolve(shops)
+        } else {
+          reject(res)
         }
-        wx.setStorageSync('shops', shops)
-        resolve(shops)
-      } else {
+      }).catch(function (res) {
         reject(res)
-      }
-    }).catch(function (res) {
-      reject(res)
-    })
+      })
+    }
   })
 }
-
-// function getShops(options = {}) {
-//   return new Promise(function (resolve, reject) {
-//     let shops = wx.getStorageSync('shops')
-//     if (shops && !options.nocache) {
-//       resolve(shops)
-//     } else {
-//       http.get({
-//         url: 'sxps/shop.php?m=getShops',
-//       }).then(function (res) {
-//         if (res.errno === 0) {
-//           let shops = res.shops
-//           for (let i in shops) {
-//             if (!shops[i].images) shops[i].images = '[]'
-//             shops[i].images = JSON.parse(shops[i].images)
-//           }
-//           wx.setStorageSync('shops', shops)
-//           resolve(shops)
-//         } else {
-//           reject(res)
-//         }
-//       }).catch(function (res) {
-//         reject(res)
-//       })
-//     }
-//   })
-// }
 
 function getShop_buyer(options = { id: '' }) {
   let shops = app.shops || wx.getStorageSync('shops')

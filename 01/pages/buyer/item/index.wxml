@@ -20,7 +20,7 @@
     <view class="section amountAndNumber">
       <view class="item-amount">
         <view class="item-amount-label">金额：</view>
-        <view class="item-amount-value">￥{{shopping.amount}}</view>
+        <view class="item-amount-value">￥{{item.amount}}</view>
       </view>
       <view class="item-number">
         <view class="item-number-icon" catchtap="onItemNumberMinus">
@@ -29,7 +29,7 @@
           </view>
         </view>
         <view class="item-number-input">
-          <input value="{{shopping.num}}" placeholder="0" type="number" maxlength="4" bindblur="onItemNumberInput" />
+          <input value="{{item.num}}" placeholder="0" type="number" maxlength="4" bindblur="onItemNumberInput" />
         </view>
         <view class="item-number-icon" catchtap="onItemNumberPlus">
           <view class="item-number-icon-inner">
@@ -61,9 +61,9 @@
 
   </view>
 
-  <view class="shoppingTag" wx:if="{{shopping.num && shoppingTagRotate}}" style="transform:rotate({{shoppingTagRotate}}deg)">
+  <view class="shoppingTag" wx:if="{{item.num && shoppingTagRotate}}" style="transform:rotate({{shoppingTagRotate}}deg)">
     <view class="shoppingTag-label">已购入</view>
-    <view class="shoppingTag-value">{{shopping.num}}(斤)</view>
+    <view class="shoppingTag-value">{{item.num}}(斤)</view>
   </view>
 
 </view>

@@ -1,52 +1,34 @@
 import { http } from 'http.js'
+import { Dataver } from 'dataver.js'
 
 let app = getApp()
 
 function getCates(options = {}) {
   return new Promise(function (resolve, reject) {
     let cates = wx.getStorageSync('cates')
-    if (cates && !options.nocache) {
+    let expired = Dataver.getExpired('cates')
+    if (cates && !expired && !options.nocache) {
       resolve(cates)
-    }
-    http.get({
-      url: 'sxps/cate.php?m=get',
-    }).then(function (res) {
-      if (res.errno === 0) {
-        let cates = transformCates(res.cates)
-        wx.setStorageSync('cates', cates)
-        resolve(cates)
-      } else {
+    } else {
+      http.get({
+        url: 'sxps/cate.php?m=get',
+      }).then(function (res) {
+        if (res.errno === 0) {
+          let cates = transformCates(res.cates)
+          wx.setStorageSync('cates', cates)
+          Dataver.setExpired('cates', res.dataver)
+          resolve(cates)
+        } else {
+          reject(res)
+        }
+      }).catch(function (res) {
         reject(res)
-      }
-    }).catch(function (res) {
-      reject(res)
-    })
+      })
+    }
   })
 }
 
-// function getCates(options = {}) {
-//   return new Promise(function (resolve, reject) {
-//     if (app.cates && !options.nocache) {
-//       resolve(app.cates)
-//     } else {
-//       http.get({
-//         url: 'sxps/cate.php?m=get',
-//       }).then(function (res) {
-//         if (res.errno === 0) {
-//           app.cates = transformCates(res.cates)
-//           resolve(app.cates)
-//         } else {
-//           reject(res)
-//         }
-//       }).catch(function (res) {
-//         reject(res)
-//       })
-//     }
-//   })
-// }
-
 function transformCates(cates) {
-  cates = JSON.parse(JSON.stringify(cates))
   let _cates = []
   for (let i in cates) {
     let cate = cates[i]

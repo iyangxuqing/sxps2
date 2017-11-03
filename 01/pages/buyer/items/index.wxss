@@ -88,7 +88,7 @@
   padding-right: 30rpx;
   overflow: hidden;
   overflow-x: auto;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 2rpx solid #ccc;
 }
 
 .level1Cate {
@@ -111,7 +111,7 @@
   overflow-x: auto;
   padding-left: 30rpx;
   padding-right: 30rpx;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 2rpx solid #ccc;
 }
 
 .level2Cate {
@@ -161,7 +161,7 @@
 .item-image {
   width: 210rpx;
   height: 210rpx;
-  border: 1px solid #eee;
+  border: 2rpx solid #eee;
   margin-bottom: 10rpx;
 }
 
@@ -194,7 +194,6 @@
 .seller-info {
   display: flex;
   align-items: center;
-  border: 1px solid #eee;
   background-color: #eee;
 }
 
@@ -246,7 +245,7 @@
 
 .empty-line {
   width: 100rpx;
-  height: 1px;
+  height: 2rpx;
   background-color: #ccc;
 }
 

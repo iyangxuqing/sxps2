@@ -11,39 +11,39 @@ Page({
 
   onItemNumberMinus: function (e) {
     let item = this.data.item
-    let shopping = this.data.shopping
-    if (shopping.num > item.minVol) {
-      shopping.num--
+    if (item.num > item.minVol) {
+      item.num--
     } else {
-      shopping.num = 0
+      item.num = 0
     }
-    shopping.amount = Number(shopping.num * item.price).toFixed(2)
-    this.addShopping(shopping)
+    item.amount = Number(item.num * item.price).toFixed(2)
+    this.setData({ item })
+    this.addShopping()
   },
 
   onItemNumberPlus: function (e) {
     let item = this.data.item
-    let shopping = this.data.shopping
-    if (shopping.num < 9999) {
-      shopping.num = Number(shopping.num) + 1
+    if (item.num < 9999) {
+      item.num = Number(item.num) + 1
     }
-    if (shopping.num < item.minVol) shopping.num = item.minVol
-    shopping.amount = Number(shopping.num * item.price).toFixed(2)
-    this.addShopping(shopping)
+    if (item.num < item.minVol) item.num = item.minVol
+    item.amount = Number(item.num * item.price).toFixed(2)
+    this.setData({ item })
+    this.addShopping()
   },
 
   onItemNumberInput: function (e) {
     let num = e.detail.value
     let item = this.data.item
-    let shopping = this.data.shopping
     if (num <= 0) {
       num = 0
     } else if (num < Number(item.minVol)) {
       num = item.minVol
     }
-    shopping.num = num
-    shopping.amount = Number(shopping.num * item.price).toFixed(2)
-    this.addShopping(shopping)
+    item.num = num
+    item.amount = Number(item.num * item.price).toFixed(2)
+    this.setData({ item })
+    this.addShopping()
   },
 
   onGotoBuy: function (e) {
@@ -54,13 +54,16 @@ Page({
 
   },
 
-  addShopping: function (shopping) {
-    let oldShopping = this.data.shopping
-    console.log(oldShopping)
+  addShopping: function () {
+    let item = this.data.item
     let shoppings = wx.getStorageSync('shoppings') || []
+    let shopping = {
+      iid: item.id,
+      num: item.num
+    }
     let index = -1
     for (let i in shoppings) {
-      if (shoppings[i].iid == shopping.iid) {
+      if (shoppings[i].iid == item.id) {
         shoppings[i] = shopping
         index = i
         break
@@ -70,15 +73,20 @@ Page({
     if (shopping.num == 0) shoppings.splice(index, 1)
     wx.setStorageSync('shoppings', shoppings)
 
-    this.setData({ shopping })
     this.rotateShoppingTag()
     app.listener.trigger('shoppings')
   },
 
   rotateShoppingTag: function () {
-    let shopping = this.data.shopping
+    let item = this.data.item
+    if(item.num==0){
+      this.setData({
+        shoppingTagRotate: ''
+      })
+      return
+    }
     let shoppingTagRotate = this.data.shoppingTagRotate
-    if (shoppingTagRotate && shopping.num) return
+    if (shoppingTagRotate) return
     let degrees = []
     degrees[0] = 10 + Math.random() * 20
     degrees[1] = 150 + Math.random() * 20
@@ -103,6 +111,8 @@ Page({
       for (let i in items) {
         if (items[i].id == id) {
           item = items[i]
+          item.num = 0
+          item.amount = 0
           break
         }
       }
@@ -118,24 +128,21 @@ Page({
       })
 
       let shopping = {
-        iid: item.id,
-        price: item.price,
+        iid: id,
         num: 0,
         amount: 0,
       }
-      let shoppings = wx.getStorageSync('shoppings') || []
+      let shoppings = wx.getStorageSync('shoppings')
       for (let i in shoppings) {
         if (shoppings[i].iid == id) {
-          shopping = shoppings[i]
+          item.num = shoppings[i].num
+          item.amount = Number(item.num * item.price).toFixed(2)
         }
       }
-      shopping.price = item.price
-      shopping.amount = Number(shopping.price * shopping.num).toFixed(2)
 
       this.setData({
         item: item,
         seller: seller,
-        shopping: shopping,
         ready: true,
       })
       this.rotateShoppingTag()

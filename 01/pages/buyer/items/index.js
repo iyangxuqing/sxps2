@@ -31,12 +31,15 @@ Page({
       links[i].active = false
       if (links[i].id == id) {
         links[i].active = true
-        if (links[i].title == '分类') type = 'itemsByCategory'
-        if (links[i].title == '商家') type = 'itemsBySeller'
+        if (links[i].id == 1) type = 'itemsByCategory'
+        if (links[i].id == 2) type = 'itemsBySeller'
       }
     }
+
+    if (type == "itemsBySeller") {
+      this.loadSellersItems()
+    }
     this.setData({
-      search: '',
       type: type,
       links: links
     })
@@ -47,7 +50,7 @@ Page({
     let type = this.data.type
     if (type == 'itemsByCategory') {
       this.setData({
-        searchTitle: value
+        searchItem: value
       })
     } else if (type == 'itemsBySeller') {
       this.setData({
@@ -58,22 +61,10 @@ Page({
 
   onSearchSubmit: function (e) {
     let type = this.data.type
-    let searchTitle = this.data.searchTitle
-    let searchSeller = this.data.searchSeller
     if (type == 'itemsByCategory') {
-      Item.getItems().then(function (items) {
-        let foundItems = []
-        for (let i in items) {
-          if (items[i].title.indexOf(searchTitle) >= 0) {
-            foundItems.push(items[i])
-          }
-        }
-        this.setData({
-          items: foundItems
-        })
-      }.bind(this))
+      this.loadSearchItems()
     } else if (type == 'itemsBySeller') {
-      this.loadSellersItems({ fliter: searchSeller })
+      this.loadSellersItems()
     }
   },
 
@@ -117,6 +108,34 @@ Page({
     this.loadCategoryItems()
   },
 
+  onItemTap: function (e) {
+    let id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '../item/index?id=' + id,
+    })
+  },
+
+  onSellerTap: function (e) {
+    let id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '../seller/index?id=' + id,
+    })
+  },
+
+  onShoppingsUpdate: function () {
+    let shoppings = wx.getStorageSync('shoppings') || []
+    let items = this.data.items
+    for (let i in shoppings) {
+      for (let j in items) {
+        if (shoppings[i].iid == items[j].id) {
+          items[j].num = shoppings[i].num
+          break
+        }
+      }
+    }
+    this.setData({ items })
+  },
+
   loadCategoryItems: function () {
     let level2Cates = this.data.level2Cates
     let cid = ''
@@ -151,13 +170,17 @@ Page({
     }.bind(this))
   },
 
-  loadSellersItems: function (options = { fliter: '' }) {
-    Promise.all([Shop.getShops(), Item.getItems()]).then(function (res) {
+  loadSellersItems: function () {
+    let searchSeller = this.data.searchSeller
+    Promise.all([
+      Shop.getShops(),
+      Item.getItems(),
+    ]).then(function (res) {
       let shops = res[0]
       let items = res[1]
       let sellers = []
       for (let i in shops) {
-        if (options.fliter && shops[i].title.indexOf(options.fliter) < 0) continue
+        if (searchSeller && shops[i].title.indexOf(searchSeller) < 0) continue
         let id = shops[i].id
         let seller = {
           id: shops[i].id,
@@ -179,32 +202,28 @@ Page({
     }.bind(this))
   },
 
-  onItemTap: function (e) {
-    let id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: '../item/index?id=' + id,
-    })
-  },
-
-  onSellerTap: function (e) {
-    let id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: '../seller/index?id=' + id,
-    })
-  },
-
-  onShoppingsUpdate: function () {
-    let shoppings = wx.getStorageSync('shoppings') || []
-    let items = this.data.items
-    for (let i in shoppings) {
-      for (let j in items) {
-        if (shoppings[i].iid == items[j].id) {
-          items[j].num = shoppings[i].num
-          break
+  loadSearchItems: function () {
+    let searchItem = this.data.searchItem
+    Item.getItems().then(function (_items) {
+      let items = []
+      for (let i in _items) {
+        if (_items[i].title.indexOf(searchItem) >= 0) {
+          items.push(_items[i])
         }
       }
-    }
-    this.setData({ items })
+      let shoppings = wx.getStorageSync('shoppings')
+      for (let i in shoppings) {
+        for (let j in items) {
+          if (shoppings[i].iid == items[j].id) {
+            items[j].num = shoppings[i].num
+            break
+          }
+        }
+      }
+      this.setData({
+        items: items
+      })
+    }.bind(this))
   },
 
   onLoad: function (options) {
@@ -213,7 +232,6 @@ Page({
 
     Promise.all([
       Cate.getCates(),
-      Shop.getShops(),
       Item.getItems(),
     ]).then(function (res) {
       let cates = res[0]
@@ -232,8 +250,6 @@ Page({
         level1Cates,
         level2Cates,
       })
-
-      this.loadSellersItems()
       this.loadCategoryItems()
     }.bind(this))
   },

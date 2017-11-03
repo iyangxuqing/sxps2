@@ -9,7 +9,7 @@
 
     <view class="search-bar">
       <view class="search-bar-input">
-        <input value="{{type=='itemsByCategory' ? searchTitle : searchSeller}}" placeholder="{{type=='itemsByCategory' ? '搜索蔬菜名称' : '搜索商家名称'}}" bindinput="onSearchInput" />
+        <input value="{{type=='itemsByCategory' ? searchItem : searchSeller}}" placeholder="{{type=='itemsByCategory' ? '搜索蔬菜名称' : '搜索商家名称'}}" bindinput="onSearchInput" />
       </view>
       <view class="search-bar-icon" catchtap="onSearchSubmit">
         <icon type="search" size="18" color="#888" />
@@ -78,9 +78,9 @@
             <image src="/images/icon/enter.png" />
           </view>
         </view>
-        <view class="items seller-items">
+        <view class="items">
           <block wx:for="{{seller.items}}" wx:key="" wx:for-item="item">
-            <view class="item seller-item" wx:if="{{index<3}}">
+            <view class="item" wx:if="{{index<3}}">
               <view class="item-image seller-item-image">
                 <image src="{{item.images[0] + youImageMode_v2}}" mode="aspectFill" />
               </view>
