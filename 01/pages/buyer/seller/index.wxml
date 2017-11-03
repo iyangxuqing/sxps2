@@ -14,12 +14,13 @@
   </view>
   <view class="items">
     <block wx:for="{{items}}" wx:key="">
-      <view class="item">
+      <view class="item" data-id="{{item.id}}" catchtap="onItemTap">
         <view class="item-image">
           <image src="{{item.images[0] + youImageMode_v2}}" />
         </view>
         <view class="item-title">{{item.title}}</view>
         <view class="item-price">￥{{item.price}}</view>
+        <view class="item-num" wx:if="{{item.num}}">{{item.num}}</view>
       </view>
     </block>
   </view>

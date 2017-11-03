@@ -5,7 +5,7 @@ Page({
     links: [
       {
         text: '商品列表',
-        url: '/pages/buyer/items/items_category'
+        url: '/pages/buyer/items/index'
       },
     ]
   },

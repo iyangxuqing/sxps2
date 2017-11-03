@@ -4,24 +4,46 @@ let app = getApp()
 
 function getCates(options = {}) {
   return new Promise(function (resolve, reject) {
-    if (app.cates && !options.nocache) {
-      resolve(app.cates)
-    } else {
-      http.get({
-        url: 'sxps/cate.php?m=get',
-      }).then(function (res) {
-        if (res.errno === 0) {
-          app.cates = transformCates(res.cates)
-          resolve(app.cates)
-        } else {
-          reject(res)
-        }
-      }).catch(function (res) {
-        reject(res)
-      })
+    let cates = wx.getStorageSync('cates')
+    if (cates && !options.nocache) {
+      resolve(cates)
     }
+    http.get({
+      url: 'sxps/cate.php?m=get',
+    }).then(function (res) {
+      if (res.errno === 0) {
+        let cates = transformCates(res.cates)
+        wx.setStorageSync('cates', cates)
+        resolve(cates)
+      } else {
+        reject(res)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
   })
 }
+
+// function getCates(options = {}) {
+//   return new Promise(function (resolve, reject) {
+//     if (app.cates && !options.nocache) {
+//       resolve(app.cates)
+//     } else {
+//       http.get({
+//         url: 'sxps/cate.php?m=get',
+//       }).then(function (res) {
+//         if (res.errno === 0) {
+//           app.cates = transformCates(res.cates)
+//           resolve(app.cates)
+//         } else {
+//           reject(res)
+//         }
+//       }).catch(function (res) {
+//         reject(res)
+//       })
+//     }
+//   })
+// }
 
 function transformCates(cates) {
   cates = JSON.parse(JSON.stringify(cates))

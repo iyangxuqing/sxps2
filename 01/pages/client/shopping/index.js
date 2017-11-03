@@ -2,9 +2,6 @@ import { Trade } from '../../../utils/trades.js'
 
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
 
   },

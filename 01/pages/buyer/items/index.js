@@ -126,15 +126,26 @@ Page({
         break
       }
     }
-    Item.getItems().then(function (items) {
-      let categoryItems = []
-      for (let i in items) {
-        if (items[i].cid == cid) {
-          categoryItems.push(items[i])
+    Item.getItems().then(function (_items) {
+      let items = []
+      for (let i in _items) {
+        if (_items[i].cid == cid) {
+          items.push(_items[i])
         }
       }
+
+      let shoppings = wx.getStorageSync('shoppings') || []
+      for (let i in shoppings) {
+        for (let j in items) {
+          if (shoppings[i].iid == items[j].id) {
+            items[j].num = shoppings[i].num
+            break
+          }
+        }
+      }
+
       this.setData({
-        items: categoryItems,
+        items: items,
         ready: true
       })
     }.bind(this))
@@ -178,11 +189,28 @@ Page({
   onSellerTap: function (e) {
     let id = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: './items_seller?id=' + id,
+      url: '../seller/index?id=' + id,
     })
   },
 
+  onShoppingsUpdate: function () {
+    let shoppings = wx.getStorageSync('shoppings') || []
+    let items = this.data.items
+    for (let i in shoppings) {
+      for (let j in items) {
+        if (shoppings[i].iid == items[j].id) {
+          items[j].num = shoppings[i].num
+          break
+        }
+      }
+    }
+    this.setData({ items })
+  },
+
   onLoad: function (options) {
+
+    app.listener.on('shoppings', this.onShoppingsUpdate)
+
     Promise.all([
       Cate.getCates(),
       Shop.getShops(),
@@ -191,8 +219,6 @@ Page({
       let cates = res[0]
       let shops = res[1]
       let items = res[2]
-
-      console.log(cates)
 
       cates[0].active = !0
       for (let i in cates) {

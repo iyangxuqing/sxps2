@@ -4,37 +4,64 @@ let app = getApp()
 
 function getItems(options = {}) {
   return new Promise(function (resolve, reject) {
-    // let items = app.items
     let items = wx.getStorageSync('items')
     if (items && !options.nocache) {
       resolve(items)
-    } else {
-      http.get({
-        url: 'sxps/item.php?m=get',
-      }).then(function (res) {
-        if (res.errno === 0) {
-          let items = res.items
-          for (let i in items) {
-            if (!items[i].images) items[i].images = '[]'
-            items[i].images = JSON.parse(items[i].images)
-            items[i].price = Number(items[i].price).toFixed(2)
-          }
-          // app.items = items
-          wx.setStorageSync('items', items)
-          resolve(items)
-        } else {
-          reject(items)
-        }
-      }).catch(function (res) {
-        reject(res)
-      })
     }
+    http.get({
+      url: 'sxps/item.php?m=get',
+    }).then(function (res) {
+      if (res.errno === 0) {
+        let items = res.items
+        for (let i in items) {
+          if (!items[i].images) items[i].images = '[]'
+          items[i].images = JSON.parse(items[i].images)
+          items[i].price = Number(items[i].price).toFixed(2)
+        }
+        wx.setStorageSync('items', items)
+        resolve(items)
+      } else {
+        reject(items)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
   })
 }
 
+// function getItems(options = {}) {
+//   return new Promise(function (resolve, reject) {
+//     // let items = app.items
+//     let items = wx.getStorageSync('items')
+//     if (items && !options.nocache) {
+//       resolve(items)
+//     } else {
+//       http.get({
+//         url: 'sxps/item.php?m=get',
+//       }).then(function (res) {
+//         if (res.errno === 0) {
+//           let items = res.items
+//           for (let i in items) {
+//             if (!items[i].images) items[i].images = '[]'
+//             items[i].images = JSON.parse(items[i].images)
+//             items[i].price = Number(items[i].price).toFixed(2)
+//           }
+//           // app.items = items
+//           wx.setStorageSync('items', items)
+//           resolve(items)
+//         } else {
+//           reject(items)
+//         }
+//       }).catch(function (res) {
+//         reject(res)
+//       })
+//     }
+//   })
+// }
+
 function getSellerItems_buyer(options = {}) {
-  return new Promise(function(resolve, reject){
-    getItems().then(function(items){
+  return new Promise(function (resolve, reject) {
+    getItems().then(function (items) {
       let sellerItems = []
       for (let i in items) {
         if (items[i].sid == options.sid) {

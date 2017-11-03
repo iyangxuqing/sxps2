@@ -4,6 +4,7 @@ page {
 }
 
 .container {
+  position: relative;
   padding-left: 30rpx;
   padding-right: 30rpx;
 }
@@ -14,6 +15,7 @@ page {
 
 .item-images {
   height: 440rpx;
+  background-color: #fff;
 }
 
 .section {
@@ -125,6 +127,7 @@ page {
 }
 
 .button{
+  flex-basis: 0;
   flex-grow: 1;
   display: flex;
   align-items: center;
@@ -136,15 +139,25 @@ page {
 }
 
 .button:nth-of-type(1){
-  background-color: red;
+  background-color: #e33;
+  margin-right: 30rpx;
 }
 
 .button:nth-of-type(2){
-  margin-left: 4rpx;
-  margin-right: 4rpx;
-  background-color: green;
+  background-color: #292;
+  margin-left: 30rpx;
 }
 
-.button:nth-of-type(3){
-  background-color: blue;
+.shoppingTag{
+  position: absolute;
+  top: 500rpx;
+  right: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 260rpx;
+  height: 100rpx;
+  font-weight: 600;
+  color: #f33;
+  border: 8rpx solid #f33;
 }
