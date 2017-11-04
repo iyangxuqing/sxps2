@@ -14,7 +14,7 @@ Page({
       {
         id: 2,
         text: '买家版',
-        url: '/pages/buyer/index/index'
+        url: '/pages/buyer/items/index'
       },
       {
         id: 3,
@@ -27,9 +27,15 @@ Page({
   onLinkTap: function (e) {
     let index = e.currentTarget.dataset.index
     let url = this.data.links[index].url
-    wx.navigateTo({
-      url: url,
-    })
+    if (index == 1) {
+      wx.switchTab({
+        url: url,
+      })
+    } else {
+      wx.navigateTo({
+        url: url,
+      })
+    }
   },
 
   /**

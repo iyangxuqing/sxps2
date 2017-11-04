@@ -42,28 +42,20 @@ Page({
     })
   },
 
-  onGotoBuy: function(e){
-    wx.navigateTo({
+  onGotoBuy: function (e) {
+    wx.switchTab({
       url: '../items/index'
     })
   },
 
   onOrderSubmit: function (e) {
-    let products = this.data.products
-    let self = this
+    let that = this
     wx.showModal({
       title: '订单提交',
       content: '　　确定把购物车中的商品进行提交吗？提交后的订单在当天23：00前还可以进行撤单。23：00后将进入采买程序，就不再可以撤单了。',
       success: function (res) {
         if (res.confirm) {
-          let orders = []
-          for (let i in products) {
-            orders.push({
-              id: products[i].id,
-              price: products[i].price,
-              num: products[i].num
-            })
-          }
+          let orders = this.data.orders
           Trade.add(orders).then(function (res) {
             wx.showModal({
               title: '订单提交',
@@ -71,7 +63,11 @@ Page({
               showCancel: false,
               success: function () {
                 wx.setStorageSync('shoppings', [])
-                self.refreshProducts([])
+                that.setData({
+                  orders: [],
+                  zNum: 0,
+                  zAmount: 0,
+                })
               }
             })
           })
@@ -95,7 +91,6 @@ Page({
           if (options.num > Number(orders[i].maxVol)) options.num = orders[i].maxVol
           orders[i].num = options.num
         }
-
         for (let j in shoppings) {
           if (shoppings[j].iid == iid) {
             shoppings[j].num = orders[i].num
@@ -104,7 +99,6 @@ Page({
         }
         wx.setStorageSync('shoppings', shoppings)
         app.listener.trigger('shoppings')
-
         break
       }
     }
@@ -136,6 +130,7 @@ Page({
           if (shoppings[i].iid == items[j].id) {
             let order = {
               iid: items[j].id,
+              sid: items[j].sid,
               title: items[j].title,
               descs: items[j].descs,
               image: items[j].images[0],

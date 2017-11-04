@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/buyer/shopping/index",
     "pages/index/index",
     "pages/seller/login/index",
     "pages/seller/register/index",
@@ -17,7 +16,6 @@
     "pages/admin/products/products",
     "pages/admin/product/product",
     "pages/admin/trades/index",
-    "pages/buyer/index/index",
     "pages/buyer/items/index",
     "pages/buyer/seller/index",
     "pages/buyer/item/index",
@@ -37,13 +35,13 @@
     "borderStyle": "black",
     "list": [
       {
-        "pagePath": "pages/client/products/index",
+        "pagePath": "pages/buyer/items/index",
         "text": "采买",
         "iconPath": "images/tab/01/buy.png",
         "selectedIconPath": "images/tab/02/buy.png"
       },
       {
-        "pagePath": "pages/client/shopping/index",
+        "pagePath": "pages/buyer/shopping/index",
         "text": "购物车",
         "iconPath": "images/tab/01/cart.png",
         "selectedIconPath": "images/tab/02/cart.png"

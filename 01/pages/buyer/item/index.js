@@ -47,11 +47,13 @@ Page({
   },
 
   onGotoBuy: function (e) {
-    wx.navigateBack()
+    wx.switchTab({
+      url: '../items/index',
+    })
   },
 
   onGotoShoppings: function (e) {
-    wx.navigateTo({
+    wx.switchTab({
       url: '../shopping/index',
     })
   },
