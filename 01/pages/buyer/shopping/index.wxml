@@ -1,0 +1,50 @@
+<view class="container">
+
+  <view class="orders" wx:if="{{orders.length}}">
+    <block wx:for="{{orders}}" wx:key="" wx:for-item="order">
+      <view class="order" data-iid="{{order.iid}}" catchtap="onOrderTap">
+        <view class="order-image">
+          <image src="{{order.image + youImageMode_v2}}" mode="aspectFill" />
+        </view>
+        <view class="order-text">
+          <view class="order-title">{{order.title}}</view>
+          <view class="order-descs">{{order.descs || order.title + '(500克)'}}</view>
+          <view class="order-price">￥{{order.price}}</view>
+        </view>
+        <view class="order-number">
+          <view class="order-number-minus" data-iid="{{order.iid}}" catchtap="onMinusTap">
+            <image src="/images/icon/minus.png" />
+          </view>
+          <view class="order-number-input">
+            <input value="{{order.num}}" data-iid="{{order.iid}}" bindblur="onNumBlur" type="number" maxlength="4" cursor-spacing="30" />
+          </view>
+          <view class="order-number-plus" data-iid="{{order.iid}}" catchtap="onPlusTap">
+            <image src="/images/icon/plus.png" />
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="shopping-foot" wx:if="{{orders.length}}">
+    <view class="button button-shopping" catchtap="onGotoBuy">继续去购物</view>
+    <view class="summary">
+      <view class="summary-num">
+        <view class="summary-label">数量:</view>
+        <view class="summary-value">{{zNum}}</view>
+      </view>
+      <view class="summary-amount">
+        <view class="summary-label">金额:</view>
+        <view class="summary-value">￥{{zAmount}}</view>
+      </view>
+    </view>
+    <view class="button button-submit" catchtap="onOrderSubmit">提交订单</view>
+  </view>
+
+  <view class="empty" wx:if="{{!orders.length}}">
+    <view class="empty-line"></view>
+    <view class="empty-text">购物车中没有任何商品</view>
+    <view class="empty-line"></view>
+  </view>
+
+</view>

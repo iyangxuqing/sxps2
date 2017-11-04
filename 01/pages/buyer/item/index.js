@@ -51,7 +51,9 @@ Page({
   },
 
   onGotoShoppings: function (e) {
-
+    wx.navigateTo({
+      url: '../shopping/index',
+    })
   },
 
   addShopping: function () {
@@ -79,7 +81,7 @@ Page({
 
   rotateShoppingTag: function () {
     let item = this.data.item
-    if(item.num==0){
+    if (item.num == 0) {
       this.setData({
         shoppingTagRotate: ''
       })
@@ -98,7 +100,24 @@ Page({
     })
   },
 
+  onShoppingsUpdate: function () {
+    let item = this.data.item
+    let shoppings = wx.getStorageSync('shoppings')
+    for (let i in shoppings) {
+      if (shoppings[i].iid == item.id) {
+        item.num = shoppings[i].num
+        item.amount = Number(item.num * item.price).toFixed(2)
+        break
+      }
+    }
+    this.setData({
+      item: item,
+    })
+  },
+
   onLoad: function (options) {
+    app.listener.on('shoppings', this.onShoppingsUpdate)
+
     let id = options.id
     let item = {}
     let seller = {}
@@ -127,11 +146,6 @@ Page({
         title: item.title,
       })
 
-      let shopping = {
-        iid: id,
-        num: 0,
-        amount: 0,
-      }
       let shoppings = wx.getStorageSync('shoppings')
       for (let i in shoppings) {
         if (shoppings[i].iid == id) {
@@ -139,7 +153,6 @@ Page({
           item.amount = Number(item.num * item.price).toFixed(2)
         }
       }
-
       this.setData({
         item: item,
         seller: seller,
