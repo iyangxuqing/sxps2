@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/buyer/trades/index",
     "pages/index/index",
     "pages/seller/login/index",
     "pages/seller/register/index",
@@ -49,7 +48,7 @@
         "selectedIconPath": "images/tab/02/cart.png"
       },
       {
-        "pagePath": "pages/client/trades/index",
+        "pagePath": "pages/buyer/trades/index",
         "text": "订单",
         "iconPath": "images/tab/01/admin.png",
         "selectedIconPath": "images/tab/02/admin.png"

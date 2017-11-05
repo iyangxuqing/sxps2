@@ -31,7 +31,7 @@
 
 .trades {
   margin-top: 90rpx;
-  padding: 40rpx 30rpx;
+  padding: 30rpx;
 }
 
 .trade {

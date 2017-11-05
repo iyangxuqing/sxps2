@@ -40,6 +40,23 @@ function getTrades() {
   })
 }
 
+function getBuyerTrades() {
+  return new Promise(function (resolve, reject) {
+    http.get({
+      url: 'sxps/trade.php?m=get',
+      data: { buyer: !0 },
+    }).then(function (res) {
+      if (res.errno === 0) {
+        resolve(res.trades)
+      } else {
+        reject(res)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
+  })
+}
+
 function delTrade(options) {
   return new Promise(function (resolve, reject) {
     http.get({
@@ -59,6 +76,7 @@ function delTrade(options) {
 
 export var Trade = {
   get: getTrades,
+  getBuyerTrades: getBuyerTrades,
   add: addTrade,
   del: delTrade,
 }

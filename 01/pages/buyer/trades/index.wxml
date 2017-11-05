@@ -16,8 +16,8 @@
           </view>
           <view class="trade-number">
             <view wx:if="trade.status=='未提交' || trade.status=='已提交'">
-              <view class="trade-amount">￥{{trade.bookAmount}}</view>
-              <view class="trade-num">数量：{{trade.bookNum}}</view>
+              <view class="trade-amount">￥{{trade.amount}}</view>
+              <view class="trade-num">数量：{{trade.num}}</view>
             </view>
           </view>
           <view class="trade-statuss">
@@ -37,10 +37,14 @@
                 <view class="product-descs">{{order.descs}}</view>
               </view>
               <view class="product-number">
-                <view class="product-amount" wx:if="{{trade.status=='已提交'}}">￥{{order.bookAmount}}</view>
-                <view class="product-num" wx:if="{{trade.status=='已提交'}}">数量：{{order.bookNum}}</view>
-                <view class="product-amount" wx:if="{{trade.status!='已提交'}}">￥{{order.realAmount}}</view>
-                <view class="product-num" wx:if="{{trade.status!='已提交'}}">数量：{{order.realNum}}</view>
+                <view wx:if="{{trade.realNum==0}}">
+                  <view class="product-amount">￥{{order.amount}}</view>
+                  <view class="product-num">数量：{{order.num}}</view>
+                </view>
+                <view wx:if="{{trade.realNum>0}}">
+                  <view class="product-amount">￥{{order.realAmount}}</view>
+                  <view class="product-num">数量：{{order.realNum}}</view>
+                </view>
               </view>
             </view>
           </block>

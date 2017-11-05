@@ -1,17 +1,10 @@
+import { Item } from '../../../utils/items.js'
 import { Trade } from '../../../utils/trades.js'
-import { Product } from '../../../utils/products.js'
 
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
     navs: [
-      {
-        title: '全部',
-        active: true
-      },
       {
         title: '未提交'
       },
@@ -38,7 +31,7 @@ Page({
     this.setData({
       navs: navs,
     })
-    this.loadTrades({ index })
+    this.loadTrades()
   },
 
   onSubmitOrder: function (e) {
@@ -128,56 +121,79 @@ Page({
     })
   },
 
-  loadTrades: function () {
-    let self = this
-    Trade.get({ nocache: true }).then(function (trades) {
-      let shoppings = wx.getStorageSync('shoppings') || []
-      if (shoppings.length > 0) {
+  loadShoppings: function () {
+    let trades = []
+    let shoppings = wx.getStorageSync('shoppings')
+    if (!shoppings) {
+      this.setData({ trades })
+    } else {
+      Item.getItems().then(function (items) {
+        let num = 0
+        let amount = 0
+        let realNum = 0
+        let realAmount = 0
         let orders = []
         for (let i in shoppings) {
-          orders.push({
-            iid: shoppings[i].iid,
-            price: shoppings[i].price,
-            bookNum: shoppings[i].num,
-            realNum: shoppings[i].num,
-          })
+          for (let j in items) {
+            if (shoppings[i].iid == items[j].id) {
+              let order = {
+                iid: items[j].id,
+                sid: items[j].sid,
+                title: items[j].title,
+                descs: items[j].descs,
+                image: items[j].images[0],
+                price: items[j].price,
+                num: shoppings[i].num,
+                amount: Number(items[j].price * shoppings[i].num).toFixed(2)
+              }
+              num = num + Number(order.num)
+              amount = amount + Number(order.amount)
+              orders.push(order)
+              break
+            }
+          }
         }
-        let shoppingsTrade = {
+        let trade = {
           id: '未提交',
           status: '未提交',
           orders: orders,
           created: Date.now() / 1000,
+          time: new Date().Format('yyyy-MM-dd hh:mm:ss'),
+          num: num,
+          amount: amount.toFixed(2),
+          realNum: realNum,
+          realAmount: realAmount.toFixed(2)
         }
-        trades.unshift(shoppingsTrade)
-      }
+        trades.push(trade)
+        this.setData({ trades })
+      }.bind(this))
+    }
+  },
 
+  loadTrades: function () {
+    let self = this
+    Trade.getBuyerTrades({
+      nocache: true
+    }).then(function (trades) {
       for (let i in trades) {
         let trade = trades[i]
-        if (!isNaN(trade.id)) trade.id = 10000000 + Number(trade.id)
+        trade.id = 10000000 + Number(trade.id)
         trade.time = new Date(trade.created * 1000).Format('yyyy-MM-dd hh:mm:ss')
-        let bookNum = 0;
+        let num = 0;
         let realNum = 0;
-        let bookAmount = 0;
+        let amount = 0;
         let realAmount = 0;
         for (let j in trade.orders) {
           let order = trade.orders[j]
-          let iid = order.iid
-          let product = Product.getProduct({ id: iid })
-          if (product) {
-            order.image = product.images[0]
-            order.title = product.title
-            order.descs = product.descs || product.title + '(500克)'
-            order.price = product.price
-            order.bookAmount = (Number(order.bookNum) * order.price).toFixed(2)
-            order.realAmount = (Number(order.realNum) * order.price).toFixed(2)
-            bookNum = bookNum + Number(order.bookNum)
-            bookAmount = bookAmount + Number(order.bookNum) * Number(order.price)
-            realNum = realNum + Number(order.realNum)
-            realAmount = realAmount + Number(order.realNum) * Number(order.price)
-          }
+          order.amount = (Number(order.num) * order.price).toFixed(2)
+          order.realAmount = (Number(order.realNum) * order.price).toFixed(2)
+          num = num + Number(order.num)
+          amount = amount + Number(order.amount)
+          realNum = realNum + Number(order.realNum)
+          realAmount = realAmount + Number(order.realAmount)
         }
-        trade.bookNum = bookNum
-        trade.bookAmount = bookAmount.toFixed(2)
+        trade.num = num
+        trade.amount = amount.toFixed(2)
         trade.realNum = realNum
         trade.realAmount = realAmount.toFixed(2)
       }
@@ -187,38 +203,32 @@ Page({
       for (let i in navs) {
         if (navs[i].active) status = navs[i].title
       }
-      if (status == '全部') status = ''
-      let _trades = []
-      for (let i in trades) {
-        if (trades[i].status == status || !status) {
-          _trades.push(trades[i])
+      if (status == '未提交') {
+        self.loadShoppings()
+      } else {
+        let _trades = []
+        for (let i in trades) {
+          if (trades[i].status == status) {
+            _trades.push(trades[i])
+          }
         }
+        self.trades = trades
+        self.setData({
+          trades: _trades,
+          ready: true
+        })
       }
-      self.trades = trades
-      self.setData({
-        trades: _trades,
-        ready: true
-      })
     })
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
     let index = wx.getStorageSync('orderIndex') || 0
     let navs = this.data.navs
@@ -230,7 +240,7 @@ Page({
       navs: navs,
       ready: true
     })
-    // this.loadTrades()
+    this.loadTrades()
   },
 
   /**
