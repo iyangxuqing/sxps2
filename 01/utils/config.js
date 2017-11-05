@@ -1,5 +1,5 @@
 module.exports.ver = 'v1.0.0'
-module.exports.sid = "sxps0001"
+module.exports.aid = "sxps0001"
 module.exports.expired = 600000
 module.exports.apiUrl = 'https://yixing01.applinzi.com/'
 module.exports.apiUrl = 'https://yixing01.applinzi.com/'

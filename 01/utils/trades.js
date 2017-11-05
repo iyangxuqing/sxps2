@@ -2,8 +2,13 @@ import { http } from 'http.js'
 
 let app = getApp()
 
-function addTrade(orders) {
+function addTrade(_orders) {
   return new Promise(function (resolve, reject) {
+    let orders = JSON.parse(JSON.stringify(_orders))
+    for (let i in orders) {
+      delete orders[i].minVol
+      delete orders[i].maxVol
+    }
     http.post({
       url: 'sxps/trade.php?m=add',
       data: orders

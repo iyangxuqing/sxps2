@@ -6,7 +6,7 @@ function get(options) {
       url: config.apiUrl + options.url,
       header: {
         'ver': config.ver,
-        'sid': config.sid,
+        'aid': config.aid,
         'token': wx.getStorageSync('token'),
         'Content-Type': 'application/json',
       },
@@ -32,7 +32,7 @@ function post(options) {
       method: 'POST',
       header: {
         'ver': config.ver,
-        'sid': config.sid,
+        'aid': config.aid,
         'token': wx.getStorageSync('token'),
         'Content-Type': 'application/json',
       },
@@ -61,7 +61,7 @@ function cosUpload(options) {
   return new Promise(function (resolve, reject) {
     let source = options.source
     let extension = source.split('.').pop()
-    let target = config.sid + '/' + options.target + '.' + extension
+    let target = config.aid + '/' + options.target + '.' + extension
     http.get({
       url: 'sxps/cos.php?m=signature',
       data: { filename: target }

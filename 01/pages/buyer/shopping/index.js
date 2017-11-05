@@ -55,19 +55,19 @@ Page({
       content: '　　确定把购物车中的商品进行提交吗？提交后的订单在当天23：00前还可以进行撤单。23：00后将进入采买程序，就不再可以撤单了。',
       success: function (res) {
         if (res.confirm) {
-          let orders = this.data.orders
+          let orders = that.data.orders
           Trade.add(orders).then(function (res) {
             wx.showModal({
               title: '订单提交',
               content: '　　订单提交成功，将进入采买程序。',
               showCancel: false,
               success: function () {
-                wx.setStorageSync('shoppings', [])
-                that.setData({
-                  orders: [],
-                  zNum: 0,
-                  zAmount: 0,
-                })
+                // wx.setStorageSync('shoppings', [])
+                // that.setData({
+                //   orders: [],
+                //   zNum: 0,
+                //   zAmount: 0,
+                // })
               }
             })
           })
