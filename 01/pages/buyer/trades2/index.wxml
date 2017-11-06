@@ -34,7 +34,7 @@
               </view>
               <view class="product-text">
                 <view class="product-title">{{order.title}}</view>
-                <view class="product-descs">{{order.descs || order.title + '(500克)'}}</view>
+                <view class="product-descs">{{order.descs}}</view>
               </view>
               <view class="product-number">
                 <view wx:if="{{trade.realNum==0}}">

@@ -125,10 +125,11 @@ Page({
   onShoppingsUpdate: function () {
     let shoppings = wx.getStorageSync('shoppings') || []
     let items = this.data.items
-    for (let i in shoppings) {
-      for (let j in items) {
-        if (shoppings[i].iid == items[j].id) {
-          items[j].num = shoppings[i].num
+    for (let i in items) {
+      items[i].num = 0;
+      for (let j in shoppings) {
+        if (items[i].id == shoppings[j].iid) {
+          items[i].num = shoppings[j].num
           break
         }
       }
@@ -152,17 +153,15 @@ Page({
           items.push(_items[i])
         }
       }
-
       let shoppings = wx.getStorageSync('shoppings') || []
-      for (let i in shoppings) {
-        for (let j in items) {
-          if (shoppings[i].iid == items[j].id) {
-            items[j].num = shoppings[i].num
+      for (let i in items) {
+        for (let j in shoppings) {
+          if (items[i].id == shoppings[j].iid) {
+            items[i].num = shoppings[j].num
             break
           }
         }
       }
-
       this.setData({
         items: items,
         ready: true

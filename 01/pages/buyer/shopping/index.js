@@ -49,6 +49,31 @@ Page({
   },
 
   onOrderSubmit: function (e) {
+    let orders = this.data.orders
+    wx.showModal({
+      title: '订单提交',
+      content: '　　确定把购物车中的商品进行提交吗？',
+      success: function (res) {
+        if (res.confirm) {
+          Trade.addTrade_buyer({ orders }).then(function (res) {
+            wx.showModal({
+              title: '订单提交',
+              content: '　　订单提交成功，将进入采买程序。',
+              showCancel: false,
+              success: function () {
+                wx.removeStorageSync('shoppings')
+                app.listener.trigger('shoppings')
+                this.setData({ orders: [] })
+                this.refreshSummary()
+              }.bind(this)
+            })
+          }.bind(this))
+        }
+      }.bind(this)
+    })
+  },
+
+  onOrderSubmit2: function (e) {
     let that = this
     wx.showModal({
       title: '订单提交',
@@ -82,8 +107,7 @@ Page({
                 showCancel: false,
                 success: function () {
                   wx.removeStorageSync('shoppings')
-                  wx.removeStorageSync('trades_buyer')
-                  that.loadData()
+                  that.loadData({ nocache: true })
                 }
               })
             })

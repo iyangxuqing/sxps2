@@ -3,31 +3,11 @@ import { Item } from 'items.js'
 
 let app = getApp()
 
-function addTrade(options) {
+function addTrade_buyer(trade) {
   return new Promise(function (resolve, reject) {
-    // let shoppings = wx.getStorageSync('shoppings')
-    // Item.getItems().then(function (items) {
-    //   let orders = []
-    //   for (let i in shoppings) {
-    //     for (let j in items) {
-    //       if (shoppings[i].iid = items[j].id) {
-    //         let order = {
-    //           iid: items[j].id,
-    //           sid: items[j].sid,
-    //           title: items[j].title,
-    //           descs: items[j].descs,
-    //           image: items[j].images[0],
-    //           price: items[j].price,
-    //           num: shoppings[i].num,
-    //         }
-    //         orders.push(order)
-    //         break
-    //       }
-    //     }
-    //   }
     http.post({
       url: 'sxps/trade.php?m=add',
-      data: options.orders
+      data: trade.orders
     }).then(function (res) {
       if (res.errno === 0) {
         resolve(res)
@@ -91,8 +71,8 @@ function delTrade(options) {
 
 export var Trade = {
   get: getTrades,
-  add: addTrade,
   del: delTrade,
 
+  addTrade_buyer: addTrade_buyer,
   getTrades_buyer: getTrades_buyer,
 }

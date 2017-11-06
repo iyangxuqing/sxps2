@@ -1,6 +1,8 @@
 import { Item } from '../../../utils/items.js'
 import { Trade } from '../../../utils/trades.js'
 
+let app = getApp()
+
 Page({
 
   data: {
@@ -31,166 +33,131 @@ Page({
     this.setData({
       navs: navs,
     })
-    this.loadTrades(status)
+    this.showTrades()
   },
 
   onSubmitOrder: function (e) {
-    let that = this
+    let trade = this.trades[0]
     wx.showModal({
       title: '订单提交',
       content: '　　确定把购物车中的商品进行提交吗？',
       success: function (res) {
         if (res.confirm) {
-          let orders = []
-          let shoppings = wx.getStorageSync('shoppings')
-          Item.getItems().then(function (items) {
-            for (let i in shoppings) {
-              for (let j in items) {
-                if (shoppings[i].iid == items[j].id) {
-                  let order = {
-                    iid: items[j].id,
-                    sid: items[j].sid,
-                    title: items[j].title,
-                    descs: items[j].descs,
-                    image: items[j].images[0],
-                    price: items[j].price,
-                    num: shoppings[i].num,
-                  }
-                  orders.push(order)
-                  break
-                }
-              }
-            }
-            Trade.add({ orders }).then(function (res) {
-              wx.showModal({
-                title: '订单提交',
-                content: '　　订单提交成功，将进入采买程序。',
-                showCancel: false,
-                success: function () {
-                  wx.removeStorageSync('shoppings')
-                  wx.removeStorageSync('trades_buyer')
-                  that.loadTrades()
-                }
-              })
+          Trade.addTrade_buyer(trade).then(function (res) {
+            trade.id = res.insertId
+            trade.status = '已提交'
+            wx.showModal({
+              title: '订单提交',
+              content: '　　订单提交成功，将进入采买程序。',
+              showCancel: false,
+              success: function () {
+                wx.removeStorageSync('shoppings')
+                app.listener.trigger('shoppings')
+                this.loadTrades()
+              }.bind(this)
             })
-          })
+          }.bind(this))
         }
-      }
+      }.bind(this)
     })
   },
 
   onCancelOrder: function (e) {
     let id = e.currentTarget.dataset.id
-    let self = this
     wx.showModal({
       title: '订单撤回',
       content: '　　确定要把这笔订单撤回吗？撤回后的订单将合并到当前的购物车中。',
       success: function (res) {
         if (res.confirm) {
-          Trade.del({
-            id: id - 10000000
-          }).then(function (res) {
+          Trade.del({ id }).then(function (res) {
+            let shoppings = wx.getStorageSync('shoppings') || []
+            let trade = {}
+            let trades = this.trades
+            let index = -1
+            for (let i in trades) {
+              if (trades[i].id == id) {
+                trade = trades[i]
+                index = i
+                break
+              }
+            }
+            trades.splice(index, 1)
+            for (let j in trade.orders) {
+              let order = trade.orders[j]
+              let shopping = {
+                iid: order.iid,
+                num: order.num,
+              }
+              let index = -1
+              for (let k in shoppings) {
+                if (shoppings[k].iid == shopping.iid) {
+                  index = k
+                  break
+                }
+              }
+              if (index < 0) {
+                shoppings.push(shopping)
+              }
+            }
             wx.showModal({
               title: '订单撤回',
               content: '　　订单撤回成功，您可以在购物车中进行更改编辑和再次提交。',
               showCancel: false,
               success: function () {
-                let trades = self.trades
-                let shoppings = wx.getStorageSync('shoppings') || []
-                for (let i in trades) {
-                  if (trades[i].id == id) {
-                    let trade = trades[i]
-                    for (let j in trade.orders) {
-                      let order = trade.orders[j]
-                      let shopping = {
-                        iid: order.iid,
-                        title: order.title,
-                        image: order.image,
-                        price: order.price,
-                        descs: order.descs,
-                        num: order.bookNum,
-                      }
-                      let index = -1
-                      for (let k in shoppings) {
-                        if (shoppings[k].iid == shopping.iid) {
-                          index = k
-                          break
-                        }
-                      }
-                      if (index < 0) {
-                        shoppings.push(shopping)
-                      }
-                    }
-                    break
-                  }
-                }
                 wx.setStorageSync('shoppings', shoppings)
-                self.loadTrades()
-              }
+                app.listener.trigger('shoppings')
+                this.loadTrades()
+              }.bind(this)
             })
-          })
+          }.bind(this))
         }
-      }
+      }.bind(this)
     })
   },
 
-  loadTradesFromLocal: function () {
-    let shoppings = wx.getStorageSync('shoppings')
-    Item.getItems().then(function (items) {
-      let num = 0
-      let amount = 0
-      let realNum = 0
-      let realAmount = 0
-      let trades = []
-      let orders = []
-      for (let i in shoppings) {
-        for (let j in items) {
-          if (shoppings[i].iid == items[j].id) {
-            let order = {
-              iid: items[j].id,
-              sid: items[j].sid,
-              title: items[j].title,
-              descs: items[j].descs,
-              image: items[j].images[0],
-              price: items[j].price,
-              minVol: items[j].minVol,
-              maxVol: items[j].volumn,
-              num: shoppings[i].num,
-              amount: Number(items[j].price * shoppings[i].num).toFixed(2)
-            }
-            num = num + Number(order.num)
-            amount = amount + Number(order.amount)
-            orders.push(order)
-            break
-          }
+  loadTrades: function () {
+    Promise.all([
+      Item.getItems(),
+      Trade.getTrades_buyer(),
+    ]).then(function (res) {
+      let items = res[0]
+      let trades = this.trades || res[1]
+      for (let i in trades) {
+        if (trades[i].status == '未提交') {
+          trades.splice(i, 1)
+          break
         }
       }
-      if (orders.length > 0) {
+      let shoppings = wx.getStorageSync('shoppings')
+      if (shoppings.length > 0) {
         let trade = {
           id: '未提交',
           status: '未提交',
-          orders: orders,
-          created: Date.now() / 1000,
-          time: new Date().Format('yyyy-MM-dd hh:mm:ss'),
-          num: num,
-          amount: amount.toFixed(2),
-          realNum: realNum,
-          realAmount: realAmount.toFixed(2)
+          created: Math.floor(Date.now() / 1000),
+          orders: []
         }
-        trades.push(trade)
+        for (let i in shoppings) {
+          for (let j in items) {
+            if (shoppings[i].iid == items[j].id) {
+              let order = {
+                iid: items[j].id,
+                sid: items[j].sid,
+                title: items[j].title,
+                descs: items[j].descs,
+                image: items[j].images[0],
+                price: items[j].price,
+                num: shoppings[i].num,
+                realNum: 0,
+              }
+              trade.orders.push(order)
+              break
+            }
+          }
+        }
+        trades.unshift(trade)
       }
-      this.setData({
-        trades: trades,
-        ready: true
-      })
-    }.bind(this))
-  },
-
-  loadTradesFromRemote: function (status) {
-    Trade.getTrades_buyer().then(function (trades) {
       for (let i in trades) {
         let trade = trades[i]
-        trade.id = 10000000 + Number(trade.id)
         trade.time = new Date(trade.created * 1000).Format('yyyy-MM-dd hh:mm:ss')
         let num = 0;
         let amount = 0;
@@ -210,21 +177,12 @@ Page({
         trade.realNum = realNum
         trade.realAmount = realAmount.toFixed(2)
       }
-
-      let _trades = []
-      for (let i in trades) {
-        if (trades[i].status == status) {
-          _trades.push(trades[i])
-        }
-      }
-      this.setData({
-        trades: _trades,
-        ready: true
-      })
+      this.trades = trades
+      this.showTrades()
     }.bind(this))
   },
 
-  loadTrades() {
+  showTrades: function () {
     let status = ''
     let navs = this.data.navs
     for (let i in navs) {
@@ -233,11 +191,16 @@ Page({
         break
       }
     }
-    if (status == '未提交') {
-      this.loadTradesFromLocal()
-    } else {
-      this.loadTradesFromRemote(status)
+    let trades = []
+    for (let i in this.trades) {
+      if (this.trades[i].status == status) {
+        trades.push(this.trades[i])
+      }
     }
+    this.setData({
+      trades: trades,
+      ready: true
+    })
   },
 
   onLoad: function () {
