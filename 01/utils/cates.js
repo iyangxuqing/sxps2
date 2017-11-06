@@ -49,7 +49,7 @@ function transformCates(cates) {
 
 function set(cate) {
   return new Promise(function (resolve, reject) {
-    let cates = app.cates
+    let cates = wx.getStorageSync('cates')
     let id = cate.id
     let pid = cate.pid
     let title = cate.title
@@ -116,6 +116,7 @@ function set(cate) {
     }).then(function (res) {
       if (res.errno === 0) {
         if (res.insertId) cate.id = res.insertId
+        wx.setStorageSync('cates', cates)
         resolve(cates)
       } else {
         reject(res)
@@ -134,7 +135,7 @@ function del(cate) {
     }).then(function (res) {
       if (res.errno === 0) {
         if (res.affectedRows) {
-          let cates = app.cates
+          let cates = wx.getStorageSync('cates')
           for (let i in cates) {
             if (cates[i].id == cate.id) {
               cates.splice(i, 1)
@@ -147,6 +148,7 @@ function del(cate) {
               }
             }
           }
+          wx.setStorageSync('cates', cates)
           res.cates = cates
         }
         resolve(res)
@@ -170,7 +172,7 @@ function sort(cate, asc = 1) {
     }).then(function (res) {
       if (res.errno === 0) {
         let id = cate.id
-        let cates = app.cates
+        let cates = wx.getStorageSync('cates')
         for (let i in cates) {
           if (cates[i].id == id) {
             if (asc) {
@@ -207,6 +209,7 @@ function sort(cate, asc = 1) {
             }
           }
         }
+        wx.setStorageSync('cates', cates)
         resolve(cates)
       } else {
         reject(res)

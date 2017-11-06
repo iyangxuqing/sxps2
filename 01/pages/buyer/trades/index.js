@@ -31,34 +31,47 @@ Page({
     this.setData({
       navs: navs,
     })
-    this.loadTrades()
+    this.loadTrades(status)
   },
 
   onSubmitOrder: function (e) {
-    let self = this
+    let that = this
     wx.showModal({
       title: '订单提交',
-      content: '　　确定把购物车中的商品进行提交吗？提交后的订单在当天23：00前还可以进行撤回更改。23：00后将进入采买程序，就不再可以更改了。',
+      content: '　　确定把购物车中的商品进行提交吗？',
       success: function (res) {
         if (res.confirm) {
-          let shoppings = wx.getStorageSync('shoppings')
           let orders = []
-          for (let i in shoppings) {
-            orders.push({
-              iid: shoppings[i].iid,
-              price: shoppings[i].price,
-              num: shoppings[i].num
-            })
-          }
-          Trade.add(orders).then(function (res) {
-            wx.showModal({
-              title: '订单提交',
-              content: '　　订单提交成功，将进入采买程序。',
-              showCancel: false,
-              success: function () {
-                wx.setStorageSync('shoppings', [])
-                self.loadTrades()
+          let shoppings = wx.getStorageSync('shoppings')
+          Item.getItems().then(function (items) {
+            for (let i in shoppings) {
+              for (let j in items) {
+                if (shoppings[i].iid == items[j].id) {
+                  let order = {
+                    iid: items[j].id,
+                    sid: items[j].sid,
+                    title: items[j].title,
+                    descs: items[j].descs,
+                    image: items[j].images[0],
+                    price: items[j].price,
+                    num: shoppings[i].num,
+                  }
+                  orders.push(order)
+                  break
+                }
               }
+            }
+            Trade.add({ orders }).then(function (res) {
+              wx.showModal({
+                title: '订单提交',
+                content: '　　订单提交成功，将进入采买程序。',
+                showCancel: false,
+                success: function () {
+                  wx.removeStorageSync('shoppings')
+                  wx.removeStorageSync('trades_buyer')
+                  that.loadTrades()
+                }
+              })
             })
           })
         }
@@ -121,38 +134,38 @@ Page({
     })
   },
 
-  loadShoppings: function () {
-    let trades = []
+  loadTradesFromLocal: function () {
     let shoppings = wx.getStorageSync('shoppings')
-    if (!shoppings) {
-      this.setData({ trades })
-    } else {
-      Item.getItems().then(function (items) {
-        let num = 0
-        let amount = 0
-        let realNum = 0
-        let realAmount = 0
-        let orders = []
-        for (let i in shoppings) {
-          for (let j in items) {
-            if (shoppings[i].iid == items[j].id) {
-              let order = {
-                iid: items[j].id,
-                sid: items[j].sid,
-                title: items[j].title,
-                descs: items[j].descs,
-                image: items[j].images[0],
-                price: items[j].price,
-                num: shoppings[i].num,
-                amount: Number(items[j].price * shoppings[i].num).toFixed(2)
-              }
-              num = num + Number(order.num)
-              amount = amount + Number(order.amount)
-              orders.push(order)
-              break
+    Item.getItems().then(function (items) {
+      let num = 0
+      let amount = 0
+      let realNum = 0
+      let realAmount = 0
+      let trades = []
+      let orders = []
+      for (let i in shoppings) {
+        for (let j in items) {
+          if (shoppings[i].iid == items[j].id) {
+            let order = {
+              iid: items[j].id,
+              sid: items[j].sid,
+              title: items[j].title,
+              descs: items[j].descs,
+              image: items[j].images[0],
+              price: items[j].price,
+              minVol: items[j].minVol,
+              maxVol: items[j].volumn,
+              num: shoppings[i].num,
+              amount: Number(items[j].price * shoppings[i].num).toFixed(2)
             }
+            num = num + Number(order.num)
+            amount = amount + Number(order.amount)
+            orders.push(order)
+            break
           }
         }
+      }
+      if (orders.length > 0) {
         let trade = {
           id: '未提交',
           status: '未提交',
@@ -165,23 +178,23 @@ Page({
           realAmount: realAmount.toFixed(2)
         }
         trades.push(trade)
-        this.setData({ trades })
-      }.bind(this))
-    }
+      }
+      this.setData({
+        trades: trades,
+        ready: true
+      })
+    }.bind(this))
   },
 
-  loadTrades: function () {
-    let self = this
-    Trade.getBuyerTrades({
-      nocache: true
-    }).then(function (trades) {
+  loadTradesFromRemote: function (status) {
+    Trade.getTrades_buyer().then(function (trades) {
       for (let i in trades) {
         let trade = trades[i]
         trade.id = 10000000 + Number(trade.id)
         trade.time = new Date(trade.created * 1000).Format('yyyy-MM-dd hh:mm:ss')
         let num = 0;
-        let realNum = 0;
         let amount = 0;
+        let realNum = 0;
         let realAmount = 0;
         for (let j in trade.orders) {
           let order = trade.orders[j]
@@ -198,27 +211,33 @@ Page({
         trade.realAmount = realAmount.toFixed(2)
       }
 
-      let status = ''
-      let navs = self.data.navs
-      for (let i in navs) {
-        if (navs[i].active) status = navs[i].title
-      }
-      if (status == '未提交') {
-        self.loadShoppings()
-      } else {
-        let _trades = []
-        for (let i in trades) {
-          if (trades[i].status == status) {
-            _trades.push(trades[i])
-          }
+      let _trades = []
+      for (let i in trades) {
+        if (trades[i].status == status) {
+          _trades.push(trades[i])
         }
-        self.trades = trades
-        self.setData({
-          trades: _trades,
-          ready: true
-        })
       }
-    })
+      this.setData({
+        trades: _trades,
+        ready: true
+      })
+    }.bind(this))
+  },
+
+  loadTrades() {
+    let status = ''
+    let navs = this.data.navs
+    for (let i in navs) {
+      if (navs[i].active) {
+        status = navs[i].title
+        break
+      }
+    }
+    if (status == '未提交') {
+      this.loadTradesFromLocal()
+    } else {
+      this.loadTradesFromRemote(status)
+    }
   },
 
   onLoad: function () {
@@ -236,44 +255,26 @@ Page({
       navs[i].active = false
     }
     navs[index].active = true
-    this.setData({
-      navs: navs,
-      ready: true
-    })
+    this.setData({ navs })
     this.loadTrades()
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
 
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {
 
   }

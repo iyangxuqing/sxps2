@@ -1,17 +1,33 @@
 import { http } from 'http.js'
+import { Item } from 'items.js'
 
 let app = getApp()
 
-function addTrade(_orders) {
+function addTrade(options) {
   return new Promise(function (resolve, reject) {
-    let orders = JSON.parse(JSON.stringify(_orders))
-    for (let i in orders) {
-      delete orders[i].minVol
-      delete orders[i].maxVol
-    }
+    // let shoppings = wx.getStorageSync('shoppings')
+    // Item.getItems().then(function (items) {
+    //   let orders = []
+    //   for (let i in shoppings) {
+    //     for (let j in items) {
+    //       if (shoppings[i].iid = items[j].id) {
+    //         let order = {
+    //           iid: items[j].id,
+    //           sid: items[j].sid,
+    //           title: items[j].title,
+    //           descs: items[j].descs,
+    //           image: items[j].images[0],
+    //           price: items[j].price,
+    //           num: shoppings[i].num,
+    //         }
+    //         orders.push(order)
+    //         break
+    //       }
+    //     }
+    //   }
     http.post({
       url: 'sxps/trade.php?m=add',
-      data: orders
+      data: options.orders
     }).then(function (res) {
       if (res.errno === 0) {
         resolve(res)
@@ -24,27 +40,26 @@ function addTrade(_orders) {
   })
 }
 
-function getTrades() {
+function getTrades_buyer(options = {}) {
   return new Promise(function (resolve, reject) {
-    http.get({
-      url: 'sxps/trade.php?m=get',
-    }).then(function (res) {
-      if (res.errno === 0) {
-        resolve(res.trades)
-      } else {
+    let trades = app.trades_buyer
+    if (trades && !options.nocache) {
+      resolve(trades)
+    } else {
+      getTrades({ buyer: true }).then(function (trades) {
+        app.trades_buyer = trades
+        resolve(trades)
+      }).catch(function (res) {
         reject(res)
-      }
-    }).catch(function (res) {
-      reject(res)
-    })
+      })
+    }
   })
 }
 
-function getBuyerTrades() {
+function getTrades(options) {
   return new Promise(function (resolve, reject) {
     http.get({
       url: 'sxps/trade.php?m=get',
-      data: { buyer: !0 },
     }).then(function (res) {
       if (res.errno === 0) {
         resolve(res.trades)
@@ -76,7 +91,8 @@ function delTrade(options) {
 
 export var Trade = {
   get: getTrades,
-  getBuyerTrades: getBuyerTrades,
   add: addTrade,
   del: delTrade,
+
+  getTrades_buyer: getTrades_buyer,
 }

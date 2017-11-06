@@ -52,23 +52,40 @@ Page({
     let that = this
     wx.showModal({
       title: '订单提交',
-      content: '　　确定把购物车中的商品进行提交吗？提交后的订单在当天23：00前还可以进行撤单。23：00后将进入采买程序，就不再可以撤单了。',
+      content: '　　确定把购物车中的商品进行提交吗？',
       success: function (res) {
         if (res.confirm) {
-          let orders = that.data.orders
-          Trade.add(orders).then(function (res) {
-            wx.showModal({
-              title: '订单提交',
-              content: '　　订单提交成功，将进入采买程序。',
-              showCancel: false,
-              success: function () {
-                // wx.setStorageSync('shoppings', [])
-                // that.setData({
-                //   orders: [],
-                //   zNum: 0,
-                //   zAmount: 0,
-                // })
+          let orders = []
+          let shoppings = wx.getStorageSync('shoppings')
+          Item.getItems().then(function (items) {
+            for (let i in shoppings) {
+              for (let j in items) {
+                if (shoppings[i].iid == items[j].id) {
+                  let order = {
+                    iid: items[j].id,
+                    sid: items[j].sid,
+                    title: items[j].title,
+                    descs: items[j].descs,
+                    image: items[j].images[0],
+                    price: items[j].price,
+                    num: shoppings[i].num,
+                  }
+                  orders.push(order)
+                  break
+                }
               }
+            }
+            Trade.add({ orders }).then(function (res) {
+              wx.showModal({
+                title: '订单提交',
+                content: '　　订单提交成功，将进入采买程序。',
+                showCancel: false,
+                success: function () {
+                  wx.removeStorageSync('shoppings')
+                  wx.removeStorageSync('trades_buyer')
+                  that.loadData()
+                }
+              })
             })
           })
         }

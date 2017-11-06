@@ -7,9 +7,6 @@ let app = getApp()
 
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
     youImageMode: app.youImageMode,
     serviceProvider: {
@@ -74,8 +71,8 @@ Page({
 
   onShopLongPress: function (e) {
     if (app.user.role == 'admin') {
-      wx.navigateTo({
-        url: '/pages/admin/index/index'
+      wx.redirectTo({
+        url: '/pages/index/index'
       })
     }
   },
