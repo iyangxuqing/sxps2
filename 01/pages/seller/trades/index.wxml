@@ -26,6 +26,9 @@
           <view class="buyer-phone">联系电话： {{buyer.phone}}</view>
         </view>
         <view class="buyer-row buyer-address">收货地址： {{buyer.address}}</view>
+        <view class="buyer-selector">
+          <switch checked="{{buyer.selected}}" type="checkbox" data-bid="{{buyer.bid}}" bindchange="onBuyerSelectChange" />
+        </view>
       </view>
       <view class="orders">
         <block wx:for="{{buyer.orders}}" wx:key="" wx:for-item="order">
@@ -39,6 +42,7 @@
             </view>
             <view class="order-number">
               <view class="order-num">{{order.num}}</view>
+              <view class="order-realNum" wx:if="{{order.realNum}}">实发 {{order.realNum || 25}}</view>
             </view>
           </view>
         </block>
@@ -60,7 +64,10 @@
           <view class="distributeOrder-text">
             <view class="distributeOrder-title">{{distributeOrder.title}}</view>
             <view class="distributeOrder-descs">{{distributeOrder.descs || distributeOrder.title + '(500克)'}}</view>
-            <view class="distributeOrder-price">￥{{distributeOrder.price}}</view>
+            <view class="distributeOrder-row">
+              <view class="distributeOrder-price">￥{{distributeOrder.price}}</view>
+              <view class="distributeOrder-num">预订量：{{distributeOrder.num}}</view>
+            </view>
             <view class="distributeOrder-number">
               <view class="minus" catchtap="onMinusTap">
                 <view class="minus-inner">
@@ -68,7 +75,7 @@
                 </view>
               </view>
               <view class="number">
-                <input value="{{distributeOrder.num}}" type="number" maxlength="3" bindinput="onNumInput" cursor-spacing="20" />
+                <input value="{{distributeOrder.realNum}}" type="digit" maxlength="5" bindblur="onRealNumInput" cursor-spacing="30" />
               </view>
               <view class="plus" catchtap="onPlusTap">
                 <view class="plus-inner">
@@ -78,7 +85,19 @@
             </view>
           </view>
         </view>
+        <view class="distributeOrder-buttons">
+          <view class="distributeOrder-button" catchtap="onRealNumConfirm">确 定</view>
+        </view>
       </view>
     </view>
   </view>
+
+  <view class="foot">
+    <view class="selector">
+      <view class="selector-label">全部选择</view>
+      <switch type="checkbox" bindchange="onAllSelectChange" />
+    </view>
+    <view class="button" catchtap="onDeliveryTap">发 货</view>
+  </view>
+
 </view>

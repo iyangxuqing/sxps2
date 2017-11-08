@@ -1,9 +1,47 @@
 .container {
   padding-left: 30rpx;
   padding-right: 30rpx;
+  padding-bottom: 110rpx;
+}
+
+.foot {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 110rpx;
+  padding: 0 30rpx;
+  background-color: #f0f0f0;
+}
+
+.foot .selector {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.foot .button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 280rpx;
+  height: 70rpx;
+  color: #fff;
+  border-radius: 8rpx;
+  background-color: #f33;
+}
+
+.selector-label {
+  font-size: 30rpx;
+  color: #666;
+  margin-right: 10rpx;
 }
 
 .order {
+  position: relative;
   display: flex;
   align-items: center;
   height: 140rpx;
@@ -45,11 +83,27 @@
 }
 
 .order-num {
-  font-size: 26rpx;
-  color: #888;
+  font-size: 32rpx;
+  color: #666;
+}
+
+.order-realNum {
+  position: absolute;
+  top: 36rpx;
+  right: 100rpx;
+  font-size: 30rpx;
+  color: #f00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160rpx;
+  height: 70rpx;
+  transform: rotate(10deg);
+  border: 4rpx solid #f00;
 }
 
 .buyer {
+  position: relative;
   font-size: 30rpx;
   color: #666;
   padding: 20rpx;
@@ -61,12 +115,19 @@
   margin-top: 0;
 }
 
-.buyer-row{
+.buyer-row {
   display: flex;
   align-items: center;
 }
-.buyer-row + .buyer-row{
+
+.buyer-row + .buyer-row {
   margin-top: 6rpx;
+}
+
+.buyer-selector {
+  position: absolute;
+  top: 80rpx;
+  right: 30rpx;
 }
 
 .popup {
@@ -146,7 +207,7 @@
 .distributeOrder-title {
   height: 60rpx;
   line-height: 60rpx;
-  font-size: 40rpx;
+  font-size: 50rpx;
 }
 
 .distributeOrder-descs {
@@ -156,11 +217,21 @@
   color: #888;
 }
 
+.distributeOrder-row {
+  display: flex;
+  align-items: center;
+}
+
 .distributeOrder-price {
   height: 60rpx;
   line-height: 60rpx;
   font-size: 32rpx;
-  color: red;
+  color: #333;
+}
+
+.distributeOrder-num {
+  color: #333;
+  margin-left: 60rpx;
 }
 
 .distributeOrder-number {
@@ -170,6 +241,7 @@
   width: 100%;
   height: 100rpx;
   font-size: 32rpx;
+  margin-top: 10rpx;
 }
 
 .minus, .plus {
@@ -205,3 +277,20 @@
   text-align: center;
 }
 
+.distributeOrder-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 110rpx;
+}
+
+.distributeOrder-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 280rpx;
+  height: 70rpx;
+  color: #fff;
+  border-radius: 10rpx;
+  background-color: #f00;
+}

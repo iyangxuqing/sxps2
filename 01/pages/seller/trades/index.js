@@ -74,7 +74,7 @@ Page({
           title: order.title,
           image: order.image,
           descs: order.descs,
-          price: order.price,
+          price: Number(order.price).toFixed(2),
           num: 0,
         })
       }
@@ -88,11 +88,14 @@ Page({
     let iid = e.currentTarget.dataset.iid
     let buyerOrders = this.data.buyerOrders
     let distributeOrder = {}
-    for(let i in buyerOrders){
-      if(buyerOrders[i].bid == bid){
-        for(let j in buyerOrders[i].orders){
-          if(buyerOrders[i].orders[j].iid == iid){
-            distributeOrder = buyerOrders[i].orders[j]
+    for (let i in buyerOrders) {
+      if (buyerOrders[i].bid == bid) {
+        for (let j in buyerOrders[i].orders) {
+          let order = buyerOrders[i].orders[j]
+          if (order.iid == iid) {
+            distributeOrder = order
+            distributeOrder.bid = bid
+            distributeOrder.realNum = order.realNum || order.num
             break
           }
         }
@@ -115,6 +118,121 @@ Page({
     this.setData({
       'popup.show': false
     })
+  },
+
+  onMinusTap: function (e) {
+    let dOrder = this.data.distributeOrder
+    if (dOrder.realNum > 0) {
+      dOrder.realNum--
+    }
+    this.setData({
+      distributeOrder: dOrder
+    })
+  },
+
+  onRealNumInput: function (e) {
+    let realNum = e.detail.value
+    let dOrder = this.data.distributeOrder
+    if (realNum >= 0 && realNum < dOrder.num * 2) {
+      dOrder.realNum = realNum
+    } else {
+      dOrder.realNum = dOrder.num
+    }
+    this.setData({
+      distributeOrder: dOrder
+    })
+  },
+
+  onPlusTap: function (e) {
+    let dOrder = this.data.distributeOrder
+    if (dOrder.realNum < dOrder.num * 2) {
+      dOrder.realNum++
+    }
+    this.setData({
+      distributeOrder: dOrder
+    })
+  },
+
+  onRealNumConfirm: function (e) {
+    let dOrder = this.data.distributeOrder
+    let buyerOrders = this.data.buyerOrders
+    let bid = dOrder.bid
+    let iid = dOrder.iid
+    for (let i in buyerOrders) {
+      if (buyerOrders[i].bid == bid) {
+        for (let j in buyerOrders[i].orders) {
+          if (buyerOrders[i].orders[j].iid == iid) {
+            buyerOrders[i].orders[j].realNum = dOrder.realNum
+            break
+          }
+        }
+        break
+      }
+    }
+    this.setData({
+      buyerOrders,
+      'popup.show': false,
+    })
+  },
+
+  onBuyerSelectChange: function (e) {
+    let value = e.detail.value
+    let bid = e.currentTarget.dataset.bid
+    let buyerOrders = this.data.buyerOrders
+    for (let i in buyerOrders) {
+      if (buyerOrders[i].bid == bid) {
+        buyerOrders[i].selected = value
+      }
+    }
+    this.setData({
+      buyerOrders
+    })
+  },
+
+  onAllSelectChange: function (e) {
+    let value = e.detail.value
+    let buyerOrders = this.data.buyerOrders
+    for (let i in buyerOrders) {
+      buyerOrders[i].selected = value
+    }
+    this.setData({
+      buyerOrders
+    })
+  },
+
+  onDeliveryTap: function (e) {
+    let buyerOrders = this.data.buyerOrders
+    let selectedCount = 0;
+    for (let i in buyerOrders) {
+      if (buyerOrders[i].selected) {
+        selectedCount++
+        for (let j in buyerOrders[i].orders) {
+          if (!('realNum' in buyerOrders[i].orders[j])) {
+            let message = "收货人：" + buyerOrders[i].name + "，"
+            message = message + "订单时间：" + buyerOrders[i].time + "，"
+            message = message + "该订单有商品没有配货，请先完成配货。"
+            wx.showModal({
+              title: '订单发货',
+              content: message,
+              showCancel: false,
+              success: function () {
+                return
+              }
+            })
+          }
+        }
+      }
+    }
+    if (selectedCount == 0) {
+      wx.showModal({
+        title: '订单发货',
+        content: '请选选择需要发货的订单。在订单可以发货之前，需要先完成对该订单的配货。',
+        showCancel: false,
+        success: function () {
+          return
+        }
+      })
+    }
   },
 
   onLoad: function (options) {
