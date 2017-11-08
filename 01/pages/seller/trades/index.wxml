@@ -1,0 +1,84 @@
+<view class="container">
+  <view class="itemOrders" style="display:none">
+    <block wx:for="{{itemOrders}}" wx:key="" wx:for-item="order">
+      <view class="order">
+        <view class="order-image">
+          <image src="{{order.image}}" mode="aspectFill" />
+        </view>
+        <view class="order-text">
+          <view class="order-title">{{order.title}}</view>
+          <view class="order-descs">{{order.descs || order.title + '(500克)'}}</view>
+        </view>
+        <view class="order-number">
+          <view class="order-num">{{order.num}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+  <view class="buyerOrders">
+    <block wx:for="{{buyerOrders}}" wx:key="" wx:for-item="buyer">
+      <view class="buyer">
+        <view class="buyer-row buyer-time">下单时间： {{buyer.time}}</view>
+        <view class="buyer-row">
+          <view class="buyer-name">收 货 人： {{buyer.name}}</view>
+        </view>
+        <view class="buyer-row">
+          <view class="buyer-phone">联系电话： {{buyer.phone}}</view>
+        </view>
+        <view class="buyer-row buyer-address">收货地址： {{buyer.address}}</view>
+      </view>
+      <view class="orders">
+        <block wx:for="{{buyer.orders}}" wx:key="" wx:for-item="order">
+          <view class="order" data-bid="{{buyer.bid}}" data-iid="{{order.iid}}" catchtap="onOrderTap">
+            <view class="order-image">
+              <image src="{{order.image + youImageMode_v2}}" mode="aspectFill" />
+            </view>
+            <view class="order-text">
+              <view class="order-title">{{order.title}}</view>
+              <view class="order-descs">{{order.descs || order.title + '(500克)'}}</view>
+            </view>
+            <view class="order-number">
+              <view class="order-num">{{order.num}}</view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </block>
+  </view>
+
+  <view class="popup {{popup.show ? 'popup-show': ''}}">
+    <view class="popup-mask" wx:if="{{popup.show}}" catchtap="onPopupMaskTap"></view>
+    <view class="popup-content">
+      <view class="popup-content-close" catchtap="onPopupClose">
+        <image src="/images/icon/delete.png" />
+      </view>
+      <view class="distributeOrder">
+        <view class="distributeOrder-info">
+          <view class="distributeOrder-image">
+            <image src="{{distributeOrder.image ? distributeOrder.image + youImageMode_v5 : ''}}" mode="aspectFill" />
+          </view>
+          <view class="distributeOrder-text">
+            <view class="distributeOrder-title">{{distributeOrder.title}}</view>
+            <view class="distributeOrder-descs">{{distributeOrder.descs || distributeOrder.title + '(500克)'}}</view>
+            <view class="distributeOrder-price">￥{{distributeOrder.price}}</view>
+            <view class="distributeOrder-number">
+              <view class="minus" catchtap="onMinusTap">
+                <view class="minus-inner">
+                  <image src="/images/icon/minus.png" />
+                </view>
+              </view>
+              <view class="number">
+                <input value="{{distributeOrder.num}}" type="number" maxlength="3" bindinput="onNumInput" cursor-spacing="20" />
+              </view>
+              <view class="plus" catchtap="onPlusTap">
+                <view class="plus-inner">
+                  <image src="/images/icon/plus.png" />
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

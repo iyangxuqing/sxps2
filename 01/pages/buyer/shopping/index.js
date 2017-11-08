@@ -11,7 +11,6 @@ Page({
 
   onOrderTap: function (e) {
     let iid = e.currentTarget.dataset.iid
-    console.log(iid)
     wx.navigateTo({
       url: '../item/index?id=' + iid,
     })
@@ -70,50 +69,6 @@ Page({
           }.bind(this))
         }
       }.bind(this)
-    })
-  },
-
-  onOrderSubmit2: function (e) {
-    let that = this
-    wx.showModal({
-      title: '订单提交',
-      content: '　　确定把购物车中的商品进行提交吗？',
-      success: function (res) {
-        if (res.confirm) {
-          let orders = []
-          let shoppings = wx.getStorageSync('shoppings')
-          Item.getItems().then(function (items) {
-            for (let i in shoppings) {
-              for (let j in items) {
-                if (shoppings[i].iid == items[j].id) {
-                  let order = {
-                    iid: items[j].id,
-                    sid: items[j].sid,
-                    title: items[j].title,
-                    descs: items[j].descs,
-                    image: items[j].images[0],
-                    price: items[j].price,
-                    num: shoppings[i].num,
-                  }
-                  orders.push(order)
-                  break
-                }
-              }
-            }
-            Trade.add({ orders }).then(function (res) {
-              wx.showModal({
-                title: '订单提交',
-                content: '　　订单提交成功，将进入采买程序。',
-                showCancel: false,
-                success: function () {
-                  wx.removeStorageSync('shoppings')
-                  that.loadData({ nocache: true })
-                }
-              })
-            })
-          })
-        }
-      }
     })
   },
 
@@ -203,37 +158,22 @@ Page({
     this.loadData()
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
 
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {
 
   }

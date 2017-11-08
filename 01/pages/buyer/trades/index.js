@@ -44,8 +44,6 @@ Page({
       success: function (res) {
         if (res.confirm) {
           Trade.addTrade_buyer(trade).then(function (res) {
-            trade.id = res.insertId
-            trade.status = '已提交'
             wx.showModal({
               title: '订单提交',
               content: '　　订单提交成功，将进入采买程序。',
@@ -70,18 +68,15 @@ Page({
       success: function (res) {
         if (res.confirm) {
           Trade.del({ id }).then(function (res) {
-            let shoppings = wx.getStorageSync('shoppings') || []
             let trade = {}
-            let trades = this.trades
-            let index = -1
+            let trades = this.data.trades
+            let shoppings = wx.getStorageSync('shoppings') || []
             for (let i in trades) {
               if (trades[i].id == id) {
                 trade = trades[i]
-                index = i
                 break
               }
             }
-            trades.splice(index, 1)
             for (let j in trade.orders) {
               let order = trade.orders[j]
               let shopping = {
@@ -121,13 +116,7 @@ Page({
       Trade.getTrades_buyer(),
     ]).then(function (res) {
       let items = res[0]
-      let trades = this.trades || res[1]
-      for (let i in trades) {
-        if (trades[i].status == '未提交') {
-          trades.splice(i, 1)
-          break
-        }
-      }
+      let trades = res[1]
       let shoppings = wx.getStorageSync('shoppings')
       if (shoppings.length > 0) {
         let trade = {
@@ -204,14 +193,6 @@ Page({
   },
 
   onLoad: function () {
-
-  },
-
-  onReady: function () {
-
-  },
-
-  onShow: function () {
     let index = wx.getStorageSync('orderIndex') || 0
     let navs = this.data.navs
     for (let i in navs) {
@@ -219,6 +200,13 @@ Page({
     }
     navs[index].active = true
     this.setData({ navs })
+  },
+
+  onReady: function () {
+
+  },
+
+  onShow: function () {
     this.loadTrades()
   },
 

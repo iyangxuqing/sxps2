@@ -18,7 +18,7 @@ Page({
     }
     item.amount = Number(item.num * item.price).toFixed(2)
     this.setData({ item })
-    this.addShopping()
+    this.setShopping()
   },
 
   onItemNumberPlus: function (e) {
@@ -29,7 +29,7 @@ Page({
     if (item.num < item.minVol) item.num = item.minVol
     item.amount = Number(item.num * item.price).toFixed(2)
     this.setData({ item })
-    this.addShopping()
+    this.setShopping()
   },
 
   onItemNumberInput: function (e) {
@@ -43,7 +43,7 @@ Page({
     item.num = num
     item.amount = Number(item.num * item.price).toFixed(2)
     this.setData({ item })
-    this.addShopping()
+    this.setShopping()
   },
 
   onGotoBuy: function (e) {
@@ -58,7 +58,7 @@ Page({
     })
   },
 
-  addShopping: function () {
+  setShopping: function () {
     let item = this.data.item
     let shoppings = wx.getStorageSync('shoppings') || []
     let shopping = {
@@ -76,9 +76,8 @@ Page({
     if (index < 0) shoppings.push(shopping)
     if (shopping.num == 0) shoppings.splice(index, 1)
     wx.setStorageSync('shoppings', shoppings)
-
-    this.rotateShoppingTag()
     app.listener.trigger('shoppings')
+    this.rotateShoppingTag()
   },
 
   rotateShoppingTag: function () {
@@ -102,24 +101,7 @@ Page({
     })
   },
 
-  onShoppingsUpdate: function () {
-    let item = this.data.item
-    let shoppings = wx.getStorageSync('shoppings')
-    for (let i in shoppings) {
-      if (shoppings[i].iid == item.id) {
-        item.num = shoppings[i].num
-        item.amount = Number(item.num * item.price).toFixed(2)
-        break
-      }
-    }
-    this.setData({
-      item: item,
-    })
-  },
-
   onLoad: function (options) {
-    app.listener.on('shoppings', this.onShoppingsUpdate)
-
     let id = options.id
     let item = {}
     let seller = {}
@@ -144,17 +126,20 @@ Page({
           break
         }
       }
+
       wx.setNavigationBarTitle({
         title: item.title,
       })
 
       let shoppings = wx.getStorageSync('shoppings')
       for (let i in shoppings) {
-        if (shoppings[i].iid == id) {
+        if (shoppings[i].iid == item.id) {
           item.num = shoppings[i].num
           item.amount = Number(item.num * item.price).toFixed(2)
+          break
         }
       }
+
       this.setData({
         item: item,
         seller: seller,
@@ -164,51 +149,30 @@ Page({
     }.bind(this))
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
 
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {
 
   }

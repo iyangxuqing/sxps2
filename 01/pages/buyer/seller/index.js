@@ -18,12 +18,13 @@ Page({
   },
 
   onShoppingsUpdate: function () {
-    let shoppings = wx.getStorageSync('shoppings') || []
+    let shoppings = wx.getStorageSync('shoppings')
     let items = this.data.items
-    for (let i in shoppings) {
-      for (let j in items) {
-        if (shoppings[i].iid == items[j].id) {
-          items[j].num = shoppings[i].num
+    for (let i in items) {
+      items[i].num = 0
+      for (let j in shoppings) {
+        if (items[i].id == shoppings[j].iid) {
+          items[i].num = shoppings[j].num
           break
         }
       }
@@ -32,9 +33,7 @@ Page({
   },
 
   onLoad: function (options) {
-
     app.listener.on('shoppings', this.onShoppingsUpdate)
-
     let id = options.id
     Promise.all([
       Shop.getShops(),
@@ -55,11 +54,11 @@ Page({
           items.push(_items[i])
         }
       }
-      let shoppings = wx.getStorageSync('shoppings') || []
-      for (let i in shoppings) {
-        for (let j in items) {
-          if (shoppings[i].iid == items[j].id) {
-            items[j].num = shoppings[i].num
+      let shoppings = wx.getStorageSync('shoppings')
+      for (let i in items) {
+        for (let j in shoppings) {
+          if (items[i].id == shoppings[j].iid) {
+            items[i].num = shoppings[j].num
             break
           }
         }
@@ -74,51 +73,30 @@ Page({
     }.bind(this))
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
 
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {
 
   }

@@ -1,0 +1,207 @@
+.container {
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.order {
+  display: flex;
+  align-items: center;
+  height: 140rpx;
+  border-bottom: 1px solid #ddd;
+}
+
+.itemOrder:first-child {
+  border-top: 1px solid #ddd;
+}
+
+.order-image {
+  width: 120rpx;
+  height: 120rpx;
+  border: 1px solid #eee;
+}
+
+.order-text {
+  flex-grow: 1;
+  margin-left: 20rpx;
+}
+
+.order-title {
+  font-size: 34rpx;
+  margin-bottom: 10rpx;
+}
+
+.order-descs {
+  font-size: 26rpx;
+  color: #888;
+}
+
+.order-number {
+  text-align: right;
+  padding-right: 40rpx;
+}
+
+.order-amount {
+  margin-bottom: 10rpx;
+}
+
+.order-num {
+  font-size: 26rpx;
+  color: #888;
+}
+
+.buyer {
+  font-size: 30rpx;
+  color: #666;
+  padding: 20rpx;
+  background-color: #f0f0f0;
+  margin-top: 30rpx;
+}
+
+.buyer:first-child {
+  margin-top: 0;
+}
+
+.buyer-row{
+  display: flex;
+  align-items: center;
+}
+.buyer-row + .buyer-row{
+  margin-top: 6rpx;
+}
+
+.popup {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 9999;
+  width: 100%;
+}
+
+.popup.popup-show {
+  display: block;
+}
+
+.popup-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 10, 10, 0.5);
+}
+
+.popup-content {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0;
+  transition: all 300ms ease;
+  background-color: #fff;
+}
+
+.popup-content-close {
+  position: absolute;
+  top: -6rpx;
+  right: -6rpx;
+  width: 100rpx;
+  height: 100rpx;
+  padding: 30rpx;
+}
+
+.popup-show .popup-content {
+  height: 430rpx;
+}
+
+.distributeOrder {
+  font-size: 30rpx;
+  padding: 30rpx;
+  background-color: #fff;
+}
+
+.distributeOrder-info {
+  display: flex;
+}
+
+.distributeOrder-image {
+  width: 280rpx;
+  height: 280rpx;
+  border: 1px solid #ddd;
+}
+
+.distributeOrder-text {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 280rpx;
+  margin-left: 30rpx;
+}
+
+.distributeOrder-text {
+  flex-grow: 1;
+  margin-left: 30rpx;
+}
+
+.distributeOrder-title {
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 40rpx;
+}
+
+.distributeOrder-descs {
+  height: 40rpx;
+  line-height: 40rpx;
+  font-size: 28rpx;
+  color: #888;
+}
+
+.distributeOrder-price {
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 32rpx;
+  color: red;
+}
+
+.distributeOrder-number {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100rpx;
+  font-size: 32rpx;
+}
+
+.minus, .plus {
+  width: 100rpx;
+  height: 100rpx;
+  padding: 10rpx;
+  flex-shrink: 0;
+}
+
+.minus {
+  margin-left: -10rpx;
+}
+
+.plus {
+  margin-right: -10rpx;
+}
+
+.minus-inner, .plus-inner {
+  width: 100%;
+  height: 100%;
+  padding: 20rpx;
+  border-radius: 8rpx;
+  border: 1px solid #ddd;
+}
+
+.number {
+  width: 200rpx;
+}
+
+.number input {
+  width: 100%;
+  padding: 20rpx 0;
+  text-align: center;
+}
+

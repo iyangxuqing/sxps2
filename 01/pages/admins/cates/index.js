@@ -158,7 +158,6 @@ Page({
 
   onCateDelete: function (id) {
     Cate.del({ id }).then(function (res) {
-      console.log(res)
       if (res.reason) {
         wx.showModal({
           title: '提示',

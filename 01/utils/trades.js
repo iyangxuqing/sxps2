@@ -6,10 +6,11 @@ let app = getApp()
 function addTrade_buyer(trade) {
   return new Promise(function (resolve, reject) {
     http.post({
-      url: 'sxps/trade.php?m=add',
-      data: trade.orders
+      url: 'sxps/trade_v2.php?m=add',
+      data: trade
     }).then(function (res) {
       if (res.errno === 0) {
+        app.trades_buyer = res.trades
         resolve(res)
       } else {
         reject(res)
@@ -24,11 +25,11 @@ function getTrades_buyer(options = {}) {
   return new Promise(function (resolve, reject) {
     let trades = app.trades_buyer
     if (trades && !options.nocache) {
-      resolve(trades)
+      resolve(JSON.parse(JSON.stringify(trades)))
     } else {
       getTrades({ buyer: true }).then(function (trades) {
         app.trades_buyer = trades
-        resolve(trades)
+        resolve(JSON.parse(JSON.stringify(trades)))
       }).catch(function (res) {
         reject(res)
       })
@@ -39,7 +40,7 @@ function getTrades_buyer(options = {}) {
 function getTrades(options) {
   return new Promise(function (resolve, reject) {
     http.get({
-      url: 'sxps/trade.php?m=get',
+      url: 'sxps/trade_v2.php?m=get',
     }).then(function (res) {
       if (res.errno === 0) {
         resolve(res.trades)
@@ -55,11 +56,30 @@ function getTrades(options) {
 function delTrade(options) {
   return new Promise(function (resolve, reject) {
     http.get({
-      url: 'sxps/trade.php?m=del',
+      url: 'sxps/trade_v2.php?m=del',
       data: { id: options.id }
     }).then(function (res) {
       if (res.errno === 0) {
-        resolve(res.trades)
+        app.trades_buyer = res.trades
+        resolve(res)
+      } else {
+        reject(res)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
+  })
+}
+
+function getTrades_seller(options) {
+  return new Promise(function (resolve, reject) {
+    http.get({
+      url: 'sxps/trade_seller.php?m=get',
+      data: { sid: wx.getStorageSync('sellerId') }
+    }).then(function (res) {
+      if (res.errno === 0) {
+        app.trades_seller = res.orders
+        resolve(res.orders)
       } else {
         reject(res)
       }
@@ -75,4 +95,6 @@ export var Trade = {
 
   addTrade_buyer: addTrade_buyer,
   getTrades_buyer: getTrades_buyer,
+
+  getTrades_seller: getTrades_seller,
 }
