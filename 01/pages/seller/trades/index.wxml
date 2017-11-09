@@ -1,51 +1,66 @@
 <view class="container">
-  <view class="itemOrders" style="display:none">
-    <block wx:for="{{itemOrders}}" wx:key="" wx:for-item="order">
-      <view class="order">
-        <view class="order-image">
-          <image src="{{order.image}}" mode="aspectFill" />
+
+  <view class="orderItems">
+    <block wx:for="{{orderItems}}" wx:key="" wx:for-item="item">
+      <view class="orderItem">
+        <view class="item item-head">
+          <view class="item-image">
+            <image src="{{item.image}}" mode="aspectFill" />
+          </view>
+          <view class="item-text">
+            <view class="item-title">{{item.title}}</view>
+            <view class="item-descs">{{item.descs || item.title + '(500克)'}}</view>
+          </view>
+          <view class="item-number">
+            <view class="item-num">合计：{{item.num}}</view>
+          </view>
         </view>
-        <view class="order-text">
-          <view class="order-title">{{order.title}}</view>
-          <view class="order-descs">{{order.descs || order.title + '(500克)'}}</view>
-        </view>
-        <view class="order-number">
-          <view class="order-num">{{order.num}}</view>
+        <view class="buyers">
+          <block wx:for="{{item.buyers}}" wx:key="" wx:for-item="buyer">
+            <view class="buyer" data-iid="{{item.iid}}" data-bid="{{buyer.bid}}" catchtap="onDistributeTap">
+              <view class="buyer-infos">
+                <view class="buyer-info">收 货 人：{{buyer.name}}</view>
+                <view class="buyer-info">联系电话：{{buyer.phone}}</view>
+                <view class="buyer-info">收货地址：{{buyer.address}}</view>
+              </view>
+              <view class="buyer-num">{{buyer.num}}</view>
+              <view class="buyer-realNum" wx:if="{{buyer.realNum}}">实发 {{buyer.realNum}}</view>
+            </view>
+          </block>
         </view>
       </view>
     </block>
   </view>
-  <view class="buyerOrders">
-    <block wx:for="{{buyerOrders}}" wx:key="" wx:for-item="buyer">
-      <view class="buyer">
-        <view class="buyer-row buyer-time">下单时间： {{buyer.time}}</view>
-        <view class="buyer-row">
-          <view class="buyer-name">收 货 人： {{buyer.name}}</view>
-        </view>
-        <view class="buyer-row">
-          <view class="buyer-phone">联系电话： {{buyer.phone}}</view>
-        </view>
-        <view class="buyer-row buyer-address">收货地址： {{buyer.address}}</view>
-        <view class="buyer-selector">
-          <switch checked="{{buyer.selected}}" type="checkbox" data-bid="{{buyer.bid}}" bindchange="onBuyerSelectChange" />
-        </view>
-      </view>
-      <view class="orders">
-        <block wx:for="{{buyer.orders}}" wx:key="" wx:for-item="order">
-          <view class="order" data-bid="{{buyer.bid}}" data-iid="{{order.iid}}" catchtap="onOrderTap">
-            <view class="order-image">
-              <image src="{{order.image + youImageMode_v2}}" mode="aspectFill" />
-            </view>
-            <view class="order-text">
-              <view class="order-title">{{order.title}}</view>
-              <view class="order-descs">{{order.descs || order.title + '(500克)'}}</view>
-            </view>
-            <view class="order-number">
-              <view class="order-num">{{order.num}}</view>
-              <view class="order-realNum" wx:if="{{order.realNum}}">实发 {{order.realNum || 25}}</view>
-            </view>
+
+  <view class="orderBuyers">
+    <block wx:for="{{orderBuyers}}" wx:key="" wx:for-item="buyer">
+      <view class="orderBuyer">
+        <view class="buyer buyer-head">
+          <view class="buyer-infos">
+            <view class="buyer-info">下单时间：{{buyer.time}}</view>
+            <view class="buyer-info">收 货 人：{{buyer.name}}</view>
+            <view class="buyer-info">联系电话：{{buyer.phone}}</view>
+            <view class="buyer-info">收货地址：{{buyer.address}}</view>
           </view>
-        </block>
+          <view class="buyer-selector">
+            <switch checked="{{buyer.selected}}" type="checkbox" data-bid="{{buyer.bid}}" bindchange="onBuyerSelectChange" />
+          </view>
+        </view>
+        <view class="items">
+          <block wx:for="{{buyer.items}}" wx:key="" wx:for-item="item">
+            <view class="item" data-bid="{{buyer.bid}}" data-iid="{{item.iid}}" catchtap="onDistributeTap">
+              <view class="item-image">
+                <image src="{{item.image + youImageMode_v2}}" mode="aspectFill" />
+              </view>
+              <view class="item-text">
+                <view class="item-title">{{item.title}}</view>
+                <view class="item-descs">{{item.descs || item.title + '(500克)'}}</view>
+              </view>
+              <view class="item-num">{{item.num}}</view>
+              <view class="item-realNum" wx:if="{{item.realNum}}">实发 {{item.realNum}}</view>
+            </view>
+          </block>
+        </view>
       </view>
     </block>
   </view>
@@ -56,26 +71,26 @@
       <view class="popup-content-close" catchtap="onPopupClose">
         <image src="/images/icon/delete.png" />
       </view>
-      <view class="distributeOrder">
-        <view class="distributeOrder-info">
-          <view class="distributeOrder-image">
-            <image src="{{distributeOrder.image ? distributeOrder.image + youImageMode_v5 : ''}}" mode="aspectFill" />
+      <view class="distributeItem">
+        <view class="distributeItem-info">
+          <view class="distributeItem-image">
+            <image src="{{distributeItem.image ? distributeItem.image + youImageMode_v5 : ''}}" mode="aspectFill" />
           </view>
-          <view class="distributeOrder-text">
-            <view class="distributeOrder-title">{{distributeOrder.title}}</view>
-            <view class="distributeOrder-descs">{{distributeOrder.descs || distributeOrder.title + '(500克)'}}</view>
-            <view class="distributeOrder-row">
-              <view class="distributeOrder-price">￥{{distributeOrder.price}}</view>
-              <view class="distributeOrder-num">预订量：{{distributeOrder.num}}</view>
+          <view class="distributeItem-text">
+            <view class="distributeItem-title">{{distributeItem.title}}</view>
+            <view class="distributeItem-descs">{{distributeItem.descs || distributeItem.title + '(500克)'}}</view>
+            <view class="distributeItem-row">
+              <view class="distributeItem-price">￥{{distributeItem.price}}</view>
+              <view class="distributeItem-num">预订量：{{distributeItem.num}}</view>
             </view>
-            <view class="distributeOrder-number">
+            <view class="distributeItem-number">
               <view class="minus" catchtap="onMinusTap">
                 <view class="minus-inner">
                   <image src="/images/icon/minus.png" />
                 </view>
               </view>
               <view class="number">
-                <input value="{{distributeOrder.realNum}}" type="digit" maxlength="5" bindblur="onRealNumInput" cursor-spacing="30" />
+                <input value="{{distributeItem.realNum}}" type="digit" maxlength="5" bindblur="onRealNumInput" cursor-spacing="30" />
               </view>
               <view class="plus" catchtap="onPlusTap">
                 <view class="plus-inner">
@@ -85,8 +100,8 @@
             </view>
           </view>
         </view>
-        <view class="distributeOrder-buttons">
-          <view class="distributeOrder-button" catchtap="onRealNumConfirm">确 定</view>
+        <view class="distributeItem-buttons">
+          <view class="distributeItem-button" catchtap="onRealNumConfirm">确 定</view>
         </view>
       </view>
     </view>

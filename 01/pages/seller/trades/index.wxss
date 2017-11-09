@@ -23,7 +23,7 @@
   align-items: center;
 }
 
-.foot .button{
+.foot .button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,56 +40,46 @@
   margin-right: 10rpx;
 }
 
-.order {
+.orderBuyer {
+  color: #666;
+  margin-bottom: 40rpx;
+}
+
+.buyer {
   position: relative;
   display: flex;
   align-items: center;
-  height: 140rpx;
-  border-bottom: 1px solid #ddd;
+  font-size: 30rpx;
+  padding: 20rpx;
+  border-bottom: 2rpx solid #ddd;
 }
 
-.itemOrder:first-child {
-  border-top: 1px solid #ddd;
+.buyer.buyer-head {
+  background-color: #f0f0f0;
+  border-bottom: 0 solid #ddd;
 }
 
-.order-image {
-  width: 120rpx;
-  height: 120rpx;
-  border: 1px solid #eee;
-}
-
-.order-text {
+.buyer-infos {
   flex-grow: 1;
-  margin-left: 20rpx;
 }
 
-.order-title {
-  font-size: 34rpx;
-  margin-bottom: 10rpx;
+.buyer-info + .buyer-info {
+  margin-top: 6rpx;
 }
 
-.order-descs {
-  font-size: 26rpx;
-  color: #888;
+.buyer-selector {
+  margin-right: 10rpx;
 }
 
-.order-number {
-  text-align: right;
-  padding-right: 40rpx;
-}
-
-.order-amount {
-  margin-bottom: 10rpx;
-}
-
-.order-num {
+.buyer-num {
   font-size: 32rpx;
-  color: #666;
+  text-align: right;
+  padding-right: 30rpx;
 }
 
-.order-realNum {
+.buyer-realNum {
   position: absolute;
-  top: 36rpx;
+  top: 30rpx;
   right: 100rpx;
   font-size: 30rpx;
   color: #f00;
@@ -102,32 +92,63 @@
   border: 4rpx solid #f00;
 }
 
-.buyer {
-  position: relative;
-  font-size: 30rpx;
+.orderItem {
   color: #666;
-  padding: 20rpx;
-  background-color: #f0f0f0;
-  margin-top: 30rpx;
+  margin-bottom: 40rpx;
 }
 
-.buyer:first-child {
-  margin-top: 0;
-}
-
-.buyer-row {
+.item {
+  position: relative;
   display: flex;
   align-items: center;
+  color: #666;
+  padding: 20rpx;
+  border-bottom: 2rpx solid #ddd;
 }
 
-.buyer-row + .buyer-row {
-  margin-top: 6rpx;
+.item.item-head {
+  background-color: #f0f0f0;
+  border-bottom: 0 solid #ddd;
 }
 
-.buyer-selector {
+.item-image {
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.item-text {
+  flex-grow: 1;
+  margin-left: 20rpx;
+}
+
+.item-title {
+  font-size: 34rpx;
+  color: #000;
+  margin-bottom: 10rpx;
+}
+
+.item-descs {
+  font-size: 26rpx;
+}
+
+.item-num {
+  text-align: right;
+  padding-right: 30rpx;
+}
+
+.item-realNum {
   position: absolute;
-  top: 80rpx;
-  right: 30rpx;
+  top: 36rpx;
+  right: 100rpx;
+  font-size: 30rpx;
+  color: #f00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160rpx;
+  height: 70rpx;
+  transform: rotate(10deg);
+  border: 4rpx solid #f00;
 }
 
 .popup {
@@ -174,23 +195,23 @@
   height: 430rpx;
 }
 
-.distributeOrder {
+.distributeItem {
   font-size: 30rpx;
   padding: 30rpx;
   background-color: #fff;
 }
 
-.distributeOrder-info {
+.distributeItem-info {
   display: flex;
 }
 
-.distributeOrder-image {
+.distributeItem-image {
   width: 280rpx;
   height: 280rpx;
   border: 1px solid #ddd;
 }
 
-.distributeOrder-text {
+.distributeItem-text {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -199,42 +220,42 @@
   margin-left: 30rpx;
 }
 
-.distributeOrder-text {
+.distributeItem-text {
   flex-grow: 1;
   margin-left: 30rpx;
 }
 
-.distributeOrder-title {
+.distributeItem-title {
   height: 60rpx;
   line-height: 60rpx;
   font-size: 50rpx;
 }
 
-.distributeOrder-descs {
+.distributeItem-descs {
   height: 40rpx;
   line-height: 40rpx;
   font-size: 28rpx;
   color: #888;
 }
 
-.distributeOrder-row {
+.distributeItem-row {
   display: flex;
   align-items: center;
 }
 
-.distributeOrder-price {
+.distributeItem-price {
   height: 60rpx;
   line-height: 60rpx;
   font-size: 32rpx;
   color: #333;
 }
 
-.distributeOrder-num {
+.distributeItem-num {
   color: #333;
   margin-left: 60rpx;
 }
 
-.distributeOrder-number {
+.distributeItem-number {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -277,14 +298,14 @@
   text-align: center;
 }
 
-.distributeOrder-buttons {
+.distributeItem-buttons {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   height: 110rpx;
 }
 
-.distributeOrder-button {
+.distributeItem-button {
   display: flex;
   align-items: center;
   justify-content: center;

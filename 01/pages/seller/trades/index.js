@@ -9,67 +9,89 @@ Page({
     youImageMode_v5: app.youImageMode_v5,
   },
 
-  getItemOrders: function (orders) {
-    let itemOrders = []
+  getOrderItems: function (orders) {
+    let orderItems = []
     for (let i in orders) {
       let order = orders[i]
       let index = -1
-      for (let j in itemOrders) {
-        if (itemOrders[j].iid == order.iid) {
+      for (let j in orderItems) {
+        if (orderItems[j].iid == order.iid) {
           index = j
           break
         }
       }
       if (index < 0) {
-        index = itemOrders.length
-        itemOrders.push({
+        index = orderItems.length
+        orderItems.push({
           iid: order.iid,
           title: order.title,
           image: order.image,
           descs: order.descs,
           num: 0,
+          buyers: [],
         })
       }
-      itemOrders[index].num = itemOrders[index].num + Number(order.num)
-    }
-    return itemOrders
-  },
-
-  getBuyerOrders: function (orders) {
-    let buyerOrders = []
-    for (let i in orders) {
-      let order = orders[i]
-      let index = -1
-      for (let j in buyerOrders) {
-        if (buyerOrders[j].bid == order.bid) {
-          index = j
+      let buyers = orderItems[index].buyers
+      let buyerIndex = -1
+      for (let j in buyers) {
+        if (buyers[j].bid == order.bid) {
+          buyerIndex = j
           break
         }
       }
-      if (index < 0) {
-        index = buyerOrders.length
-        buyerOrders.push({
+      if (buyerIndex < 0) {
+        buyerIndex = buyers.length
+        buyers.push({
           bid: order.bid,
           name: order.name,
           phone: order.phone,
           address: order.address,
           nickName: order.nickName,
           avatarUrl: order.avatarUrl,
-          orders: [],
+          num: 0,
+        })
+      }
+      orderItems[index].buyers[buyerIndex].num += Number(order.num)
+      orderItems[index].num += Number(order.num)
+    }
+    return orderItems
+  },
+
+  getOrderBuyers: function (orders) {
+    let orderBuyers = []
+    for (let i in orders) {
+      let order = orders[i]
+      let index = -1
+      for (let j in orderBuyers) {
+        if (orderBuyers[j].bid == order.bid) {
+          index = j
+          break
+        }
+      }
+      if (index < 0) {
+        index = orderBuyers.length
+        orderBuyers.push({
+          bid: order.bid,
+          name: order.name,
+          phone: order.phone,
+          address: order.address,
+          nickName: order.nickName,
+          avatarUrl: order.avatarUrl,
+          items: [],
           time: new Date(order.created * 1000).Format('yyyy-MM-dd hh:mm:ss'),
         })
       }
-      let itemOrders = buyerOrders[index].orders
+      let items = orderBuyers[index].items
       let itemIndex = -1
-      for (let j in itemOrders) {
-        if (itemOrders[j].iid == order.iid) {
+      for (let j in items) {
+        if (items[j].iid == order.iid) {
           itemIndex = j
           break
         }
       }
       if (itemIndex < 0) {
-        itemIndex = itemOrders.length
-        itemOrders.push({
+        itemIndex = items.length
+        items.push({
           iid: order.iid,
           title: order.title,
           image: order.image,
@@ -78,24 +100,24 @@ Page({
           num: 0,
         })
       }
-      itemOrders[itemIndex].num = itemOrders[itemIndex].num + Number(order.num)
+      items[itemIndex].num += Number(order.num)
     }
-    return buyerOrders
+    return orderBuyers
   },
 
-  onOrderTap: function (e) {
+  onDistributeTap: function (e) {
     let bid = e.currentTarget.dataset.bid
     let iid = e.currentTarget.dataset.iid
-    let buyerOrders = this.data.buyerOrders
-    let distributeOrder = {}
-    for (let i in buyerOrders) {
-      if (buyerOrders[i].bid == bid) {
-        for (let j in buyerOrders[i].orders) {
-          let order = buyerOrders[i].orders[j]
-          if (order.iid == iid) {
-            distributeOrder = order
-            distributeOrder.bid = bid
-            distributeOrder.realNum = order.realNum || order.num
+    let orderBuyers = this.data.orderBuyers
+    let distributeItem = {}
+    for (let i in orderBuyers) {
+      if (orderBuyers[i].bid == bid) {
+        for (let j in orderBuyers[i].items) {
+          let item = orderBuyers[i].items[j]
+          if (item.iid == iid) {
+            distributeItem = item
+            distributeItem.bid = bid
+            distributeItem.realNum = item.realNum || item.num
             break
           }
         }
@@ -103,7 +125,7 @@ Page({
       }
     }
     this.setData({
-      distributeOrder,
+      distributeItem,
       'popup.show': true
     })
   },
@@ -121,48 +143,48 @@ Page({
   },
 
   onMinusTap: function (e) {
-    let dOrder = this.data.distributeOrder
-    if (dOrder.realNum > 0) {
-      dOrder.realNum--
+    let dItem = this.data.distributeItem
+    if (dItem.realNum > 0) {
+      dItem.realNum--
     }
     this.setData({
-      distributeOrder: dOrder
+      distributeItem: dItem
     })
   },
 
   onRealNumInput: function (e) {
     let realNum = e.detail.value
-    let dOrder = this.data.distributeOrder
-    if (realNum >= 0 && realNum < dOrder.num * 2) {
-      dOrder.realNum = realNum
+    let dItem = this.data.distributeItem
+    if (realNum >= 0 && realNum < dItem.num * 2) {
+      dItem.realNum = realNum
     } else {
-      dOrder.realNum = dOrder.num
+      dItem.realNum = dItem.num
     }
     this.setData({
-      distributeOrder: dOrder
+      distributeItem: dItem
     })
   },
 
   onPlusTap: function (e) {
-    let dOrder = this.data.distributeOrder
-    if (dOrder.realNum < dOrder.num * 2) {
-      dOrder.realNum++
+    let dItem = this.data.distributeItem
+    if (dItem.realNum < dItem.num * 2) {
+      dItem.realNum++
     }
     this.setData({
-      distributeOrder: dOrder
+      distributeItem: dItem
     })
   },
 
   onRealNumConfirm: function (e) {
-    let dOrder = this.data.distributeOrder
-    let buyerOrders = this.data.buyerOrders
-    let bid = dOrder.bid
-    let iid = dOrder.iid
-    for (let i in buyerOrders) {
-      if (buyerOrders[i].bid == bid) {
-        for (let j in buyerOrders[i].orders) {
-          if (buyerOrders[i].orders[j].iid == iid) {
-            buyerOrders[i].orders[j].realNum = dOrder.realNum
+    let dItem = this.data.distributeItem
+    let orderBuyers = this.data.orderBuyers
+    let bid = dItem.bid
+    let iid = dItem.iid
+    for (let i in orderBuyers) {
+      if (orderBuyers[i].bid == bid) {
+        for (let j in orderBuyers[i].items) {
+          if (orderBuyers[i].items[j].iid == iid) {
+            orderBuyers[i].items[j].realNum = dItem.realNum
             break
           }
         }
@@ -170,7 +192,7 @@ Page({
       }
     }
     this.setData({
-      buyerOrders,
+      orderBuyers,
       'popup.show': false,
     })
   },
@@ -178,38 +200,38 @@ Page({
   onBuyerSelectChange: function (e) {
     let value = e.detail.value
     let bid = e.currentTarget.dataset.bid
-    let buyerOrders = this.data.buyerOrders
-    for (let i in buyerOrders) {
-      if (buyerOrders[i].bid == bid) {
-        buyerOrders[i].selected = value
+    let orderBuyers = this.data.orderBuyers
+    for (let i in orderBuyers) {
+      if (orderBuyers[i].bid == bid) {
+        orderBuyers[i].selected = value
       }
     }
     this.setData({
-      buyerOrders
+      orderBuyers
     })
   },
 
   onAllSelectChange: function (e) {
     let value = e.detail.value
-    let buyerOrders = this.data.buyerOrders
-    for (let i in buyerOrders) {
-      buyerOrders[i].selected = value
+    let orderBuyers = this.data.orderBuyers
+    for (let i in orderBuyers) {
+      orderBuyers[i].selected = value
     }
     this.setData({
-      buyerOrders
+      orderBuyers
     })
   },
 
   onDeliveryTap: function (e) {
-    let buyerOrders = this.data.buyerOrders
+    let orderBuyers = this.data.orderBuyers
     let selectedCount = 0;
-    for (let i in buyerOrders) {
-      if (buyerOrders[i].selected) {
+    for (let i in orderBuyers) {
+      if (orderBuyers[i].selected) {
         selectedCount++
-        for (let j in buyerOrders[i].orders) {
-          if (!('realNum' in buyerOrders[i].orders[j])) {
-            let message = "收货人：" + buyerOrders[i].name + "，"
-            message = message + "订单时间：" + buyerOrders[i].time + "，"
+        for (let j in orderBuyers[i].orders) {
+          if (!('realNum' in orderBuyers[i].orders[j])) {
+            let message = "收货人：" + orderBuyers[i].name + "，"
+            message = message + "订单时间：" + orderBuyers[i].time + "，"
             message = message + "该订单有商品没有配货，请先完成配货。"
             wx.showModal({
               title: '订单发货',
@@ -238,14 +260,11 @@ Page({
   onLoad: function (options) {
 
     Trade.getTrades_seller().then(function (orders) {
-      let itemOrders = this.getItemOrders(orders)
-      let buyerOrders = this.getBuyerOrders(orders)
-      console.log(orders)
-      console.log(itemOrders)
-      console.log(buyerOrders)
+      let orderItems = this.getOrderItems(orders)
+      let orderBuyers = this.getOrderBuyers(orders)
       this.setData({
-        itemOrders,
-        buyerOrders,
+        orderItems,
+        orderBuyers,
       })
     }.bind(this))
 
