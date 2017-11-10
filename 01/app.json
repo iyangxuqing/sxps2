@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/seller/trades/index",
     "pages/buyer/trades/index",
     "pages/index/index",
     "pages/seller/login/index",
@@ -8,7 +9,6 @@
     "pages/seller/shop/index",
     "pages/seller/items/index",
     "pages/seller/item/index",
-    "pages/seller/trades/index",
     "pages/admins/cates/index",
     "pages/client/products/index",
     "pages/client/shopping/index",

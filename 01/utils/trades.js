@@ -64,6 +64,96 @@ function transformOrdersToTrades_buyer(orders) {
   return trades
 }
 
+function getTrades_seller_v3(options = {}) {
+  return new Promise(function (resolve, reject) {
+    options.sid = wx.getStorageSync('sellerId')
+    http.get({
+      url: 'sxps/trade_seller_v3.php?m=get',
+      data: options
+    }).then(function (res) {
+      if (res.errno === 0) {
+        resolve(res.orders)
+      } else {
+        reject(res)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
+  })
+}
+
+function getItemTrades(orders) {
+  let trades = []
+  for (let i in orders) {
+    let order = orders[i]
+    let index = -1
+    for (let j in trades) {
+      if (trades[j].iid == order.iid) {
+        index = j
+        break
+      }
+    }
+    if (index < 0) {
+      index = trades.length
+      trades.push({
+        iid: order.iid,
+        title: order.title,
+        image: order.image,
+        descs: order.descs,
+        num: 0,
+        buyers: [],
+      })
+    }
+    trades[index].num += Number(order.num)
+    trades[index].buyers.push({
+      oid: order.id,
+      bid: order.bid,
+      name: order.name,
+      phone: order.phone,
+      address: order.address,
+      num: order.num,
+      realNum: order.realNum,
+    })
+  }
+  return trades
+}
+
+function getBuyerTrades(orders) {
+  let trades = []
+  for (let i in orders) {
+    let order = orders[i]
+    let index = -1
+    for (let j in trades) {
+      if (trades[j].bid == order.bid) {
+        index = j
+        break
+      }
+    }
+    if (index < 0) {
+      index = trades.length
+      trades.push({
+        bid: order.bid,
+        name: order.name,
+        phone: order.phone,
+        address: order.address,
+        items: [],
+        time: new Date(order.created * 1000).Format('yyyy-MM-dd hh:mm:ss'),
+      })
+    }
+    trades[index].items.push({
+      oid: order.id,
+      iid: order.iid,
+      title: order.title,
+      image: order.image,
+      descs: order.descs,
+      price: Number(order.price).toFixed(2),
+      num: order.num,
+      realNum: order.realNum,
+    })
+  }
+  return trades
+}
+
 function addTrade_buyer_v3_old(orders) {
   let trades = []
   for (let i in orders) {
@@ -206,4 +296,7 @@ export var Trade = {
 
   addTrade_buyer_v3: addTrade_buyer_v3,
   getTrades_buyer_v3: getTrades_buyer_v3,
+  getTrades_seller_v3: getTrades_seller_v3,
+  getItemTrades: getItemTrades,
+  getBuyerTrades: getBuyerTrades,
 }

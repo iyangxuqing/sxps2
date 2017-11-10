@@ -40,7 +40,7 @@
   margin-right: 10rpx;
 }
 
-.orderBuyer {
+.buyerTrades {
   color: #666;
   margin-bottom: 40rpx;
 }
@@ -92,7 +92,7 @@
   border: 4rpx solid #f00;
 }
 
-.orderItem {
+.itemTrade {
   color: #666;
   margin-bottom: 40rpx;
 }

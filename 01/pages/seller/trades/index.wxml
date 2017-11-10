@@ -1,8 +1,8 @@
 <view class="container">
 
-  <view class="orderItems">
-    <block wx:for="{{orderItems}}" wx:key="" wx:for-item="item">
-      <view class="orderItem">
+  <view class="itemTrades">
+    <block wx:for="{{itemTrades}}" wx:key="" wx:for-item="item">
+      <view class="itemTrade">
         <view class="item item-head">
           <view class="item-image">
             <image src="{{item.image}}" mode="aspectFill" />
@@ -17,7 +17,7 @@
         </view>
         <view class="buyers">
           <block wx:for="{{item.buyers}}" wx:key="" wx:for-item="buyer">
-            <view class="buyer" data-iid="{{item.iid}}" data-bid="{{buyer.bid}}" catchtap="onDistributeTap">
+            <view class="buyer" data-oid="{{buyer.oid}}" catchtap="onDistributeTap">
               <view class="buyer-infos">
                 <view class="buyer-info">收 货 人：{{buyer.name}}</view>
                 <view class="buyer-info">联系电话：{{buyer.phone}}</view>
@@ -32,9 +32,9 @@
     </block>
   </view>
 
-  <view class="orderBuyers">
-    <block wx:for="{{orderBuyers}}" wx:key="" wx:for-item="buyer">
-      <view class="orderBuyer">
+  <view class="buyerTrades">
+    <block wx:for="{{buyerTrades}}" wx:key="" wx:for-item="buyer">
+      <view class="buyerTrade">
         <view class="buyer buyer-head">
           <view class="buyer-infos">
             <view class="buyer-info">下单时间：{{buyer.time}}</view>
@@ -48,7 +48,7 @@
         </view>
         <view class="items">
           <block wx:for="{{buyer.items}}" wx:key="" wx:for-item="item">
-            <view class="item" data-bid="{{buyer.bid}}" data-iid="{{item.iid}}" catchtap="onDistributeTap">
+            <view class="item" data-oid="{{item.oid}}" catchtap="onDistributeTap">
               <view class="item-image">
                 <image src="{{item.image + youImageMode_v2}}" mode="aspectFill" />
               </view>
