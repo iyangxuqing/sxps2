@@ -48,13 +48,13 @@ Page({
   },
 
   onOrderSubmit: function (e) {
-    let orders = this.data.orders
     wx.showModal({
       title: '订单提交',
       content: '　　确定把购物车中的商品进行提交吗？',
       success: function (res) {
         if (res.confirm) {
-          Trade.addTrade_buyer({ orders }).then(function (res) {
+          let orders = this.data.orders
+          Trade.addTrade_buyer_v3(orders).then(function () {
             wx.showModal({
               title: '订单提交',
               content: '　　订单提交成功，将进入采买程序。',

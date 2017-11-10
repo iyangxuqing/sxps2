@@ -1,3 +1,4 @@
+/*
 .navs {
   position: fixed;
   top: 0;
@@ -28,19 +29,18 @@
   color: red;
   border-bottom: 4rpx solid red;
 }
+*/
 
 .trades {
-  margin-top: 90rpx;
-  padding: 30rpx;
+  padding: 0 30rpx 30rpx;
 }
 
 .trade {
   font-size: 30rpx;
-  margin-bottom: 40rpx;
 }
 
-.trade:last-child {
-  margin-bottom: 0;
+.trade + .trade {
+  margin-top: 30rpx;
 }
 
 .trade-info {
@@ -48,43 +48,29 @@
   align-items: center;
   justify-content: space-between;
   height: 120rpx;
+  font-size: 30rpx;
+  color: #666;
   padding-left: 20rpx;
   padding-right: 20rpx;
   background-color: #f0f0f0;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
 }
 
-.trade-id {
-  margin-bottom: 20rpx;
+.trade-label.tid {
+  font-size: 34rpx;
+  color: #000;
 }
 
-.trade-time {
-  font-size: 26rpx;
-  color: #666;
+.trade-label.num {
+  text-align: right;
 }
 
-.trade-amount {
-  margin-bottom: 20rpx;
+.trade-label.amount {
+  text-align: right;
+  color: #000;
 }
 
-.trade-num {
-  font-size: 26rpx;
-  color: #666;
-}
-
-.trade-status {
-  display: flex;
-  justify-content: center;
-  font-size: 24rpx;
-  margin-bottom: 10rpx;
-}
-
-.trade-operate {
-  font-size: 26rpx;
-  padding: 10rpx 20rpx;
-  border-radius: 8rpx;
-  border: 1px solid #ddd;
+.trade-label + .trade-label {
+  margin-top: 10rpx;
 }
 
 .trade-order {
@@ -94,41 +80,52 @@
   border-bottom: 1px solid #ddd;
 }
 
-.product-image {
+.item-image {
   width: 120rpx;
   height: 120rpx;
   border: 1px solid #eee;
 }
 
-.product-text {
+.item-text {
   margin-left: 20rpx;
   flex-grow: 1;
 }
 
-.product-title {
+.item-title {
   font-size: 34rpx;
   margin-bottom: 10rpx;
 }
 
-.product-descs {
+.item-descs {
   font-size: 26rpx;
-  color: #888;
+  color: #666;
 }
 
-.product-number {
-  width: 160rpx;
+.item-number {
+  text-align: right;
+  margin-right: 20rpx;
 }
 
-.product-amount {
+.item-amount {
   margin-bottom: 10rpx;
 }
 
-.product-num {
-  font-size: 26rpx;
-  color: #888;
+.item-num {
+  font-size: 28rpx;
+  color: #666;
 }
 
-.trades-empty{
+.item-realAmount {
+  color: #f33;
+  margin-bottom: 10rpx;
+}
+
+.item-realNum {
+  font-size: 28rpx;
+  color: #f33;
+}
+
+.empty {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -136,13 +133,13 @@
   margin-top: 400rpx;
 }
 
-.empty-line{
+.empty-line {
   width: 100rpx;
   height: 1px;
   background-color: #ccc;
 }
 
-.empty-text{
+.empty-text {
   font-size: 30rpx;
   color: #888;
   padding: 20rpx;
