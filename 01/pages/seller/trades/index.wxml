@@ -1,4 +1,8 @@
+<import src="/template/topnavs/topnavs.wxml" />
+
 <view class="container">
+
+  <template is="topnavs" data="{{...topnavs}}" />
 
   <view class="itemTrades">
     <block wx:for="{{itemTrades}}" wx:key="" wx:for-item="item">

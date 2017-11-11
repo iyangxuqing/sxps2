@@ -1,4 +1,7 @@
+@import '/template/topnavs/topnavs.wxss';
+
 .container {
+  padding-top: 120rpx;
   padding-left: 30rpx;
   padding-right: 30rpx;
   padding-bottom: 110rpx;

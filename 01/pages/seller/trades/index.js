@@ -1,3 +1,4 @@
+import { Topnavs } from '../../../template/topnavs/topnavs.js'
 import { Trade } from '../../../utils/trades.js'
 
 let app = getApp()
@@ -158,7 +159,27 @@ Page({
     }
   },
 
+  onTopnavTap: function(index, item){
+    console.log(index, item)
+  },
+
   onLoad: function (options) {
+    this.topnavs = new Topnavs({
+      items: [{
+        title: '待发货订单',
+        status: '1'
+      },
+      {
+        title: '已发货订单',
+        status: '2'
+      },
+      {
+        title: '已完成订单',
+        status: '3'
+      }],
+      justify: 'justify-left',
+      onTopnavTap: this.onTopnavTap
+    })
 
     Trade.getTrades_seller_v3().then(function (orders) {
       this.orders = orders
@@ -169,7 +190,6 @@ Page({
         buyerTrades,
       })
     }.bind(this))
-
   },
 
   /**
