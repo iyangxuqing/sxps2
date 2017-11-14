@@ -1,10 +1,40 @@
 @import '/template/topnavs/topnavs.wxss';
+@import '/template/tabs/tabs.wxss';
 
 .container {
-  padding-top: 120rpx;
+  padding-top: 100rpx;
   padding-left: 30rpx;
   padding-right: 30rpx;
-  padding-bottom: 110rpx;
+  padding-bottom: 70rpx;
+}
+
+.trades-head {
+  position: fixed;
+  top: 0;
+  left: 30rpx;
+  right: 30rpx;
+  z-index: 1;
+  height: 72rpx;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background-color: #fff;
+}
+
+.trades-type {
+  width: 320rpx;
+}
+
+.trades-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200rpx;
+  height: 68rpx;
+  font-size: 30rpx;
+  color: #fff;
+  border-radius: 8rpx;
+  background-color: #f22;
 }
 
 .foot {

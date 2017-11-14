@@ -1,0 +1,16 @@
+<import src="/template/DTPicker/DTPicker.wxml" />
+
+<template name="popup">
+  <view class="popup {{show ? 'popup-show' : ''}}">
+    <view class="popup-mask" wx:if="{{show}}" catchtap="{{onPopupCancel}}"></view>
+    <view class="popup-panel">
+      <view class="popup-panel-head">
+        <view class="popup-panel-button" catchtap="{{onPopupCancel}}">取 消</view>
+        <view class="popup-panel-button" catchtap="{{onPopupConfirm}}">确 定</view>
+      </view>
+      <view class="popup-panel-content">
+        <template is="{{contentTemplate}}" data="{{...contentData}}"/>
+      </view>
+    </view>
+  </view>
+</template>

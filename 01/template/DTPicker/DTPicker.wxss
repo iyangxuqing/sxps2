@@ -1,0 +1,12 @@
+@import '/template/popup/popup.wxss';
+
+.DTPicker{
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+}
+
+picker-view-column view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

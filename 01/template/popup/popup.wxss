@@ -1,0 +1,45 @@
+.popup {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 9999;
+  width: 100%;
+}
+
+.popup.popup-show {
+  display: block;
+}
+
+.popup-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 10, 10, 0.5);
+}
+
+.popup-panel {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0;
+  transition: all 300ms ease;
+  background-color: #fff;
+}
+
+.popup-show .popup-panel {
+  height: 430rpx;
+}
+
+.popup-panel-head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #666;
+}
+
+.popup-panel-button{
+  padding: 30rpx;
+}

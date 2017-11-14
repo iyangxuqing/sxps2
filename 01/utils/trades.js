@@ -82,6 +82,24 @@ function getTrades_seller_v3(options = {}) {
   })
 }
 
+function getTradesSummary_seller(options = {}) {
+  return new Promise(function (resolve, reject) {
+    options.sid = wx.getStorageSync('sellerId')
+    http.get({
+      url: 'sxps/trade_seller_v3.php?m=getSummary',
+      data: options
+    }).then(function (res) {
+      if (res.errno === 0) {
+        resolve(res.orders)
+      } else {
+        reject(res)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
+  })
+}
+
 function getItemTrades(orders) {
   let trades = []
   for (let i in orders) {
@@ -297,6 +315,7 @@ export var Trade = {
   addTrade_buyer_v3: addTrade_buyer_v3,
   getTrades_buyer_v3: getTrades_buyer_v3,
   getTrades_seller_v3: getTrades_seller_v3,
+  getTradesSummary_seller: getTradesSummary_seller,
   getItemTrades: getItemTrades,
   getBuyerTrades: getBuyerTrades,
 }

@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/testDate/testPickerView",    
     "pages/seller/trades/index",
     "pages/buyer/trades/index",
     "pages/index/index",
@@ -24,7 +25,8 @@
     "pages/buyer/shopping/index",
     "pages/buyer/trades/index",
     "pages/admins/index/index",
-    "pages/log/index"
+    "pages/log/index",
+    "pages/testDate/testPickerView"
   ],
   "window": {
     "backgroundTextStyle": "light",

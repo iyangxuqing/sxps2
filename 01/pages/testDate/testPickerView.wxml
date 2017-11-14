@@ -1,0 +1,9 @@
+<import src="/template/popup/popup.wxml" />
+<import src="/template/DTPicker/DTPicker.wxml" />
+
+<view class="datetimes">
+  <view class="datetime" data-id="startDate" data-date="{{startDate}}" catchtap="onDateEdit">{{strStartDate}}</view>
+  <view class="datetime" data-id="endDate" data-date="{{endDate}}" catchtap="onDateEdit">{{strEndDate}}</view>
+</view>
+
+<template is="DTPicker" data="{{DTPicker, popup}}" />

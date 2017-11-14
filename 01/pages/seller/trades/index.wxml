@@ -1,10 +1,40 @@
 <import src="/template/topnavs/topnavs.wxml" />
+<import src="/template/tabs/tabs.wxml" />
 
 <view class="container">
 
-  <template is="topnavs" data="{{...topnavs}}" />
+  <!-- <template is="topnavs" data="{{...topnavs}}" /> -->
 
-  <view class="itemTrades">
+  <view class="trades-head">
+    <view class="trades-type">
+      <template is="tabs" data="{{...tabs}}" />
+    </view>
+    <!-- <view class="trades-buttons">
+      <view class="trades-button">发 货</view>
+    </view> -->
+  </view>
+
+  <!-- <view class="summaryTrades" wx:if="{{typeTrades=='summaryTrades'}}">
+    <view class="summary-head">待配货数量合计</view>
+    <block wx:for="{{summaryTrades}}" wx:key="" wx:for-item="item">
+      <view class="summaryTrade">
+        <view class="item">
+          <view class="item-image">
+            <image src="{{item.image}}" mode="aspectFill" />
+          </view>
+          <view class="item-text">
+            <view class="item-title">{{item.title}}</view>
+            <view class="item-descs">{{item.descs || item.title + '(500克)'}}</view>
+          </view>
+          <view class="item-number">
+            <view class="item-num">合计：{{item.zNum}}</view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view> -->
+
+  <view class="itemTrades" wx:if="{{typeTrades!='buyerTrades'}}">
     <block wx:for="{{itemTrades}}" wx:key="" wx:for-item="item">
       <view class="itemTrade">
         <view class="item item-head">
@@ -36,7 +66,7 @@
     </block>
   </view>
 
-  <view class="buyerTrades">
+  <view class="buyerTrades" wx:if="{{typeTrades=='buyerTrades'}}">
     <block wx:for="{{buyerTrades}}" wx:key="" wx:for-item="buyer">
       <view class="buyerTrade">
         <view class="buyer buyer-head">
@@ -46,9 +76,9 @@
             <view class="buyer-info">联系电话：{{buyer.phone}}</view>
             <view class="buyer-info">收货地址：{{buyer.address}}</view>
           </view>
-          <view class="buyer-selector">
+          <!-- <view class="buyer-selector">
             <switch checked="{{buyer.selected}}" type="checkbox" data-bid="{{buyer.bid}}" bindchange="onBuyerSelectChange" />
-          </view>
+          </view> -->
         </view>
         <view class="items">
           <block wx:for="{{buyer.items}}" wx:key="" wx:for-item="item">
@@ -110,13 +140,4 @@
       </view>
     </view>
   </view>
-
-  <view class="foot">
-    <view class="selector">
-      <view class="selector-label">全部选择</view>
-      <switch type="checkbox" bindchange="onAllSelectChange" />
-    </view>
-    <view class="button" catchtap="onDeliveryTap">发 货</view>
-  </view>
-
 </view>

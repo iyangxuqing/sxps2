@@ -1,4 +1,5 @@
 import { Topnavs } from '../../../template/topnavs/topnavs.js'
+import { Tabs } from '../../../template/tabs/tabs.js'
 import { Trade } from '../../../utils/trades.js'
 
 let app = getApp()
@@ -8,6 +9,13 @@ Page({
   data: {
     youImageMode_v2: app.youImageMode_v2,
     youImageMode_v5: app.youImageMode_v5,
+    typeTrades: [{
+      title: '商品',
+      type: 'itemTrades',
+    }, {
+      title: '买家',
+      type: 'buyerTrades'
+    }]
   },
 
   onDistributeTap: function (e) {
@@ -84,9 +92,11 @@ Page({
   onRealNumConfirm: function (e) {
     let dItem = this.data.distributeItem
     let orders = this.orders
+    let index = -1
     for (let i in orders) {
       if (orders[i].id == dItem.oid) {
         orders[i].realNum = dItem.realNum
+        index = i
         break
       }
     }
@@ -97,6 +107,16 @@ Page({
       buyerTrades,
       'popup.show': false,
     })
+    setTimeout(function () {
+      orders.splice(index, 1)
+      let itemTrades = Trade.getItemTrades(orders)
+      let buyerTrades = Trade.getBuyerTrades(orders)
+      this.setData({
+        itemTrades,
+        buyerTrades,
+        'popup.show': false,
+      })
+    }.bind(this), 3000)
   },
 
   onBuyerSelectChange: function (e) {
@@ -159,8 +179,14 @@ Page({
     }
   },
 
-  onTopnavTap: function(index, item){
+  onTopnavTap: function (index, item) {
     console.log(index, item)
+  },
+
+  onTabTap: function (index, item) {
+    this.setData({
+      typeTrades: item.type
+    })
   },
 
   onLoad: function (options) {
@@ -177,9 +203,20 @@ Page({
         title: '已完成订单',
         status: '3'
       }],
-      justify: 'justify-left',
       onTopnavTap: this.onTopnavTap
     })
+    this.tabs = new Tabs({
+      items: this.data.typeTrades,
+      onTabTap: this.onTabTap
+    })
+
+    Trade.getTradesSummary_seller().then(function (orders) {
+      let summaryTrades = orders
+      this.setData({
+        summaryTrades: summaryTrades,
+        typeTrades: 'summaryTrades'
+      })
+    }.bind(this))
 
     Trade.getTrades_seller_v3().then(function (orders) {
       this.orders = orders
