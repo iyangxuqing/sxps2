@@ -150,16 +150,16 @@ function getBuyerTrades(orders) {
     if (index < 0) {
       index = trades.length
       trades.push({
-        bid: order.bid,
-        name: order.name,
-        phone: order.phone,
-        address: order.address,
-        items: [],
         time: new Date(order.created * 1000).Format('yyyy-MM-dd hh:mm:ss'),
+        bid: order.bid,
+        buyerName: order.name,
+        buyerPhone: order.phone,
+        buyerAddress: order.address,
+        orders: [],
       })
     }
-    trades[index].items.push({
-      oid: order.id,
+    trades[index].orders.push({
+      id: order.id,
       iid: order.iid,
       title: order.title,
       image: order.image,

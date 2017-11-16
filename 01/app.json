@@ -1,8 +1,9 @@
 {
   "pages": [
+    "pages/seller/trades_distribute/index",
     "pages/seller/trades_summary/index",
-    "pages/testDate/testPickerView",
     "pages/seller/trades/index",
+    "pages/testDate/testPickerView",
     "pages/buyer/trades/index",
     "pages/index/index",
     "pages/seller/login/index",

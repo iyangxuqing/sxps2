@@ -1,0 +1,45 @@
+<template name="distribute">
+  <view class="popup {{popup.show ? 'popup-show': ''}}">
+    <view class="popup-mask" wx:if="{{popup.show}}" catchtap="{{onPopupClose}}"></view>
+    <view class="popup-body">
+      <view class="popup-close" catchtap="{{onPopupClose}}">
+        <image src="/images/icon/delete.png" />
+      </view>
+      <view class="popup-content">
+        <view class="distribute">
+          <view class="distribute-info">
+            <view class="distribute-image">
+              <image src="{{order.image ? order.image + youImageMode_v5 : ''}}" mode="aspectFill" />
+            </view>
+            <view class="distribute-text">
+              <view class="distribute-title">{{order.title}}</view>
+              <view class="distribute-descs">{{order.descs || order.title + '(500克)'}}</view>
+              <view class="distribute-row">
+                <view class="distribute-price">￥{{order.price}}</view>
+                <view class="distribute-num">预订量：{{order.num}}</view>
+              </view>
+              <view class="distribute-number">
+                <view class="distribute-minus" catchtap="{{onMinusTap}}">
+                  <view class="minus-inner">
+                    <image src="/images/icon/minus.png" />
+                  </view>
+                </view>
+                <view class="distribute-input">
+                  <input value="{{order.realNum}}" type="digit" maxlength="5" bindblur="{{onRealNumInput}}" cursor-spacing="30" />
+                </view>
+                <view class="distribute-plus" catchtap="{{onPlusTap}}">
+                  <view class="plus-inner">
+                    <image src="/images/icon/plus.png" />
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="distribute-buttons">
+            <view class="distribute-button" catchtap="{{onConfirm}}">确 定</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

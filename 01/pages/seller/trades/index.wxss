@@ -1,5 +1,6 @@
 @import '/template/topnavs/topnavs.wxss';
 @import '/template/tabs/tabs.wxss';
+@import '/template/distribute/distribute.wxss';
 
 .container {
   padding-top: 100rpx;
@@ -183,7 +184,7 @@
   transform: rotate(10deg);
   border: 4rpx solid #f00;
 }
-
+/*
 .popup {
   position: fixed;
   left: 0;
@@ -348,3 +349,4 @@
   border-radius: 10rpx;
   background-color: #f00;
 }
+*/

@@ -1,4 +1,5 @@
 import { Topnavs } from '../../../template/topnavs/topnavs.js'
+import { Distribute } from '../../../template/distribute/distribute.js'
 import { Tabs } from '../../../template/tabs/tabs.js'
 import { Trade } from '../../../utils/trades.js'
 
@@ -28,6 +29,9 @@ Page({
         break
       }
     }
+    this.distribute.show(order)
+    return;
+
     let distributeItem = {
       oid: oid,
       iid: order.iid,
@@ -107,16 +111,16 @@ Page({
       buyerTrades,
       'popup.show': false,
     })
-    setTimeout(function () {
-      orders.splice(index, 1)
-      let itemTrades = Trade.getItemTrades(orders)
-      let buyerTrades = Trade.getBuyerTrades(orders)
-      this.setData({
-        itemTrades,
-        buyerTrades,
-        'popup.show': false,
-      })
-    }.bind(this), 3000)
+    // setTimeout(function () {
+    //   orders.splice(index, 1)
+    //   let itemTrades = Trade.getItemTrades(orders)
+    //   let buyerTrades = Trade.getBuyerTrades(orders)
+    //   this.setData({
+    //     itemTrades,
+    //     buyerTrades,
+    //     'popup.show': false,
+    //   })
+    // }.bind(this), 3000)
   },
 
   onBuyerSelectChange: function (e) {
@@ -189,6 +193,10 @@ Page({
     })
   },
 
+  onDistributed: function (order) {
+    console.log(order)
+  },
+
   onLoad: function (options) {
     this.topnavs = new Topnavs({
       items: [{
@@ -208,6 +216,10 @@ Page({
     this.tabs = new Tabs({
       items: this.data.typeTrades,
       onTabTap: this.onTabTap
+    })
+
+    this.distribute = new Distribute({
+      onDistributed: this.onDistributed
     })
 
     Trade.getTradesSummary_seller().then(function (orders) {

@@ -1,9 +1,12 @@
 <import src="/template/topnavs/topnavs.wxml" />
 <import src="/template/tabs/tabs.wxml" />
+<import src="/template/distribute/distribute.wxml" />
 
 <view class="container">
 
   <!-- <template is="topnavs" data="{{...topnavs}}" /> -->
+
+  <template is="distribute" data="{{...distribute, youImageMode_v5}}" />
 
   <view class="trades-head">
     <view class="trades-type">
@@ -99,7 +102,7 @@
     </block>
   </view>
 
-  <view class="popup {{popup.show ? 'popup-show': ''}}">
+  <view class="popup {{popup.show ? 'popup-show': ''}}" style="display:none;">
     <view class="popup-mask" wx:if="{{popup.show}}" catchtap="onPopupMaskTap"></view>
     <view class="popup-content">
       <view class="popup-content-close" catchtap="onPopupClose">
