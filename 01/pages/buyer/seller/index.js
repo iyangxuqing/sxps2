@@ -13,7 +13,7 @@ Page({
   onItemTap: function(e){
     let id = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: '../item/index?id=' + id,
+      url: '../item/index?from=sellerPage&id=' + id,
     })
   },
 

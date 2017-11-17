@@ -1,24 +1,25 @@
 <import src="/template/datetimes/datetimes.wxml" />
 <import src="/template/distribute/distribute.wxml" />
 
-<view class="container">
+<view class="container" wx:if="{{ready}}">
 
   <template is="datetimes" data="{{...datetimes}}" />
 
   <view class="trades">
     <block wx:for="{{trades}}" wx:key="" wx:for-item="trade">
       <view class="trade">
-        <view class="trade-head">
+        <view class="trade-head" data-tid="{{trade.id}}" catchtap="onTradeTap">
           <view class="trade-infos">
             <view class="trade-info">下单时间：{{trade.time}}</view>
             <view class="trade-info">收 货 人：{{trade.buyerName}}</view>
             <view class="trade-info">联系电话：{{trade.buyerPhone}}</view>
             <view class="trade-info">收货地址：{{trade.buyerAddress}}</view>
           </view>
+          <view class="trade-button" wx:if="{{trade.distributed}}">发货</view>
         </view>
         <view class="orders">
           <block wx:for="{{trade.orders}}" wx:key="" wx:for-item="order">
-            <view class="order" data-id="{{order.id}}" catchtap="onOrderTap">
+            <view class="order" data-tid="{{trade.id}}" data-oid="{{order.id}}" catchtap="onOrderTap">
               <view class="order-image">
                 <image src="{{order.image + youImageMode_v2}}" mode="aspectFill" />
               </view>
@@ -28,7 +29,7 @@
               </view>
               <view class="order-number">
                 <view class="order-num">{{order.num}}</view>
-                <view class="order-realNum" wx:if="{{order.realNum}}">实发 {{order.realNum}}</view>
+                <view class="order-realNum" wx:if="{{order.realNum!==''}}">实发 {{order.realNum}}</view>
               </view>
             </view>
           </block>

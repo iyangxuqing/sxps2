@@ -22,6 +22,7 @@
 .trade-head {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   font-size: 30rpx;
   padding: 20rpx;
   background-color: #f0f0f0;
@@ -29,6 +30,16 @@
 
 .trade-info + .trade-info {
   margin-top: 6rpx;
+}
+
+.trade-button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120rpx;
+  height: 60rpx;
+  border-radius: 8rpx;
+  border: 1px solid #ddd;
 }
 
 .order {
@@ -70,14 +81,14 @@
   top: 40rpx;
   right: 100rpx;
   font-size: 30rpx;
-  color: #f00;
+  color: #f33;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 180rpx;
   height: 70rpx;
   transform: rotate(10deg);
-  border: 4rpx solid #f00;
+  border: 2rpx solid #f33;
 }
 
 .empty {

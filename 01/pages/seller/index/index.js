@@ -5,20 +5,20 @@ let app = getApp()
 Page({
 
   data: {
-    links: [
-      {
-        text: '店铺信息',
-        url: '../shop/index',
-      },
-      {
-        text: '菜品管理',
-        url: '../../seller/items/index'
-      },
-      {
-        text: '订单管理',
-        url: '../trades/index'
-      }
-    ]
+    links: [{
+      text: '店铺信息',
+      url: '../shop/index',
+    },
+    {
+      text: '菜品管理',
+      url: '../../seller/items/index'
+    }, {
+      text: '订单汇总',
+      url: '../trades_summary/index'
+    }, {
+      text: '订单配货',
+      url: '../trades_distribute/index'
+    }]
   },
 
   onLogout: function (e) {
@@ -55,13 +55,13 @@ Page({
 
   onShow: function () {
     let sid = wx.getStorageSync('sellerId')
-    if(!sid){
+    if (!sid) {
       wx.redirectTo({
         url: '../login/index',
       })
       return
     }
-    
+
     Shop.get({
       id: sid,
       nocache: true

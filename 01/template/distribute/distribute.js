@@ -64,7 +64,6 @@ export class Distribute {
     let page = getCurrentPages().pop()
     options = Object.assign({}, defaults, options)
     this.onDistributed = options.onDistributed
-
     page.setData({
       'distribute.popup.show': false,
     })
@@ -79,7 +78,7 @@ export class Distribute {
   show(order) {
     let page = getCurrentPages().pop()
     order.price = Number(order.price).toFixed(2)
-    if (!order.realNum) order.realNum = order.num
+    if (order.realNum === '') order.realNum = order.num
     page.setData({
       'distribute.order': order,
       'distribute.popup.show': true,

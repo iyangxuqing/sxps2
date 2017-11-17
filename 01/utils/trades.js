@@ -72,7 +72,7 @@ function getTrades_seller_v3(options = {}) {
       data: options
     }).then(function (res) {
       if (res.errno === 0) {
-        resolve(res.orders)
+        resolve(res)
       } else {
         reject(res)
       }
@@ -97,6 +97,45 @@ function getTradesSummary_seller(options = {}) {
     }).catch(function (res) {
       reject(res)
     })
+  })
+}
+
+function setTrades_seller(orders) {
+  return new Promise(function (resolve, reject) {
+    http.post({
+      url: 'sxps/trade_seller_v3.php?m=set',
+      data: { orders }
+    }).then(function (res) {
+      if (res.errno === 0) {
+        resolve(res)
+      } else {
+        reject(res)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
+  })
+}
+
+function deliveryTrades(trades) {
+  if (!('length' in trades)) trades = [trades]
+  let orders = []
+  for (let i in trades) {
+    if (trades[i].distributed) {
+      for (let j in trades[i].orders) {
+        orders.push({
+          id: trades[i].orders[j].id,
+          realNum: trades[i].orders[j].realNum,
+          status: '卖家发货',
+        })
+      }
+    }
+  }
+  http.post({
+    url: 'sxps/trade_seller_v3.php?m=set',
+    data: { orders: orders }
+  }).then(function (res) {
+    console.log(res)
   })
 }
 
@@ -142,7 +181,7 @@ function getBuyerTrades(orders) {
     let order = orders[i]
     let index = -1
     for (let j in trades) {
-      if (trades[j].bid == order.bid) {
+      if (trades[j].id == order.created + order.bid) {
         index = j
         break
       }
@@ -150,6 +189,7 @@ function getBuyerTrades(orders) {
     if (index < 0) {
       index = trades.length
       trades.push({
+        id: order.created + order.bid,
         time: new Date(order.created * 1000).Format('yyyy-MM-dd hh:mm:ss'),
         bid: order.bid,
         buyerName: order.name,
@@ -314,8 +354,11 @@ export var Trade = {
 
   addTrade_buyer_v3: addTrade_buyer_v3,
   getTrades_buyer_v3: getTrades_buyer_v3,
+
   getTrades_seller_v3: getTrades_seller_v3,
   getTradesSummary_seller: getTradesSummary_seller,
+  deliveryTrades: deliveryTrades,
+  setTrades_seller: setTrades_seller,
   getItemTrades: getItemTrades,
   getBuyerTrades: getBuyerTrades,
 }

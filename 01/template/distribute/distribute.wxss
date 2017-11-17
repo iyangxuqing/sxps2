@@ -160,5 +160,5 @@
   height: 70rpx;
   color: #fff;
   border-radius: 10rpx;
-  background-color: #f00;
+  background-color: #f33;
 }
