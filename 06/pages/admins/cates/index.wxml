@@ -1,0 +1,45 @@
+<view class="container" wx:if="{{ready}}">
+
+  <view class="cates">
+    <block wx:for="{{cates}}" wx:key="" wx:for-item="cate">
+      <view class="cate" data-id="{{cate.id}}" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend">
+        <view class="cate-text">
+          <input value="{{cate.title}}" placeholder="类目名称" maxlength="8" cursor-spacing="20" data-id="{{cate.id}}" data-pid="0" bindblur="onCateBlur" />
+        </view>
+        <view class="cate-icon {{cate.id==expandId ? 'expand' : ''}}" data-id="{{cate.id}}" catchtap="onExpandTap">
+          <image src="/images/icon/enter.png" />
+        </view>
+      </view>
+      <view class="cate-children" wx:if="{{cate.id==expandId}}">
+        <block wx:for="{{cate.children}}" wx:key="" wx:for-item="child">
+          <view class="cate-child" data-id="{{child.id}}" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend">
+            <input value="{{child.title}}" placeholder="子类目名称" maxlength="8" cursor-spacing="20" data-id="{{child.id}}" data-pid="{{cate.id}}" bindblur="onCateBlur" />
+          </view>
+        </block>
+        <view class="cate-child cate-child-new">
+          <input value="{{newCateTitle}}" placeholder="新增子类目名称" maxlength="8" cursor-spacing="20" data-id="" data-pid="{{cate.id}}" bindblur="onCateBlur" />
+        </view>
+      </view>
+    </block>
+    <view class="cate cate-new">
+      <input value="{{newCateTitle}}" placeholder="新增类目名称" maxlength="8" cursor-spacing="20" data-id="" data-pid="0" bindblur="onCateBlur" />
+    </view>
+  </view>
+
+  <template is="editor" data="{{...editor}}" />
+
+</view>
+
+<template name="editor">
+  <view class="editor {{show ? 'show' : ''}}" style="top:{{top+'px'}}">
+    <view class="editor-icon editor-sort-up" catchtap="onEditorSortUp">
+      <image src="/images/icon/sort-up-white.png" />
+    </view>
+    <view class="editor-icon editor-sort-down" catchtap="onEditorSortDown">
+      <image src="/images/icon/sort-down-white.png" />
+    </view>
+    <view class="editor-icon editor-delete" catchtap="onEditorDelete">
+      <image src="/images/icon/delete-white.png" />
+    </view>
+  </view>
+</template>

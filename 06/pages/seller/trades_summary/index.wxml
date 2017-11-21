@@ -1,0 +1,33 @@
+<import src="/template/datetimes/datetimes.wxml" />
+
+<view class="container">
+
+  <template is="datetimes" data="{{...datetimes}}" />
+
+  <view class="trades">
+    <block wx:for="{{trades}}" wx:key="" wx:for-item="item">
+      <view class="trade">
+        <view class="item item-summary">
+          <view class="item-image">
+            <image src="{{item.image}}" mode="aspectFill" />
+          </view>
+          <view class="item-text">
+            <view class="item-title">{{item.title}}</view>
+            <view class="item-descs">{{item.descs || item.title + '(500克)'}}</view>
+          </view>
+          <view class="item-number">
+            <view class="item-num">合计：{{item.zNum}}</view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="empty" wx:if="{{!trades.length}}">
+    <view class="empty-line"></view>
+    <view class="empty-text">没有相关的订单</view>
+    <view class="empty-line"></view>
+  </view>
+
+
+</view>

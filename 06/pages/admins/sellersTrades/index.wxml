@@ -1,0 +1,29 @@
+<view class="container">
+  <view class="search">
+    <view class="search-icon">
+      <icon type="search" size="18" color="#777" />
+    </view>
+    <view class="search-input">
+      <input value="{{searchKey}}" placeholder="按商家名称或账号搜索" bindinput="onSearchInput" />
+      <view class="search-cancel" wx:if="{{searchKey}}" catchtap="onSearchCancel">
+        <icon type="cancel" size="18" color="#666" />
+      </view>
+    </view>
+    <view class="search-button" catchtap="onSearch">搜 索</view>
+  </view>
+  <view class="sellers">
+    <block wx:for="{{sellers}}" wx:key="" wx:for-item="seller">
+      <view class="seller" data-id="{{seller.id}}" catchtap="onSellerTap">
+        <view class="seller-infos">
+          <view class="seller-info">{{seller.title}}</view>
+          <view class="seller-info seller-info-secondary">账号：{{seller.name}}</view>
+          <!-- <view class="seller-info seller-info-secondary">电话：{{seller.phone}}</view> -->
+          <!-- <view class="seller-info seller-info-secondary">{{seller.address}}</view> -->
+        </view>
+        <view class="seller-icon">
+          <image src="/images/icon/enter.png" />
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,26 @@
+<view class="container" wx:if="{{shop}}">
+
+  <view class="account">
+    <view class="account-logo">
+      <image wx:if="{{shop.logo}}" src="{{shop.logo}}" />
+      <view wx:if="{{!shop.logo}}">logo</view>
+    </view>
+    <view class="account-name">
+      <text>{{shop.title || shop.name}}</text>
+    </view>
+    <view class="account-exit" catchtap="onLogout">
+      <image src="/images/icon/exit.png" />
+    </view>
+  </view>
+
+  <view class="links">
+    <block wx:for="{{links}}" wx:key="" wx:for-item="link">
+      <view class="link" data-index="{{index}}" catchtap="onLinkTap">
+        <view class="link-text">{{link.text}}</view>
+        <view class="link-icon">
+          <image src="/images/icon/enter.png" />
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

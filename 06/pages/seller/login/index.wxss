@@ -1,0 +1,62 @@
+@import '/template/toptip/toptip.wxss';
+
+.container {
+  padding: 0 100rpx;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400rpx;
+}
+
+.head-title {
+  font-size: 60rpx;
+  color: #75be0d;
+}
+
+.account {
+  margin-bottom: 90rpx;
+}
+
+.account-row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.account-row .icon {
+  flex-shrink: 0;
+  width: 100rpx;
+  height: 100rpx;
+  padding: 22rpx;
+}
+
+.account-row .text {
+  flex-grow: 1;
+  margin-left: 20rpx;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90rpx;
+  border-radius: 10rpx;
+  color: #fff;
+  background-color: #85cb2d;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80rpx;
+  font-size: 30rpx;
+  color: #888;
+}
+
+.foot-link {
+  padding: 20rpx;
+}

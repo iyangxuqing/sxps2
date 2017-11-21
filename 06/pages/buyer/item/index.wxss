@@ -1,0 +1,163 @@
+page {
+  padding-bottom: 20rpx;
+  background-color: #f2f2f2;
+}
+
+.container {
+  position: relative;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.item {
+  font-size: 30rpx;
+}
+
+.item-images {
+  height: 440rpx;
+  background-color: #fff;
+}
+
+.section {
+  padding: 30rpx 20rpx;
+  background-color: #fff;
+  margin-bottom: 20rpx;
+}
+
+.item-title {
+  font-size: 40rpx;
+  font-weight: 600;
+}
+
+.item-descs {
+  font-size: 26rpx;
+  color: #666;
+  margin-top: 20rpx;
+}
+
+.item-price {
+  display: flex;
+  align-items: center;
+  margin-top: 20rpx;
+}
+
+.item-price-label {
+  color: #666;
+}
+
+.item-price-value {
+  padding-left: 10rpx;
+  color: red;
+}
+
+.section.amountAndNumber {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 20rpx;
+}
+
+.item-amount {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 300rpx;
+}
+
+.item-amount-label {
+  color: #666;
+}
+
+.item-amount-value {
+  padding-left: 10rpx;
+  color: red;
+}
+
+.item-number {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  margin-right: -20rpx;
+}
+
+.item-number-icon {
+  flex-shrink: 0;
+  width: 100rpx;
+  height: 100rpx;
+  padding: 16rpx;
+}
+
+.item-number-icon-inner {
+  width: 100%;
+  height: 100%;
+  padding: 14rpx;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+}
+
+.item-number-input {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.section.seller {
+  padding: 0 20rpx;
+}
+
+.seller-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 90rpx;
+}
+
+.seller-row + .seller-row {
+  border-top: 1px solid #ddd;
+}
+
+.section.buttons {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.buttons{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button{
+  flex-basis: 0;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70rpx;
+  font-size: 28rpx;
+  color: #fff;
+  border-radius: 10rpx;
+}
+
+.button:nth-of-type(1){
+  background-color: #e33;
+  margin-right: 30rpx;
+}
+
+.button:nth-of-type(2){
+  background-color: #292;
+  margin-left: 30rpx;
+}
+
+.shoppingTag{
+  position: absolute;
+  top: 500rpx;
+  right: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 260rpx;
+  height: 100rpx;
+  font-weight: 600;
+  color: #f33;
+  border: 8rpx solid #f33;
+}

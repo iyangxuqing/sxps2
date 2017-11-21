@@ -1,0 +1,48 @@
+<view class="container" wx:if="{{ready}}">
+  <view class="trades">
+    <block wx:for="{{trades}}" wx:key="" wx:for-item="trade">
+      <view class="trade">
+        <view class="trade-info">
+          <view class="trade-labels">
+            <view class="trade-label tid">订单号：{{trade.id}}</view>
+            <view class="trade-label">{{trade.time}}</view>
+          </view>
+          <view class="trade-labels">
+            <view class="trade-label amount">￥{{trade.amount}}</view>
+            <view class="trade-label num">数量：{{trade.num}}</view>
+          </view>
+        </view>
+        <view class="trade-orders">
+          <block wx:for="{{trade.orders}}" wx:key="" wx:for-item="order">
+            <view class="trade-order">
+              <view class="item-image">
+                <image src="{{order.image + youImageMode_v2}}" mode="aspectFill" />
+              </view>
+              <view class="item-text">
+                <view class="item-title">{{order.title}}</view>
+                <view class="item-descs">{{order.descs || order.title + '(500克)'}}</view>
+              </view>
+              <view class="item-number">
+                <view wx:if="{{order.realNum==0}}">
+                  <view class="item-amount">￥{{order.amount}}</view>
+                  <view class="item-num">数量：{{order.num}}</view>
+                </view>
+                <view wx:if="{{order.realNum>0}}">
+                  <view class="item-realAmount">￥{{order.realAmount}}</view>
+                  <view class="item-realNum">数量：{{order.realNum}}</view>
+                </view>
+              </view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="empty" wx:if="{{!trades.length}}">
+    <view class="empty-line"></view>
+    <view class="empty-text">暂时没有订单</view>
+    <view class="empty-line"></view>
+  </view>
+
+</view>

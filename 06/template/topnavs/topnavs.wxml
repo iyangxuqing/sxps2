@@ -1,0 +1,9 @@
+<template name="topnavs">
+    <view class="topnavs {{justify}}" wx:if="{{items}}">
+      <block wx:for="{{items}}" wx:key="" wx:for-item="item">
+        <view class="topnav {{item.active ? 'active' : ''}}" data-index="{{index}}" catchtap="{{onTopnavTap}}">
+          <view class="topnav-inner">{{item.title}}</view>
+        </view>
+      </block>
+    </view>
+  </template>

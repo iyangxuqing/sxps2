@@ -1,0 +1,35 @@
+.tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70rpx;
+  font-size: 28rpx;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 180rpx;
+  height: 100%;
+  border: 1px solid #ddd;
+  background-color: #eee;
+}
+
+.tab + .tab {
+  border-left: 0;
+}
+
+.tab:first-child {
+  border-top-left-radius: 10rpx;
+  border-bottom-left-radius: 10rpx;
+}
+
+.tab:last-child {
+  border-top-right-radius: 10rpx;
+  border-bottom-right-radius: 10rpx;
+}
+
+.tab.active{
+  background-color: #fff;
+}

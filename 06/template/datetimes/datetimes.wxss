@@ -1,0 +1,60 @@
+.datetimes {
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  font-size: 30rpx;
+  margin-left: -30rpx;
+  margin-right: -30rpx;
+  padding: 16rpx 30rpx;
+  background-color: #f4f4f4;
+}
+
+.datetime {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 288rpx;
+  height: 100%;
+  border-radius: 6rpx;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.datetime-picker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 288rpx;
+  height: 68rpx;
+}
+
+.datetime-separater {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30rpx;
+  height: 100%;
+  opacity: 0.6;
+}
+
+.datetime-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100rpx;
+  height: 100rpx;
+  padding: 16rpx;
+  margin-right: -16rpx;
+}
+
+.datetime-search-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 6rpx;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}

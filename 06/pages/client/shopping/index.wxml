@@ -1,0 +1,49 @@
+<view class="container" wx:if="{{ready}}">
+
+  <view class="products" wx:if="{{products.length}}">
+    <block wx:for="{{products}}" wx:key="" wx:for-item="product">
+      <view class="product">
+        <view class="image">
+          <image src="{{product.image}}" mode="aspectFill" />
+        </view>
+        <view class="text">
+          <view class="title">{{product.title}}</view>
+          <view class="descs">{{product.descs || product.title + '(500克)'}}</view>
+          <view class="price">￥{{product.price}}</view>
+        </view>
+        <view class="number">
+          <view class="minus" data-iid="{{product.iid}}" catchtap="onMinusTap">
+            <image src="/images/icon/minus.png" />
+          </view>
+          <view class="num">
+            <input value="{{product.num}}" data-iid="{{product.iid}}" bindblur="onNumBlur" type="number" maxlength="3" cursor-spacing="30" />
+          </view>
+          <view class="plus" data-iid="{{product.iid}}" catchtap="onPlusTap">
+            <image src="/images/icon/plus.png" />
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="summary" wx:if="{{products.length}}">
+    <view class="summary-text">
+      <view class="summary-num">
+        <view class="summary-label">数量：</view>
+        <view class="summary-value">{{num}}</view>
+      </view>
+      <view class="summary-amount">
+        <view class="summary-label">金额：</view>
+        <view class="summary-value">￥{{amount}}</view>
+      </view>
+    </view>
+    <view class="summary-button" catchtap="onOrderSubmit">提交订单</view>
+  </view>
+
+  <view class="shopping-empty" wx:if="{{!products.length}}">
+    <view class="empty-line"></view>
+    <view class="empty-text">购物车中没有任何商品</view>
+    <view class="empty-line"></view>
+  </view>
+
+</view>

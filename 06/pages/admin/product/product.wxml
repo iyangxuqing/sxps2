@@ -1,0 +1,22 @@
+<import src="/template/swiperImagesEditor/swiperImagesEditor.wxml" />
+
+<view class="product" wx:if="{{ready}}">
+  <view class="product-title">
+    <input value="{{product.title}}" placeholder="输入商品名称" bindblur="onTitleBlur" maxlength="20" />
+  </view>
+  <view class="product-images">
+    <template is="swiper-images-editor" data="{{...swiperImagesEditor, youImageMode}}" />
+  </view>
+  <view class="head">
+    <view class="head-title">商品描述</view>
+  </view>
+  <view class="item">
+    <input value="{{product.descs}}" placeholder="输入商品描述" bindblur="onDescsBlur" maxlength="20" />
+  </view>
+  <view class="head">
+    <view class="head-title">商品价格</view>
+  </view>
+  <view class="item">
+    <input value="{{product.price}}" placeholder="输入商品价格" bindblur="onPriceBlur" type="digit" maxlength="8" />
+  </view>
+</view>

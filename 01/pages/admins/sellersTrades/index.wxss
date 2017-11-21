@@ -1,0 +1,85 @@
+.container {
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  background-color: #f4f4f4;
+}
+
+.search-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80rpx;
+  height: 100%;
+}
+
+.search-input {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  font-size: 30rpx;
+  height: 70rpx;
+  padding-left: 20rpx;
+  padding-right: 10rpx;
+  border-radius: 8rpx;
+  background-color: #fff;
+}
+
+.search-cancel {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100rpx;
+  height: 100rpx;
+  margin-right: -30rpx;
+}
+
+.search-button {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140rpx;
+  height: 70rpx;
+  border-radius: 8rpx;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+  border: 1px solid #ddd;
+  /* background-color: #fff; */
+}
+
+.seller {
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  font-size: 30rpx;
+  border-bottom: 1px solid #ddd;
+}
+
+.seller-infos {
+  flex-grow: 1;
+  margin-left: 20rpx;
+}
+
+.seller-info + .seller-info {
+  margin-top: 6rpx;
+}
+
+.seller-info-secondary {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.seller-icon {
+  width: 100rpx;
+  height: 100rpx;
+  padding: 34rpx;
+  margin-right: -20rpx;
+}

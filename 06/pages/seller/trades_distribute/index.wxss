@@ -1,0 +1,112 @@
+@import '/template/datetimes/datetimes.wxss';
+@import '/template/distribute/distribute.wxss';
+
+.container {
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.trades {
+  padding-top: 30rpx;
+  padding-bottom: 30rpx;
+}
+
+.trade {
+  color: #556;
+}
+
+.trade + .trade {
+  margin-top: 30rpx;
+}
+
+.trade-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 30rpx;
+  padding: 20rpx;
+  background-color: #f0f0f0;
+}
+
+.trade-info + .trade-info {
+  margin-top: 6rpx;
+}
+
+.trade-button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120rpx;
+  height: 60rpx;
+  border-radius: 8rpx;
+  border: 1px solid #ddd;
+}
+
+.order {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: #555;
+  padding: 20rpx 0;
+  border-bottom: 2rpx solid #ddd;
+}
+
+.order-image {
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.order-text {
+  flex-grow: 1;
+  margin-left: 20rpx;
+}
+
+.order-title {
+  font-size: 34rpx;
+  color: #000;
+  margin-bottom: 10rpx;
+}
+
+.order-descs {
+  font-size: 26rpx;
+}
+
+.order-num {
+  text-align: right;
+  padding-right: 30rpx;
+}
+
+.order-realNum {
+  position: absolute;
+  top: 40rpx;
+  right: 100rpx;
+  font-size: 30rpx;
+  color: #f33;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 180rpx;
+  height: 70rpx;
+  transform: rotate(10deg);
+  border: 2rpx solid #f33;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100rpx;
+  margin-top: 400rpx;
+}
+
+.empty-line {
+  width: 100rpx;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.empty-text {
+  font-size: 30rpx;
+  color: #888;
+  padding: 20rpx;
+}
