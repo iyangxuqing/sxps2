@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/buyer/items/index",
     "pages/index/index",
     "pages/seller/index/index",
     "pages/seller/trades_distribute/index",
@@ -14,8 +15,6 @@
     "pages/admin/products/products",
     "pages/admin/product/product",
     "pages/admin/trades/index",
-    "pages/buyer/items/index",
-    "pages/buyer/seller/index",
     "pages/buyer/item/index",
     "pages/buyer/shopping/index",
     "pages/buyer/trades/index",

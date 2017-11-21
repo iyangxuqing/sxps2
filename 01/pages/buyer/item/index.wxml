@@ -39,31 +39,30 @@
       </view>
     </view>
 
-    <view class="section seller">
-      <view class="seller-row">
-        <view class="seller-label">商铺</view>
-        <view class="seller-value">{{seller.title}}</view>
-      </view>
-      <view class="seller-row">
-        <view class="seller-label">电话</view>
-        <view class="seller-value">{{seller.phone}}</view>
-      </view>
-      <view class="seller-row">
-        <view class="seller-label">地址</view>
-        <view class="seller-value">{{seller.address}}</view>
-      </view>
+    <view class="shoppingTag" wx:if="{{item.num && shoppingTagRotate}}" style="transform:rotate({{shoppingTagRotate}}deg)">
+      <view class="shoppingTag-label">已购入</view>
+      <view class="shoppingTag-value">{{item.num}}(斤)</view>
     </view>
 
-    <view class="section buttons">
-      <view class="button" catchtap="onGotoShoppings">查看购物车</view>
-      <view class="button" catchtap="onGotoBuy">去继续购物</view>
+    <view class="section notes">
+      <view class="note-row">
+        <view class="note-label">商铺</view>
+        <view class="note-value">{{note.title}}</view>
+      </view>
+      <view class="note-row">
+        <view class="note-label">电话</view>
+        <view class="note-value">{{note.phone}}</view>
+      </view>
+      <view class="note-row">
+        <view class="note-label">地址</view>
+        <view class="note-value">{{note.address}}</view>
+      </view>
     </view>
-
   </view>
 
-  <view class="shoppingTag" wx:if="{{item.num && shoppingTagRotate}}" style="transform:rotate({{shoppingTagRotate}}deg)">
-    <view class="shoppingTag-label">已购入</view>
-    <view class="shoppingTag-value">{{item.num}}(斤)</view>
+  <view class="page-foot">
+    <view class="button" catchtap="onGotoShoppings">查看购物车</view>
+    <view class="button" catchtap="onGotoBuy">去继续购物</view>
   </view>
 
 </view>

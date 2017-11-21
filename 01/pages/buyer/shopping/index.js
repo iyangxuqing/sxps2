@@ -9,13 +9,6 @@ Page({
     youImageMode_v2: app.youImageMode_v2
   },
 
-  onOrderTap: function (e) {
-    let iid = e.currentTarget.dataset.iid
-    wx.navigateTo({
-      url: '../item/index?id=' + iid,
-    })
-  },
-
   onMinusTap: function (e) {
     let iid = e.currentTarget.dataset.iid
     this.refreshOrders({
@@ -34,7 +27,7 @@ Page({
 
   onNumBlur: function (e) {
     let iid = e.currentTarget.dataset.iid
-    let num = e.detail.value
+    let num = parseInt(e.detail.value || 0)
     this.refreshOrders({
       iid: iid,
       num: num,
@@ -78,28 +71,54 @@ Page({
     let shoppings = wx.getStorageSync('shoppings') || []
     for (let i in orders) {
       if (orders[i].iid == iid) {
+        let oldNum = orders[i].num
         if (options.inc) {
-          if (orders[i].num < Number(orders[i].maxVol)) orders[i].num++
+          if (orders[i].num < 9999) orders[i].num++
         } else if (options.dec) {
-          if (orders[i].num > Number(orders[i].minVol)) orders[i].num--
+          if (orders[i].num > 0) orders[i].num--
         } else if ('num' in options) {
-          if (options.num < Number(orders[i].minVol)) options.num = orders[i].minVol
-          if (options.num > Number(orders[i].maxVol)) options.num = orders[i].maxVol
           orders[i].num = options.num
         }
-        for (let j in shoppings) {
-          if (shoppings[j].iid == iid) {
-            shoppings[j].num = orders[i].num
-            break
+        console.log(orders[i].num)
+        if (orders[i].num == 0) {
+          wx.showModal({
+            title: '购物车',
+            content: '购买数量为0将从购物车中删除这个商品，确定要删除这个商品吗？',
+            success: function (res) {
+              if (res.confirm) {
+                orders.splice(i, 1)
+              } else {
+                orders[i].num = oldNum
+              }
+              let shoppings = []
+              for (let j in orders) {
+                shoppings.push({
+                  iid: orders[j].iid,
+                  num: orders[j].num
+                })
+              }
+              this.setData({ orders })
+              this.refreshSummary()
+              wx.setStorageSync('shoppings', shoppings)
+              app.listener.trigger('shoppings')
+            }.bind(this)
+          })
+        } else {
+          let shoppings = []
+          for (let j in orders) {
+            shoppings.push({
+              iid: orders[j].iid,
+              num: orders[j].num
+            })
           }
+          this.setData({ orders })
+          this.refreshSummary()
+          wx.setStorageSync('shoppings', shoppings)
+          app.listener.trigger('shoppings')
         }
-        wx.setStorageSync('shoppings', shoppings)
-        app.listener.trigger('shoppings')
         break
       }
     }
-    this.setData({ orders })
-    this.refreshSummary()
   },
 
   refreshSummary: function () {
@@ -146,8 +165,13 @@ Page({
     }.bind(this))
   },
 
-  onLoad: function (options) {
+  onShoppingsUpdate: function () {
+    this.loadData()
+  },
 
+  onLoad: function (options) {
+    app.listener.on('shoppings', this.onShoppingsUpdate)
+    this.loadData()
   },
 
   onReady: function () {
@@ -155,7 +179,7 @@ Page({
   },
 
   onShow: function () {
-    this.loadData()
+
   },
 
   onHide: function () {

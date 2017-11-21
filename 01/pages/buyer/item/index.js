@@ -1,20 +1,22 @@
 import { Item } from '../../../utils/items.js'
-import { Shop } from '../../../utils/shop.js'
 
 let app = getApp()
 
 Page({
 
   data: {
-    youImageMode_v5: app.youImageMode_v5
+    youImageMode_v5: app.youImageMode_v5,
+    note: {
+      title: '老菜农蔬菜批发',
+      phone: '0579-86633138',
+      address: '东阳市吴宁中路38号'
+    }
   },
 
   onItemNumberMinus: function (e) {
     let item = this.data.item
-    if (item.num > item.minVol) {
+    if (item.num > 0) {
       item.num--
-    } else {
-      item.num = 0
     }
     item.amount = Number(item.num * item.price).toFixed(2)
     this.setData({ item })
@@ -26,7 +28,6 @@ Page({
     if (item.num < 9999) {
       item.num = Number(item.num) + 1
     }
-    if (item.num < item.minVol) item.num = item.minVol
     item.amount = Number(item.num * item.price).toFixed(2)
     this.setData({ item })
     this.setShopping()
@@ -37,10 +38,8 @@ Page({
     let item = this.data.item
     if (num <= 0) {
       num = 0
-    } else if (num < Number(item.minVol)) {
-      num = item.minVol
     }
-    item.num = num
+    item.num = parseInt(num)
     item.amount = Number(item.num * item.price).toFixed(2)
     this.setData({ item })
     this.setShopping()
@@ -107,16 +106,9 @@ Page({
 
   onLoad: function (options) {
     this.from = options.from
-    console.log(this.from)
     let id = options.id
-    let item = {}
-    let seller = {}
-    Promise.all([
-      Item.getItems(),
-      Shop.getShops(),
-    ]).then(function (res) {
-      let items = res[0]
-      let shops = res[1]
+    Item.getItems().then(function (items) {
+      let item = {}
       for (let i in items) {
         if (items[i].id == id) {
           item = items[i]
@@ -125,18 +117,9 @@ Page({
           break
         }
       }
-      let sid = item.sid
-      for (let i in shops) {
-        if (shops[i].id == sid) {
-          seller = shops[i]
-          break
-        }
-      }
-
       wx.setNavigationBarTitle({
         title: item.title,
       })
-
       let shoppings = wx.getStorageSync('shoppings')
       for (let i in shoppings) {
         if (shoppings[i].iid == item.id) {
@@ -145,10 +128,8 @@ Page({
           break
         }
       }
-
       this.setData({
         item: item,
-        seller: seller,
         ready: true,
       })
       this.rotateShoppingTag()

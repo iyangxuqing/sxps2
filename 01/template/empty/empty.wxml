@@ -1,0 +1,7 @@
+<template name="empty">
+  <view class="empty" wx:if="{{show}}">
+    <view class="empty-line"></view>
+    <view class="empty-text">{{message}}</view>
+    <view class="empty-line"></view>
+  </view>
+</template>

@@ -1,8 +1,10 @@
+<import src="/template/empty/empty.wxml" />
+
 <view class="container">
 
   <view class="orders" wx:if="{{orders.length}}">
     <block wx:for="{{orders}}" wx:key="" wx:for-item="order">
-      <view class="order" data-iid="{{order.iid}}" catchtap="onOrderTap">
+      <view class="order">
         <view class="order-image">
           <image src="{{order.image + youImageMode_v2}}" mode="aspectFill" />
         </view>
@@ -41,10 +43,6 @@
     <view class="button button-submit" catchtap="onOrderSubmit">提交订单</view>
   </view>
 
-  <view class="empty" wx:if="{{!orders.length}}">
-    <view class="empty-line"></view>
-    <view class="empty-text">购物车中没有任何商品</view>
-    <view class="empty-line"></view>
-  </view>
+  <template is="empty" data="{{show: !orders.length, message: '购物车中还没有任何商品'}}" />
 
 </view>

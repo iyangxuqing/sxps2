@@ -1,6 +1,6 @@
 page {
-  padding-bottom: 20rpx;
-  background-color: #f2f2f2;
+  padding-bottom: 100rpx;
+  background-color: #f0f0f0;
 }
 
 .container {
@@ -100,30 +100,47 @@ page {
   text-align: center;
 }
 
-.section.seller {
+.shoppingTag{
+  position: absolute;
+  top: 500rpx;
+  right: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 260rpx;
+  height: 100rpx;
+  font-weight: 600;
+  color: #f33;
+  border: 4rpx solid #f33;
+}
+
+.section.notes {
   padding: 0 20rpx;
 }
 
-.seller-row {
+.note-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 90rpx;
 }
 
-.seller-row + .seller-row {
+.note-row + .note-row {
   border-top: 1px solid #ddd;
 }
 
-.section.buttons {
-  padding: 0;
-  margin-bottom: 0;
-}
-
-.buttons{
+.page-foot{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  height: 100rpx;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  background-color: #f0f0f0;
 }
 
 .button{
@@ -146,18 +163,4 @@ page {
 .button:nth-of-type(2){
   background-color: #292;
   margin-left: 30rpx;
-}
-
-.shoppingTag{
-  position: absolute;
-  top: 500rpx;
-  right: 100rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 260rpx;
-  height: 100rpx;
-  font-weight: 600;
-  color: #f33;
-  border: 8rpx solid #f33;
 }

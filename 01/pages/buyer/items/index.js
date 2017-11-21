@@ -1,4 +1,3 @@
-import { Shop } from '../../../utils/shop.js'
 import { Cate } from '../../../utils/cates.js'
 import { Item } from '../../../utils/items.js'
 
@@ -7,65 +6,26 @@ let app = getApp()
 Page({
 
   data: {
-    links: [
-      {
-        id: 1,
-        title: '分类',
-        active: true
-      },
-      {
-        id: 2,
-        title: '商家',
-        active: false
-      }
-    ],
-    type: 'itemsByCategory',
     youImageMode_v2: app.youImageMode_v2
-  },
-
-  onLinkTap: function (e) {
-    let id = e.currentTarget.dataset.id
-    let links = this.data.links
-    let type = ''
-    for (let i in links) {
-      links[i].active = false
-      if (links[i].id == id) {
-        links[i].active = true
-        if (links[i].id == 1) type = 'itemsByCategory'
-        if (links[i].id == 2) type = 'itemsBySeller'
-      }
-    }
-
-    if (type == "itemsBySeller") {
-      this.loadSellersItems()
-    }
-    this.setData({
-      type: type,
-      links: links
-    })
   },
 
   onSearchInput: function (e) {
     let value = e.detail.value
-    let type = this.data.type
-    if (type == 'itemsByCategory') {
-      this.setData({
-        searchItem: value
-      })
-    } else if (type == 'itemsBySeller') {
-      this.setData({
-        searchSeller: value
-      })
-    }
+    this.setData({
+      searchKey: value
+    })
   },
 
-  onSearchSubmit: function (e) {
-    let type = this.data.type
-    if (type == 'itemsByCategory') {
-      this.loadSearchItems()
-    } else if (type == 'itemsBySeller') {
-      this.loadSellersItems()
-    }
+  onSearchCancel: function (e) {
+    this.setData({
+      searchKey: ''
+    })
+    this.loadItems()
+  },
+
+  onSearch: function (e) {
+    let searchKey = this.data.searchKey
+    this.searchItems(searchKey)
   },
 
   onLevel1CateTap: function (e) {
@@ -83,7 +43,7 @@ Page({
       level1Cates,
       level2Cates,
     })
-    this.loadCategoryItems()
+    this.loadItems()
   },
 
   onLevel2CateTap: function (e) {
@@ -105,7 +65,7 @@ Page({
     this.setData({
       level2Cates,
     })
-    this.loadCategoryItems()
+    this.loadItems()
   },
 
   onItemTap: function (e) {
@@ -115,14 +75,7 @@ Page({
     })
   },
 
-  onSellerTap: function (e) {
-    let id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: '../seller/index?id=' + id,
-    })
-  },
-
-  loadCategoryItems: function () {
+  loadItems: function () {
     let level2Cates = this.data.level2Cates
     let cid = ''
     for (let i in level2Cates) {
@@ -146,44 +99,11 @@ Page({
     }.bind(this))
   },
 
-  loadSellersItems: function () {
-    let searchSeller = this.data.searchSeller
-    Promise.all([
-      Shop.getShops(),
-      Item.getItems(),
-    ]).then(function (res) {
-      let shops = res[0]
-      let items = res[1]
-      let sellers = []
-      for (let i in shops) {
-        if (searchSeller && shops[i].title.indexOf(searchSeller) < 0) continue
-        let id = shops[i].id
-        let seller = {
-          id: shops[i].id,
-          logo: shops[i].logo,
-          title: shops[i].title,
-          address: shops[i].address,
-          items: []
-        }
-        for (let j in items) {
-          if (items[j].sid == id) {
-            seller.items.push(items[j])
-          }
-        }
-        sellers.push(seller)
-      }
-      this.setData({
-        sellers: sellers
-      })
-    }.bind(this))
-  },
-
-  loadSearchItems: function () {
-    let searchItem = this.data.searchItem
+  searchItems: function (searchKey) {
     Item.getItems().then(function (_items) {
       let items = []
       for (let i in _items) {
-        if (_items[i].title.indexOf(searchItem) >= 0) {
+        if (_items[i].title.indexOf(searchKey) >= 0) {
           items.push(_items[i])
         }
       }
@@ -218,13 +138,11 @@ Page({
       Item.getItems(),
     ]).then(function (res) {
       let cates = res[0]
-      let shops = res[1]
-      let items = res[2]
-
-      cates[0].active = !0
+      let items = res[1]
+      cates[0].active = true
       for (let i in cates) {
         if (cates[i].children.length) {
-          cates[i].children[0].active = !0
+          cates[i].children[0].active = true
         }
       }
       let level1Cates = cates
@@ -233,7 +151,7 @@ Page({
         level1Cates,
         level2Cates,
       })
-      this.loadCategoryItems()
+      this.loadItems()
     }.bind(this))
   },
 
