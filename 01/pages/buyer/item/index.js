@@ -46,13 +46,9 @@ Page({
   },
 
   onGotoBuy: function (e) {
-    if (this.from == 'sellerPage') {
-      wx.navigateBack()
-    } else {
-      wx.switchTab({
-        url: '../items/index',
-      })
-    }
+    wx.switchTab({
+      url: '../items/index',
+    })
   },
 
   onGotoShoppings: function (e) {
@@ -105,7 +101,6 @@ Page({
   },
 
   onLoad: function (options) {
-    this.from = options.from
     let id = options.id
     Item.getItems().then(function (items) {
       let item = {}

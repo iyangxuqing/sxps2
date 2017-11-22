@@ -8,24 +8,51 @@ Page({
   },
 
   onSearch: function (options) {
-    this.setData({
-      startTime: options.time1,
-      endTime: options.time2,
+    this.startTime = options.time1 / 1000
+    this.endTime = options.time2 / 1000
+    this.loadTrades({
+      nocache: true,
     })
-    this.loadTrades()
   },
 
   loadTrades: function (options = {}) {
-    let startTime = this.data.startTime / 1000
-    let endTime = this.data.endTime / 1000
-    Trade.getTradesSummary_seller({
-      startTime: startTime,
-      endTime: endTime,
-    }).then(function (orders) {
+    options.status = '买家提交'
+    options.startTime = this.startTime
+    options.endTime = this.endTime
+    Trade.getTrades_seller_v4(options).then(function (trades) {
+      let items = []
+      for (let i in trades) {
+        for (let j in trades[i].orders) {
+          let order = trades[i].orders[j]
+          let iid = order.iid
+          let index = -1
+          for (let k in items) {
+            if (items[k].iid == iid) {
+              index = k
+              break
+            }
+          }
+          if (index < 0) {
+            index = items.length
+            items.push({
+              iid: iid,
+              title: order.title,
+              image: order.image,
+              descs: order.descs,
+              price: order.price,
+              num: 0,
+              realNum: 0,
+            })
+          }
+          items[index].num += Number(order.num)
+          items[index].realNum += Number(order.realNum)
+        }
+      }
       this.setData({
-        trades: orders
+        items: items,
+        ready: true,
       })
-      options.success && options.success(orders)
+      options.success && options.success(items)
     }.bind(this))
   },
 
@@ -40,16 +67,13 @@ Page({
       startDate = new Date(startDate.getTime() - 86400000)
     }
     let endDate = new Date(startDate.getTime() + 86400000)
-
     this.datetimes = new DateTimes({
       date1: startDate,
       date2: endDate,
       onSearch: this.onSearch
     })
-    this.setData({
-      startTime: startDate.getTime(),
-      endTime: endDate.getTime(),
-    })
+    this.startTime = startDate.getTime() / 1000
+    this.endTime = endDate.getTime() / 1000
     this.loadTrades()
   },
 
@@ -71,6 +95,7 @@ Page({
 
   onPullDownRefresh: function () {
     this.loadTrades({
+      nocache: true,
       success: function () {
         wx.stopPullDownRefresh()
       }

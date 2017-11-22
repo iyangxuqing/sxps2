@@ -1,4 +1,10 @@
-<view class="container" wx:if="{{ready}}">
+<import src="/template/topnavs/topnavs.wxml" />
+<import src="/template/empty/empty.wxml" />
+
+<view class="container withTopnavs" wx:if="{{ready}}">
+  
+  <template is="topnavs" data="{{...topnavs}}" />
+
   <view class="trades">
     <block wx:for="{{trades}}" wx:key="" wx:for-item="trade">
       <view class="trade">
@@ -39,10 +45,6 @@
     </block>
   </view>
 
-  <view class="empty" wx:if="{{!trades.length}}">
-    <view class="empty-line"></view>
-    <view class="empty-text">暂时没有订单</view>
-    <view class="empty-line"></view>
-  </view>
+  <template is="empty" data="{{show: !trades.length, message: '暂时没有订单'}}" />
 
 </view>

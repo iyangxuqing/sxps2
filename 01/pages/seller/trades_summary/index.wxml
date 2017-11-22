@@ -1,33 +1,29 @@
 <import src="/template/datetimes/datetimes.wxml" />
+<import src="/template/empty/empty.wxml" />
 
-<view class="container">
+<view class="container" wx:if="{{ready}}">
 
   <template is="datetimes" data="{{...datetimes}}" />
 
-  <view class="trades">
-    <block wx:for="{{trades}}" wx:key="" wx:for-item="item">
-      <view class="trade">
-        <view class="item item-summary">
-          <view class="item-image">
-            <image src="{{item.image}}" mode="aspectFill" />
-          </view>
-          <view class="item-text">
-            <view class="item-title">{{item.title}}</view>
-            <view class="item-descs">{{item.descs || item.title + '(500克)'}}</view>
-          </view>
-          <view class="item-number">
-            <view class="item-num">合计：{{item.zNum}}</view>
-          </view>
+  <view class="items items-summary">
+    <block wx:for="{{items}}" wx:key="" wx:for-item="item">
+      <view class="item item-summary">
+        <view class="item-image">
+          <image src="{{item.image}}" mode="aspectFill" />
+        </view>
+        <view class="item-text">
+          <view class="item-title">{{item.title}}</view>
+          <view class="item-descs">{{item.descs || item.title + '(500克)'}}</view>
+        </view>
+        <view class="item-number">
+          <view class="item-num">合计：{{item.num}}</view>
+          <view class="item-num">待配：{{item.num - item.realNum}}</view>
+          <view class="item-num">已配：{{item.realNum}}</view>
         </view>
       </view>
     </block>
   </view>
 
-  <view class="empty" wx:if="{{!trades.length}}">
-    <view class="empty-line"></view>
-    <view class="empty-text">没有相关的订单</view>
-    <view class="empty-line"></view>
-  </view>
-
+  <template is="empty" data="{{show: !items.length, message: '没有想过的订单'}}" />
 
 </view>

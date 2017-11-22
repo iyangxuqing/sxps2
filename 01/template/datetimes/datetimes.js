@@ -143,7 +143,7 @@ let methods = {
     let date2 = page.data.datetimes.date2
     let time1 = date1.getTime()
     let time2 = date2.getTime()
-    this.onSearch && this.onSearch({ time1, time2 })
+    this.onSearch && this.onSearch({ date1, date2, time1, time2 })
   },
 
 }

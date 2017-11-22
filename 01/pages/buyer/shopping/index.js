@@ -47,7 +47,7 @@ Page({
       success: function (res) {
         if (res.confirm) {
           let orders = this.data.orders
-          Trade.addTrade_buyer_v3(orders).then(function () {
+          Trade.addTrade_buyer_v4(orders).then(function () {
             wx.showModal({
               title: '订单提交',
               content: '　　订单提交成功，将进入采买程序。',
@@ -55,6 +55,7 @@ Page({
               success: function () {
                 wx.removeStorageSync('shoppings')
                 app.listener.trigger('shoppings')
+                app.listener.trigger('trades')
                 this.setData({ orders: [] })
                 this.refreshSummary()
               }.bind(this)
@@ -79,7 +80,6 @@ Page({
         } else if ('num' in options) {
           orders[i].num = options.num
         }
-        console.log(orders[i].num)
         if (orders[i].num == 0) {
           wx.showModal({
             title: '购物车',

@@ -3,6 +3,83 @@ import { Item } from 'items.js'
 
 let app = getApp()
 
+function getTrades_buyer_v4(options = {}) {
+  return new Promise(function (resolve, reject) {
+    if (app.trades_buyer && !options.nocache) {
+      resolve(app.trades_buyer)
+    } else {
+      http.get({
+        url: 'sxps/trade_buyer_v4.php?m=get',
+      }).then(function (res) {
+        if (res.errno === 0) {
+          let trades = res.trades
+          for (let i in trades) {
+            let trade = trades[i]
+            let num = 0;
+            let amount = 0;
+            let realNum = 0;
+            let realAmount = 0;
+            for (let j in trade.orders) {
+              let order = trade.orders[j]
+              order.amount = (Number(order.num) * order.price).toFixed(2)
+              order.realAmount = (Number(order.realNum) * order.price).toFixed(2)
+              num = num + Number(order.num)
+              amount = amount + Number(order.amount)
+              realNum = realNum + Number(order.realNum)
+              realAmount = realAmount + Number(order.realAmount)
+            }
+            trade.time = new Date(trade.created * 1000).Format('yyyy-MM-dd hh:mm:ss')
+            trade.num = num
+            trade.amount = amount.toFixed(2)
+            trade.realNum = realNum
+            trade.realAmount = realAmount.toFixed(2)
+          }
+          app.trades_buyer = trades
+          resolve(trades)
+        } else {
+          reject(res)
+        }
+      }).catch(function (res) {
+        reject(res)
+      })
+    }
+  })
+}
+
+function addTrade_buyer_v4(orders) {
+  return new Promise(function (resolve, reject) {
+    http.post({
+      url: 'sxps/trade_buyer_v4.php?m=add',
+      data: orders
+    }).then(function (res) {
+      if (res.errno === 0) {
+        resolve(res)
+      } else {
+        reject(res)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
+  })
+}
+
+function getTrades_seller_v4(options = {}) {
+  return new Promise(function (resolve, reject) {
+    http.get({
+      url: 'sxps/trade_seller_v4.php?m=get',
+      data: options
+    }).then(function (res) {
+      if (res.errno === 0) {
+        resolve(res.trades)
+      } else {
+        reject(res)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
+  })
+}
+
 function getTrades_buyer_v3(options) {
   return new Promise(function (resolve, reject) {
     http.get({
@@ -354,8 +431,12 @@ export var Trade = {
 
   addTrade_buyer_v3: addTrade_buyer_v3,
   getTrades_buyer_v3: getTrades_buyer_v3,
+  addTrade_buyer_v4: addTrade_buyer_v4,
+  getTrades_buyer_v4: getTrades_buyer_v4,
 
   getTrades_seller_v3: getTrades_seller_v3,
+  getTrades_seller_v4: getTrades_seller_v4,
+
   getTradesSummary_seller: getTradesSummary_seller,
   deliveryTrades: deliveryTrades,
   setTrades_seller: setTrades_seller,
