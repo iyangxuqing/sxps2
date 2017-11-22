@@ -12,10 +12,8 @@ Page({
   },
 
   onSearch: function (options) {
-    this.setData({
-      startTime: options.time1,
-      endTime: options.time2,
-    })
+    this.startTime = options.time1
+    this.endTime = options.time2
     this.loadTrades()
   },
 
@@ -42,48 +40,33 @@ Page({
   onDistributed: function (order) {
     let id = order.id
     let tid = order.tid
-    let trades = this.data.trades
-    let distributedOrders = wx.getStorageSync('distributedOrders') || []
-    let index = -1
-    for (let i in distributedOrders) {
-      if (distributedOrders[i].id == id) {
-        index = i
-        break
-      }
-    }
-    if (index < 0) {
-      index = distributedOrders.length
-      distributedOrders.push({
-        id: id
-      })
-    }
-    distributedOrders[index].realNum = order.realNum
-    wx.setStorageSync('distributedOrders', distributedOrders)
-
-    for (let i in trades) {
-      if (trades[i].id == tid) {
-        for (let j in trades[i].orders) {
-          if (trades[i].orders[j].id == id) {
-            trades[i].orders[j].realNum = order.realNum
-            break
+    Trade.setTrades_seller_v4({
+      oid: id,
+      realNum: order.realNum
+    }).then(function (res) {
+      let trades = this.data.trades
+      for (let i in trades) {
+        if (trades[i].id == tid) {
+          for (let j in trades[i].orders) {
+            if (trades[i].orders[j].id == id) {
+              trades[i].orders[j].realNum = order.realNum
+              break
+            }
           }
-        }
-        let finished = true
-        for (let j in trades[i].orders) {
-          if (trades[i].orders[j].realNum === '') {
-            finished = false
-            break
-          }
-        }
-        if (finished) {
           trades[i].distributed = true
+          for (let j in trades[i].orders) {
+            if (trades[i].orders[j].realNum === '') {
+              trades[i].distributed = false
+              break
+            }
+          }
+          break
         }
-        break
       }
-    }
-    this.setData({
-      trades: trades
-    })
+      this.setData({
+        trades: trades
+      })
+    }.bind(this))
   },
 
   onTradeTap: function (e) {
@@ -101,87 +84,56 @@ Page({
     wx.showActionSheet({
       itemList: ['将当前点击的订单发货', '将所有配好的订单发货'],
       success: function (res) {
+        let _trades = []
         if (res.tapIndex === 0) {
-          this.saveTrades(trade)
+          _trades.push({
+            tid: tid,
+            status: '卖家发货'
+          })
         } else if (res.tapIndex === 1) {
-          this.saveTrades(trades)
+          for (let i in trades) {
+            if (trades[i].distributed) {
+              _trades.push({
+                tid: trades[i].id,
+                status: '卖家发货'
+              })
+            }
+          }
         }
+        Trade.setTrades_seller_v4(_trades).then(function (res) {
+          for (let i in _trades) {
+            for (let j in trades) {
+              if (_trades[i].tid == trades[j].id) {
+                trades.splice(j, 1)
+                break
+              }
+            }
+          }
+          this.setData({
+            trades: trades
+          })
+        }.bind(this))
       }.bind(this),
     })
   },
 
-  saveTrades: function (trades) {
-    if (!('length' in trades)) trades = [trades]
-    let savedTrades = []
-    let orders = []
-    for (let i in trades) {
-      if (!trades[i].distributed) continue
-      savedTrades.push({
-        id: trades[i].id,
-      })
-      for (let j in trades[i].orders) {
-        orders.push({
-          id: trades[i].orders[j].id,
-          realNum: trades[i].orders[j].realNum,
-          status: '卖家发货',
-        })
-      }
-    }
-    wx.showNavigationBarLoading()
-    Trade.setTrades_seller(orders).then(function (res) {
-      let distributedOrders = wx.getStorageSync('distributedOrders') || []
-      for (let i in orders) {
-        for (let j in distributedOrders) {
-          if (orders[i].id == distributedOrders[j].id) {
-            distributedOrders.splice(j, 1)
-            break
-          }
-        }
-      }
-      wx.setStorageSync('distributedOrders', distributedOrders)
-      for (let i in orders) {
-        for (let j in this.orders) {
-          if (orders[i].id == this.orders[j].id) {
-            this.orders.splice(j, 1)
-            break
-          }
-        }
-      }
-      let pageTrades = Trade.getBuyerTrades(this.orders)
-      this.setData({ trades: pageTrades })
-      wx.hideNavigationBarLoading()
-    }.bind(this)).catch(function (res) {
-      wx.hideNavigationBarLoading()
-    })
-  },
-
   loadTrades: function (options = {}) {
-    let startTime = this.data.startTime / 1000
-    let endTime = this.data.endTime / 1000
-    let orders = []
+    let startTime = this.startTime
+    let endTime = this.endTime
+    let trades = []
     let lastRowId = 0
     if (options.noRefresh) {
-      orders = this.orders || []
-      if (orders.length) lastRowId = orders[orders.length - 1].id
+      trades = this.data.trades || []
+      if (trades.length) lastRowId = trades[trades.length - 1].id
     }
     wx.showNavigationBarLoading()
-    Trade.getTrades_seller_v3({
-      startTime: startTime,
-      endTime: endTime,
+    Trade.getTrades_seller_v4({
+      startTime: startTime / 1000,
+      endTime: endTime / 1000,
       status: '买家提交',
       lastRowId: lastRowId,
-    }).then(function (res) {
-      orders = orders.concat(res.orders)
-      this.orders = orders
-      let distributedOrders = wx.getStorageSync('distributedOrders') || []
-      for (let i in orders) {
-        for (let j in distributedOrders) {
-          if (orders[i].id == distributedOrders[j].id) {
-            orders[i].realNum = distributedOrders[j].realNum
-          }
-        }
-      }
-      let trades = Trade.getBuyerTrades(orders)
+    }).then(function (_trades) {
+      trades = trades.concat(_trades)
       for (let i in trades) {
         trades[i].distributed = true
         for (let j in trades[i].orders) {
@@ -223,10 +175,8 @@ Page({
       date2: endDate,
       onSearch: this.onSearch
     })
-    this.setData({
-      startTime: startDate.getTime(),
-      endTime: endDate.getTime(),
-    })
+    this.startTime = startDate.getTime()
+    this.endTime = endDate.getTime()
     this.loadTrades()
   },
 

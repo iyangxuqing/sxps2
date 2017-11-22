@@ -1,15 +1,17 @@
 import { DateTimes } from '../../../template/datetimes/datetimes.js'
 import { Trade } from '../../../utils/trades.js'
 
+let app = getApp()
+
 Page({
 
   data: {
-
+    youImageMode_v2: app.youImageMode_v2
   },
 
   onSearch: function (options) {
-    this.startTime = options.time1 / 1000
-    this.endTime = options.time2 / 1000
+    this.startTime = options.time1
+    this.endTime = options.time2
     this.loadTrades({
       nocache: true,
     })
@@ -17,8 +19,8 @@ Page({
 
   loadTrades: function (options = {}) {
     options.status = '买家提交'
-    options.startTime = this.startTime
-    options.endTime = this.endTime
+    options.startTime = this.startTime / 1000
+    options.endTime = this.endTime / 1000
     Trade.getTrades_seller_v4(options).then(function (trades) {
       let items = []
       for (let i in trades) {
@@ -72,8 +74,8 @@ Page({
       date2: endDate,
       onSearch: this.onSearch
     })
-    this.startTime = startDate.getTime() / 1000
-    this.endTime = endDate.getTime() / 1000
+    this.startTime = startDate.getTime()
+    this.endTime = endDate.getTime()
     this.loadTrades()
   },
 

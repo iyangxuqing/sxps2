@@ -1,4 +1,5 @@
 @import '/template/datetimes/datetimes.wxss';
+@import '/template/empty/empty.wxss';
 @import '/template/distribute/distribute.wxss';
 
 .container {
@@ -32,7 +33,7 @@
   margin-top: 6rpx;
 }
 
-.trade-button{
+.trade-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -89,24 +90,4 @@
   height: 70rpx;
   transform: rotate(10deg);
   border: 2rpx solid #f33;
-}
-
-.empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100rpx;
-  margin-top: 400rpx;
-}
-
-.empty-line {
-  width: 100rpx;
-  height: 1px;
-  background-color: #ccc;
-}
-
-.empty-text {
-  font-size: 30rpx;
-  color: #888;
-  padding: 20rpx;
 }

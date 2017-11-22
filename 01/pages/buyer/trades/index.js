@@ -11,7 +11,6 @@ Page({
   },
 
   onTopnavTap: function (index, item) {
-    console.log(index, item)
     let status = item.status
     let trades = []
     Trade.getTrades_buyer_v4().then(function (_trades) {

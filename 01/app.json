@@ -1,9 +1,9 @@
 {
   "pages": [
+    "pages/seller/trades_distribute/index",
     "pages/seller/trades_summary/index",
     "pages/index/index",
     "pages/seller/index/index",
-    "pages/seller/trades_distribute/index",
     "pages/seller/trades/index",
     "pages/seller/login/index",
     "pages/seller/register/index",

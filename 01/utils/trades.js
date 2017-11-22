@@ -12,28 +12,7 @@ function getTrades_buyer_v4(options = {}) {
         url: 'sxps/trade_buyer_v4.php?m=get',
       }).then(function (res) {
         if (res.errno === 0) {
-          let trades = res.trades
-          for (let i in trades) {
-            let trade = trades[i]
-            let num = 0;
-            let amount = 0;
-            let realNum = 0;
-            let realAmount = 0;
-            for (let j in trade.orders) {
-              let order = trade.orders[j]
-              order.amount = (Number(order.num) * order.price).toFixed(2)
-              order.realAmount = (Number(order.realNum) * order.price).toFixed(2)
-              num = num + Number(order.num)
-              amount = amount + Number(order.amount)
-              realNum = realNum + Number(order.realNum)
-              realAmount = realAmount + Number(order.realAmount)
-            }
-            trade.time = new Date(trade.created * 1000).Format('yyyy-MM-dd hh:mm:ss')
-            trade.num = num
-            trade.amount = amount.toFixed(2)
-            trade.realNum = realNum
-            trade.realAmount = realAmount.toFixed(2)
-          }
+          let trades = transform(res.trades)
           app.trades_buyer = trades
           resolve(trades)
         } else {
@@ -70,7 +49,8 @@ function getTrades_seller_v4(options = {}) {
       data: options
     }).then(function (res) {
       if (res.errno === 0) {
-        resolve(res.trades)
+        let trades = transformTrades(res.trades)
+        resolve(trades)
       } else {
         reject(res)
       }
@@ -79,6 +59,52 @@ function getTrades_seller_v4(options = {}) {
     })
   })
 }
+
+function setTrades_seller_v4(options) {
+  return new Promise(function (resolve, reject) {
+    if (!('length' in options)) options = [options]
+    http.post({
+      url: 'sxps/trade_seller_v4.php?m=set',
+      data: options
+    }).then(function (res) {
+      if (res.errno === 0) {
+        resolve(res)
+      } else {
+        reject(res)
+      }
+    }).catch(function (res) {
+      reject(res)
+    })
+  })
+}
+
+function transformTrades(trades) {
+  for (let i in trades) {
+    let trade = trades[i]
+    let num = 0;
+    let amount = 0;
+    let realNum = 0;
+    let realAmount = 0;
+    for (let j in trade.orders) {
+      let order = trade.orders[j]
+      order.amount = (Number(order.num) * order.price).toFixed(2)
+      order.realAmount = (Number(order.realNum) * order.price).toFixed(2)
+      num = num + Number(order.num)
+      amount = amount + Number(order.amount)
+      realNum = realNum + Number(order.realNum)
+      realAmount = realAmount + Number(order.realAmount)
+    }
+    trade.time = new Date(trade.created * 1000).Format('yyyy-MM-dd hh:mm:ss')
+    trade.num = num
+    trade.amount = amount.toFixed(2)
+    trade.realNum = realNum
+    trade.realAmount = realAmount.toFixed(2)
+  }
+  return trades
+}
+
+/////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
 
 function getTrades_buyer_v3(options) {
   return new Promise(function (resolve, reject) {
@@ -212,7 +238,6 @@ function deliveryTrades(trades) {
     url: 'sxps/trade_seller_v3.php?m=set',
     data: { orders: orders }
   }).then(function (res) {
-    console.log(res)
   })
 }
 
@@ -436,6 +461,7 @@ export var Trade = {
 
   getTrades_seller_v3: getTrades_seller_v3,
   getTrades_seller_v4: getTrades_seller_v4,
+  setTrades_seller_v4: setTrades_seller_v4,
 
   getTradesSummary_seller: getTradesSummary_seller,
   deliveryTrades: deliveryTrades,

@@ -1,4 +1,5 @@
 <import src="/template/datetimes/datetimes.wxml" />
+<import src="/template/empty/empty.wxml" />
 <import src="/template/distribute/distribute.wxml" />
 
 <view class="container" wx:if="{{ready}}">
@@ -11,9 +12,9 @@
         <view class="trade-head" data-tid="{{trade.id}}" catchtap="onTradeTap">
           <view class="trade-infos">
             <view class="trade-info">下单时间：{{trade.time}}</view>
-            <view class="trade-info">收 货 人：{{trade.buyerName}}</view>
-            <view class="trade-info">联系电话：{{trade.buyerPhone}}</view>
-            <view class="trade-info">收货地址：{{trade.buyerAddress}}</view>
+            <view class="trade-info">收 货 人：{{trade.name}}</view>
+            <view class="trade-info">联系电话：{{trade.phone}}</view>
+            <view class="trade-info">收货地址：{{trade.address}}</view>
           </view>
           <view class="trade-button" wx:if="{{trade.distributed}}">发货</view>
         </view>
@@ -38,11 +39,7 @@
     </block>
   </view>
 
-  <view class="empty" wx:if="{{!trades.length}}">
-    <view class="empty-line"></view>
-    <view class="empty-text">没有相关的订单</view>
-    <view class="empty-line"></view>
-  </view>
+  <template is="empty" data="{{show: !trades.length, message: '没有相关的订单'}}" />
 
   <template is="distribute" data="{{...distribute, youImageMode_v5}}" />
 

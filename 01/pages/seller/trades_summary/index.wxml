@@ -9,7 +9,7 @@
     <block wx:for="{{items}}" wx:key="" wx:for-item="item">
       <view class="item item-summary">
         <view class="item-image">
-          <image src="{{item.image}}" mode="aspectFill" />
+          <image src="{{item.image + youImageMode_v2}}" mode="aspectFill" />
         </view>
         <view class="item-text">
           <view class="item-title">{{item.title}}</view>
@@ -24,6 +24,6 @@
     </block>
   </view>
 
-  <template is="empty" data="{{show: !items.length, message: '没有想过的订单'}}" />
+  <template is="empty" data="{{show: !items.length, message: '没有相关的订单'}}" />
 
 </view>

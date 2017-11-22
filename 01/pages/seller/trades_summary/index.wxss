@@ -44,6 +44,10 @@
   font-size: 26rpx;
 }
 
+.item-summary .item-num + .item-num {
+  margin-top: 4rpx;
+}
+
 .item-realNum {
   position: absolute;
   top: 36rpx;
