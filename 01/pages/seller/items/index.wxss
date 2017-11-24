@@ -1,4 +1,4 @@
-@import '/template/sellerItemsGrid/index.wxss';
+@import '/template/itemsGrid/index.wxss';
 
 .container {
   padding-left: 30rpx;

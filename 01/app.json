@@ -1,19 +1,16 @@
 {
   "pages": [
-    "pages/seller/trades_distribute/index",
-    "pages/seller/trades_summary/index",
     "pages/index/index",
     "pages/seller/index/index",
     "pages/seller/trades/index",
     "pages/seller/login/index",
     "pages/seller/register/index",
     "pages/seller/shop/index",
+    "pages/seller/cates/index",
     "pages/seller/items/index",
     "pages/seller/item/index",
-    "pages/admins/cates/index",
-    "pages/admin/products/products",
-    "pages/admin/product/product",
-    "pages/admin/trades/index",
+    "pages/seller/trades_distribute/index",
+    "pages/seller/trades_summary/index",
 
     "pages/buyer/items/index",
     "pages/buyer/item/index",
@@ -23,7 +20,9 @@
     "pages/admins/index/index",
     "pages/client/wode/index",
     "pages/admins/sellersTrades/index",
-    "pages/admins/sellersTrades/index",
+    "pages/admins/cates/index",
+    "pages/admin/product/product",
+    "pages/admin/trades/index",
     "pages/log/index"
   ],
   "window": {

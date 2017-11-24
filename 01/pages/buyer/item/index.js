@@ -102,7 +102,7 @@ Page({
 
   onLoad: function (options) {
     let id = options.id
-    Item.getItems().then(function (items) {
+    Item.getItems_v4().then(function (items) {
       let item = {}
       for (let i in items) {
         if (items[i].id == id) {

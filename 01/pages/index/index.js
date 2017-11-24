@@ -15,11 +15,6 @@ Page({
         id: 2,
         text: '买家版',
         url: '/pages/buyer/items/index'
-      },
-      {
-        id: 3,
-        text: '管理版',
-        url: '/pages/admins/index/index'
       }
     ]
   },

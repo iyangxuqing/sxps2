@@ -3,7 +3,7 @@ import { Dataver } from 'dataver.js'
 
 let app = getApp()
 
-function getItems(options = {}) {
+function getItems_v4(options = {}) {
   return new Promise(function (resolve, reject) {
     let items = wx.getStorageSync('items')
     let expired = Dataver.getExpired('items')
@@ -11,7 +11,7 @@ function getItems(options = {}) {
       resolve(items)
     } else {
       http.get({
-        url: 'sxps/item.php?m=get',
+        url: 'sxps/item_v4.php?m=get',
       }).then(function (res) {
         if (res.errno === 0) {
           let items = res.items
@@ -33,78 +33,19 @@ function getItems(options = {}) {
   })
 }
 
-function getSellerItems_buyer(options = {}) {
-  return new Promise(function (resolve, reject) {
-    getItems().then(function (items) {
-      let sellerItems = []
-      for (let i in items) {
-        if (items[i].sid == options.sid) {
-          sellerItems.push(items[i])
-        }
-      }
-      resolve(sellerItems)
-    })
-  })
-}
-
-function getCategoryItems_buyer(options = {}) {
-  return new Promise(function (resolve, reject) {
-    getItems().then(function (items) {
-      let categoryItems = []
-      for (let i in items) {
-        if (items[i].cid == options.cid) {
-          categoryItems.push(items[i])
-        }
-      }
-      resolve(categoryItems)
-    })
-  })
-}
-
-function getSellerItems(options = {}) {
-  return new Promise(function (resolve, reject) {
-    let sellerItems = app.sellerItems
-    if (sellerItems && !options.nocache) {
-      resolve(sellerItems)
-    } else {
-      http.get({
-        url: 'sxps/item.php?m=get',
-        data: {
-          sid: wx.getStorageSync('sellerId')
-        }
-      }).then(function (res) {
-        if (res.errno === 0) {
-          let items = res.items
-          for (let i in items) {
-            if (!items[i].images) items[i].images = '[]'
-            items[i].images = JSON.parse(items[i].images)
-          }
-          app.sellerItems = items
-          resolve(items)
-        } else {
-          reject(res)
-        }
-      }).catch(function (res) {
-        reject(res)
-      })
-    }
-  })
-}
-
-function getSellerItem(options) {
-  let sellerItems = app.sellerItems
-  for (let i in sellerItems) {
-    if (sellerItems[i].id == options.id) {
-      return sellerItems[i]
+function getItem_v4(options) {
+  let items = wx.getStorageSync('items')
+  for (let i in items) {
+    if (items[i].id == options.id) {
+      return items[i]
     }
   }
 }
 
-function setSellerItem(item) {
+function setItem_v4(item) {
   return new Promise(function (resolve, reject) {
     let id = item.id
-    let items = app.sellerItems
-
+    let items = wx.getStorageSync('items') || []
     let index = -1
     for (let i in items) {
       if (items[i].id == id) {
@@ -124,15 +65,15 @@ function setSellerItem(item) {
     } else {
       items[index] = item
     }
-
     http.get({
-      url: 'sxps/item.php?m=set',
+      url: 'sxps/item_v4.php?m=set',
       data: item,
     }).then(function (res) {
       if (res.errno === 0) {
         if (res.insertId) item.id = res.insertId
-        app.listener.trigger('items', items, item)
-        resolve(items, item)
+        wx.setStorageSync('items', items)
+        app.listener.trigger('items', items)
+        resolve(items)
       } else {
         reject(res)
       }
@@ -142,47 +83,51 @@ function setSellerItem(item) {
   })
 }
 
-function delSellerItem(item) {
+function delItem_v4(item) {
   let id = item.id
-  let items = app.sellerItems
+  let items = wx.getStorageSync('items') || []
   for (let i in items) {
     if (items[i].id == id) {
       items.splice(i, 1)
       break
     }
   }
+  wx.setStorageSync('items', items)
   http.get({
-    url: 'sxps/item.php?m=del',
+    url: 'sxps/item_v4.php?m=del',
     data: item
   })
 }
 
-function sortSellerItems(items) {
-  let oldItems = app.sellerItems
+function sortItems_v4(_items, item1, item2) {
+  console.log(item1, item2)
+  let items = wx.getStorageSync('items')
+  http.post({
+    url: 'sxps/item_v4.php?m=set',
+    data: { id: item1.id, sort: item2.sort }
+  })
+  http.post({
+    url: 'sxps/item_v4.php?m=set',
+    data: { id: item2.id, sort: item1.sort }
+  })
+
+  let i1 = -1
+  let i2 = -1
   for (let i in items) {
-    let id = items[i].id
-    for (let j in oldItems) {
-      if (oldItems[j].id == id) {
-        if (i != j) {
-          http.get({
-            url: 'sxps/item.php?m=set',
-            data: { id, sort: i }
-          })
-        }
-      }
-    }
+    if (items[i].id == item1.id) i1 = i
+    if (items[i].id == item2.id) i2 = i
+    if (i1 > -1 && i2 > -1) break
   }
-  app.sellerItems = items
+  let temp = items[i1]
+  items[i1] = items[i2]
+  items[i2] = temp
+  wx.setStorageSync('items', items)
 }
 
 export var Item = {
-  getSellerItems: getSellerItems,
-  getSellerItem: getSellerItem,
-  setSellerItem: setSellerItem,
-  delSellerItem: delSellerItem,
-  sortSellerItems: sortSellerItems,
-
-  getItems: getItems,
-  getSellerItems_buyer: getSellerItems_buyer,
-  getCategoryItems_buyer: getCategoryItems_buyer,
+  getItems_v4: getItems_v4,
+  getItem_v4: getItem_v4,
+  setItem_v4: setItem_v4,
+  delItem_v4: delItem_v4,
+  sortItems_v4: sortItems_v4,
 }

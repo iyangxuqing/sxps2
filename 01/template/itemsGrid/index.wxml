@@ -1,4 +1,4 @@
-<template name="list-grid-editor">
+<template name="itemsGrid">
   <view class="items">
     <block wx:for="{{items}}" wx:key="">
       <view class="item" data-id="{{item.id}}" catchtap="{{onItemTap}}" catchlongpress="{{onItemLongPress}}">

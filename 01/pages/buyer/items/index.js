@@ -84,7 +84,7 @@ Page({
         break
       }
     }
-    Item.getItems().then(function (_items) {
+    Item.getItems_v4().then(function (_items) {
       let items = []
       for (let i in _items) {
         if (_items[i].cid == cid) {
@@ -100,7 +100,7 @@ Page({
   },
 
   searchItems: function (searchKey) {
-    Item.getItems().then(function (_items) {
+    Item.getItems_v4().then(function (_items) {
       let items = []
       for (let i in _items) {
         if (_items[i].title.indexOf(searchKey) >= 0) {
@@ -135,7 +135,7 @@ Page({
     app.listener.on('shoppings', this.onShoppingsUpdate)
     Promise.all([
       Cate.getCates(),
-      Item.getItems(),
+      Item.getItems_v4(),
     ]).then(function (res) {
       let cates = res[0]
       let items = res[1]

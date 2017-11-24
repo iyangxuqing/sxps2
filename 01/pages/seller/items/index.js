@@ -1,4 +1,5 @@
-import { SellerItemsGrid } from '../../../template/sellerItemsGrid/index.js'
+import { itemsGrid } from '../../../template/itemsGrid/index.js'
+import { Cate } from '../../../utils/cates.js'
 import { Item } from '../../../utils/items.js'
 
 let app = getApp()
@@ -6,36 +7,66 @@ let app = getApp()
 Page({
 
   data: {
-    youImageMode: app.youImageMode,
+    youImageMode: app.youImageMode_v2,
   },
 
   onItemTap: function (item) {
     wx.navigateTo({
-      url: '../item/index?id=' + item.id,
+      url: '../item/index?id=' + item.id + '&cid=' + this.cid,
     })
   },
 
   onItemDel: function (item) {
-    Item.delSellerItem(item)
+    Item.delItem_v4(item)
   },
 
-  onItemSort: function (items) {
-    Item.sortSellerItems(items)
+  onItemSort: function (items, item1, item2) {
+    Item.sortItems_v4(items, item1, item2)
   },
 
-  onItemsUpdate: function (items, item) {
+  onItemsUpdate: function (_items) {
+    let cid = this.cid
+    let items = []
+    for (let i in _items) {
+      if (_items[i].cid == cid) {
+        items.push(_items[i])
+      }
+    }
     this.setData({
-      'sellerItemsGrid.items': items
+      'itemsGrid.items': items
     })
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
     app.listener.on('items', this.onItemsUpdate)
-    Item.getSellerItems().then(function (items) {
-      this.sellerItemsGrid = new SellerItemsGrid({
+    let cid = options.cid
+    this.cid = options.cid
+    Cate.getCates().then(function (cates) {
+      let cateTitle = ''
+      let childCateTitle = ''
+      for (let i in cates) {
+        for (let j in cates[i].children) {
+          if (cates[i].children[j].id == cid) {
+            cateTitle = cates[i].title
+            childCateTitle = cates[i].children[j].title
+            wx.setNavigationBarTitle({
+              title: childCateTitle
+            })
+            break
+          }
+        }
+        if (cateTitle) break
+      }
+    })
+
+    Item.getItems_v4().then(function (_items) {
+      let items = []
+      for (let i in _items) {
+        if (_items[i].cid == cid) {
+          items.push(_items[i])
+        }
+      }
+      this.itemsGrid = new itemsGrid({
         items: items,
         onItemTap: this.onItemTap,
         onItemDel: this.onItemDel,
@@ -47,51 +78,30 @@ Page({
     }.bind(this))
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
 
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {
 
   }

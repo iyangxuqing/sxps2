@@ -43,12 +43,6 @@ Page({
     }
   },
 
-  onCatesEditor: function (e) {
-    wx.navigateTo({
-      url: '/pages/admins/cates/index',
-    })
-  },
-
   onImagesChanged: function (images) {
     this.setData({
       'item.images': images,
@@ -93,28 +87,6 @@ Page({
     }
   },
 
-  onMinVolBlur: function (e) {
-    let minVol = e.detail.value
-    let oldMinVol = this.data.item.minVol
-    if (minVol != oldMinVol) {
-      this.setData({
-        'item.minVol': minVol,
-        hasChanged: true
-      })
-    }
-  },
-
-  onVolumnBlur: function (e) {
-    let volumn = e.detail.value
-    let oldVolumn = this.data.item.volumn
-    if (volumn != oldVolumn) {
-      this.setData({
-        'item.volumn': volumn,
-        hasChanged: true
-      })
-    }
-  },
-
   onItemCancel: function (e) {
     wx.navigateBack()
   },
@@ -123,8 +95,7 @@ Page({
     let hasChanged = this.data.hasChanged
     if (hasChanged) {
       let item = this.data.item
-      item.sid = wx.getStorageSync('sellerId')
-      Item.setSellerItem(item).then(function (items, item) {
+      Item.setItem_v4(item).then(function () {
         this.toptip.show({
           title: '保存成功',
           success: function () {
@@ -137,18 +108,11 @@ Page({
 
   onLoad: function (options) {
     let id = options.id
-    let item = Item.getSellerItem({ id })
-    if (!item) {
-      item = {
-        price: '',
-        minVol: 10,
-        volumn: 2000,
-      }
-    }
+    let cid = options.cid
+    let item = Item.getItem_v4({ id })
+    if (!item) item = { cid }
     if (item.price) item.price = Number(item.price).toFixed(2)
-    this.setData({
-      item: item
-    })
+    this.setData({ item })
 
     this.toptip = new Toptip()
     this.swiperImagesEditor = new SwiperImagesEditor({
@@ -157,14 +121,6 @@ Page({
       onImagesChanged: this.onImagesChanged
     })
 
-  },
-
-  onReady: function () {
-
-  },
-
-  onShow: function () {
-    let item = this.data.item
     Cate.getCates().then(function (cates) {
       this.cates = cates
       let level1Index = -1
@@ -192,6 +148,15 @@ Page({
         ready: true
       })
     }.bind(this))
+
+  },
+
+  onReady: function () {
+
+  },
+
+  onShow: function () {
+
   },
 
   onHide: function () {

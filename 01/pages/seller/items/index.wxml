@@ -1,7 +1,7 @@
-<import src="/template/sellerItemsGrid/index.wxml" />
+<import src="/template/itemsGrid/index.wxml" />
 
 <view class="container" wx:if="{{ready}}">
   <view class="seller-items">
-    <template is="sellerItemsGrid" data="{{...sellerItemsGrid, youImageMode}}" />
+    <template is="itemsGrid" data="{{...itemsGrid, youImageMode}}" />
   </view>
 </view>

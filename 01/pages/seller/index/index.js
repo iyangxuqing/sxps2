@@ -6,12 +6,8 @@ Page({
 
   data: {
     links: [{
-      text: '店铺信息',
-      url: '../shop/index',
-    },
-    {
       text: '菜品管理',
-      url: '../../seller/items/index'
+      url: '../../seller/cates/index'
     }, {
       text: '订单汇总',
       url: '../trades_summary/index'
@@ -22,19 +18,19 @@ Page({
   },
 
   onLogout: function (e) {
-    wx.showModal({
-      title: '账号管理',
-      content: '要退出当前登录的账号吗？',
-      success: function (e) {
-        if (e.confirm) {
-          app.sellerItems = null
-          wx.setStorageSync('sellerId', '')
-          wx.redirectTo({
-            url: '../login/index',
-          })
-        }
-      }
-    })
+    // wx.showModal({
+    //   title: '账号管理',
+    //   content: '要退出当前登录的账号吗？',
+    //   success: function (e) {
+    //     if (e.confirm) {
+    //       app.sellerItems = null
+    //       wx.setStorageSync('sellerId', '')
+    //       wx.redirectTo({
+    //         url: '../login/index',
+    //       })
+    //     }
+    //   }
+    // })
   },
 
   onLinkTap: function (e) {
@@ -54,22 +50,22 @@ Page({
   },
 
   onShow: function () {
-    let sid = wx.getStorageSync('sellerId')
-    if (!sid) {
-      wx.redirectTo({
-        url: '../login/index',
-      })
-      return
-    }
+    // let sid = wx.getStorageSync('sellerId')
+    // if (!sid) {
+    //   wx.redirectTo({
+    //     url: '../login/index',
+    //   })
+    //   return
+    // }
 
-    Shop.get({
-      id: sid,
-      nocache: true
-    }).then(function (shop) {
-      this.setData({
-        shop: shop
-      })
-    }.bind(this))
+    // Shop.get({
+    //   id: sid,
+    //   nocache: true
+    // }).then(function (shop) {
+    //   this.setData({
+    //     shop: shop
+    //   })
+    // }.bind(this))
   },
 
   onHide: function () {
