@@ -57,17 +57,20 @@ let methods = {
         break
       }
     }
-    let temp = items[index]
     if (index > 0) {
+      let sort1 = items[index].sort
+      let sort2 = items[index - 1].sort
+      let temp = items[index]
       items[index] = items[index - 1]
       items[index - 1] = temp
+      items[index].sort = sort1
+      items[index - 1].sort = sort2
       this.onItemSort && this.onItemSort(items, temp, items[index])
     }
     page.setData({
       'itemsGrid.editItemId': '',
       'itemsGrid.items': items
     })
-
   },
 
   onItemSortDown: function (e) {
@@ -81,10 +84,14 @@ let methods = {
         break
       }
     }
-    let temp = items[index]
     if (index < items.length - 1) {
+      let sort1 = items[index].sort
+      let sort2 = items[Number(index) + 1].sort
+      let temp = items[index]
       items[index] = items[Number(index) + 1]
       items[Number(index) + 1] = temp
+      items[index].sort = sort1
+      items[Number(index) + 1].sort = sort2
       this.onItemSort && this.onItemSort(items, temp, items[index])
     }
     page.setData({

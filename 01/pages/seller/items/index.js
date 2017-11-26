@@ -1,6 +1,7 @@
 import { itemsGrid } from '../../../template/itemsGrid/index.js'
 import { Cate } from '../../../utils/cates.js'
 import { Item } from '../../../utils/items.js'
+import { http } from '../../../utils/http.js'
 
 let app = getApp()
 
@@ -90,12 +91,28 @@ Page({
 
   },
 
-  onUnload: function () {
-
-  },
-
   onPullDownRefresh: function () {
-
+    let cid = this.cid
+    Item.getItems_v4({
+      nocache: true
+    }).then(function (_items) {
+      let items = []
+      for (let i in _items) {
+        if (_items[i].cid == cid) {
+          items.push(_items[i])
+        }
+      }
+      this.itemsGrid = new itemsGrid({
+        items: items,
+        onItemTap: this.onItemTap,
+        onItemDel: this.onItemDel,
+        onItemSort: this.onItemSort
+      })
+      this.setData({
+        ready: true
+      })
+      wx.stopPullDownRefresh()
+    }.bind(this))
   },
 
   onReachBottom: function () {

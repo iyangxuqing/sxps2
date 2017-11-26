@@ -100,15 +100,16 @@ function delItem_v4(item) {
 }
 
 function sortItems_v4(_items, item1, item2) {
-  console.log(item1, item2)
   let items = wx.getStorageSync('items')
   http.post({
-    url: 'sxps/item_v4.php?m=set',
-    data: { id: item1.id, sort: item2.sort }
-  })
-  http.post({
-    url: 'sxps/item_v4.php?m=set',
-    data: { id: item2.id, sort: item1.sort }
+    url: 'sxps/item_v4.php?m=sort',
+    data: [{
+      id: item1.id,
+      sort: item1.sort,
+    }, {
+      id: item2.id,
+      sort: item2.sort,
+    }]
   })
 
   let i1 = -1

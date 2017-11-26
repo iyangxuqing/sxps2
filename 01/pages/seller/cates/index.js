@@ -1,4 +1,5 @@
 import { Cate } from '../../../utils/cates.js'
+import { Item } from '../../../utils/items.js'
 
 Page({
 
@@ -209,7 +210,12 @@ Page({
   },
 
   onPullDownRefresh: function () {
-    Cate.getCates({ nocache: true }).then(function (cates) {
+    Promise.all([
+      Cate.getCates({ nocache: true }),
+      Item.getItems_v4({ nocache: true }),
+    ]).then(function (res) {
+      let cates = res[0]
+      let items = res[1]
       this.setData({
         cates,
         ready: true,
