@@ -21,7 +21,6 @@
     "pages/client/wode/index",
     "pages/admins/sellersTrades/index",
     "pages/admins/cates/index",
-    "pages/admin/product/product",
     "pages/admin/trades/index",
     "pages/log/index"
   ],

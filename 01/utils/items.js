@@ -3,7 +3,7 @@ import { Dataver } from 'dataver.js'
 
 let app = getApp()
 
-function getItems_v4(options = {}) {
+function getItems(options = {}) {
   return new Promise(function (resolve, reject) {
     let items = wx.getStorageSync('items')
     let expired = Dataver.getExpired('items')
@@ -11,7 +11,7 @@ function getItems_v4(options = {}) {
       resolve(items)
     } else {
       http.get({
-        url: 'sxps/item_v4.php?m=get',
+        url: 'sxps/item.php?m=get',
       }).then(function (res) {
         if (res.errno === 0) {
           let items = res.items
@@ -33,7 +33,7 @@ function getItems_v4(options = {}) {
   })
 }
 
-function getItem_v4(options) {
+function getItem(options) {
   let items = wx.getStorageSync('items')
   for (let i in items) {
     if (items[i].id == options.id) {
@@ -42,7 +42,7 @@ function getItem_v4(options) {
   }
 }
 
-function setItem_v4(item) {
+function setItem(item) {
   return new Promise(function (resolve, reject) {
     let id = item.id
     let items = wx.getStorageSync('items') || []
@@ -66,7 +66,7 @@ function setItem_v4(item) {
       items[index] = item
     }
     http.get({
-      url: 'sxps/item_v4.php?m=set',
+      url: 'sxps/item.php?m=set',
       data: item,
     }).then(function (res) {
       if (res.errno === 0) {
@@ -83,7 +83,7 @@ function setItem_v4(item) {
   })
 }
 
-function delItem_v4(item) {
+function delItem(item) {
   let id = item.id
   let items = wx.getStorageSync('items') || []
   for (let i in items) {
@@ -94,15 +94,15 @@ function delItem_v4(item) {
   }
   wx.setStorageSync('items', items)
   http.get({
-    url: 'sxps/item_v4.php?m=del',
+    url: 'sxps/item.php?m=del',
     data: item
   })
 }
 
-function sortItems_v4(_items, item1, item2) {
+function sortItems(_items, item1, item2) {
   let items = wx.getStorageSync('items')
   http.post({
-    url: 'sxps/item_v4.php?m=sort',
+    url: 'sxps/item.php?m=sort',
     data: [{
       id: item1.id,
       sort: item1.sort,
@@ -126,9 +126,9 @@ function sortItems_v4(_items, item1, item2) {
 }
 
 export var Item = {
-  getItems_v4: getItems_v4,
-  getItem_v4: getItem_v4,
-  setItem_v4: setItem_v4,
-  delItem_v4: delItem_v4,
-  sortItems_v4: sortItems_v4,
+  getItems: getItems,
+  getItem: getItem,
+  setItem: setItem,
+  delItem: delItem,
+  sortItems: sortItems,
 }

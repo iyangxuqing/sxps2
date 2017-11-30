@@ -28,23 +28,23 @@ function getCates(options = {}) {
   })
 }
 
-function transformCates(cates) {
-  let _cates = []
-  for (let i in cates) {
-    let cate = cates[i]
+function transformCates(_cates) {
+  let cates = []
+  for (let i in _cates) {
+    let cate = _cates[i]
     if (cate.pid == 0) {
       cate.children = []
-      _cates.push(cate)
+      cates.push(cate)
     } else {
-      for (let j in _cates) {
-        if (cate.pid == _cates[j].id) {
-          _cates[j].children.push(cate)
+      for (let j in cates) {
+        if (cate.pid == cates[j].id) {
+          cates[j].children.push(cate)
           break
         }
       }
     }
   }
-  return _cates
+  return cates
 }
 
 function set(cate) {
@@ -55,23 +55,11 @@ function set(cate) {
     let title = cate.title
     if (id == '') {
       if (pid == 0) {
-        let max = 0
-        for (let i in cates) {
-          if (max < cates[i].sort) max = cates[i].sort
-        }
-        max = Number(max) + 1
-        cate.sort = max
         cate.children = []
         cates.push(cate)
       } else {
         for (let i in cates) {
           if (cates[i].id == pid) {
-            let max = 0
-            for (let j in cates[i].children) {
-              if (max < cates[i].children[j].sort) max = cates[i].children[j].sort
-            }
-            max = Number(max) + 1
-            cate.sort = max
             cates[i].children.push(cate)
             break
           }
@@ -81,9 +69,7 @@ function set(cate) {
       if (pid == 0) {
         for (let i in cates) {
           if (cates[i].id == id) {
-            if (cates[i].title != title) {
-              cates[i].title = title
-            }
+            cates[i].title = title
             break
           }
         }
@@ -92,9 +78,7 @@ function set(cate) {
           if (cates[i].id == pid) {
             for (let j in cates[i].children) {
               if (cates[i].children[j].id == id) {
-                if (cates[i].children[j].title != title) {
-                  cates[i].children[j].title = title
-                }
+                cates[i].children[j].title = title
                 break
               }
             }
@@ -104,18 +88,17 @@ function set(cate) {
       }
     }
 
-    let data = {
-      id: cate.id,
-      pid: cate.pid,
-      title: cate.title,
-    }
-    if (cate.sort) data.sort = cate.sort
+    let data = JSON.parse(JSON.stringify(cate))
+    if ('children' in data) delete data.children
     http.get({
       url: 'sxps/cate.php?m=set',
-      data: data
+      data: data,
     }).then(function (res) {
       if (res.errno === 0) {
-        if (res.insertId) cate.id = res.insertId
+        if (res.insertId) {
+          cate.id = res.insertId
+          cate.sort = res.insertId
+        }
         wx.setStorageSync('cates', cates)
         resolve(cates)
       } else {

@@ -212,7 +212,7 @@ Page({
   onPullDownRefresh: function () {
     Promise.all([
       Cate.getCates({ nocache: true }),
-      Item.getItems_v4({ nocache: true }),
+      Item.getItems({ nocache: true }),
     ]).then(function (res) {
       let cates = res[0]
       let items = res[1]

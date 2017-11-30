@@ -95,7 +95,7 @@ Page({
     let hasChanged = this.data.hasChanged
     if (hasChanged) {
       let item = this.data.item
-      Item.setItem_v4(item).then(function () {
+      Item.setItem(item).then(function () {
         this.toptip.show({
           title: '保存成功',
           success: function () {
@@ -109,7 +109,7 @@ Page({
   onLoad: function (options) {
     let id = options.id
     let cid = options.cid
-    let item = Item.getItem_v4({ id })
+    let item = Item.getItem({ id })
     if (!item) item = { cid }
     if (item.price) item.price = Number(item.price).toFixed(2)
     this.setData({ item })

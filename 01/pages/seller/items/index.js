@@ -1,7 +1,6 @@
 import { itemsGrid } from '../../../template/itemsGrid/index.js'
 import { Cate } from '../../../utils/cates.js'
 import { Item } from '../../../utils/items.js'
-import { http } from '../../../utils/http.js'
 
 let app = getApp()
 
@@ -18,11 +17,11 @@ Page({
   },
 
   onItemDel: function (item) {
-    Item.delItem_v4(item)
+    Item.delItem(item)
   },
 
   onItemSort: function (items, item1, item2) {
-    Item.sortItems_v4(items, item1, item2)
+    Item.sortItems(items, item1, item2)
   },
 
   onItemsUpdate: function (_items) {
@@ -60,7 +59,7 @@ Page({
       }
     })
 
-    Item.getItems_v4().then(function (_items) {
+    Item.getItems().then(function (_items) {
       let items = []
       for (let i in _items) {
         if (_items[i].cid == cid) {
@@ -93,7 +92,7 @@ Page({
 
   onPullDownRefresh: function () {
     let cid = this.cid
-    Item.getItems_v4({
+    Item.getItems({
       nocache: true
     }).then(function (_items) {
       let items = []
