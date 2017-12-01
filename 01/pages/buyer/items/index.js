@@ -84,7 +84,7 @@ Page({
         break
       }
     }
-    Item.getItems_v4().then(function (_items) {
+    Item.getItems().then(function (_items) {
       let items = []
       for (let i in _items) {
         if (_items[i].cid == cid) {
@@ -100,7 +100,7 @@ Page({
   },
 
   searchItems: function (searchKey) {
-    Item.getItems_v4().then(function (_items) {
+    Item.getItems().then(function (_items) {
       let items = []
       for (let i in _items) {
         if (_items[i].title.indexOf(searchKey) >= 0) {
@@ -131,18 +131,26 @@ Page({
     })
   },
 
-  onLoad: function (options) {
-    app.listener.on('shoppings', this.onShoppingsUpdate)
+  loadData: function (options = {}) {
     Promise.all([
-      Cate.getCates(),
-      Item.getItems_v4(),
+      Cate.getCates(options),
+      Item.getItems(options),
     ]).then(function (res) {
       let cates = res[0]
       let items = res[1]
       cates[0].active = true
       for (let i in cates) {
-        if (cates[i].children.length) {
-          cates[i].children[0].active = true
+        if (i == 0) {
+          cates[i].active = true
+        } else {
+          cates[i].active = false
+        }
+        for (let j in cates[i].children) {
+          if (j == 0) {
+            cates[i].children[j].active = true
+          } else {
+            cates[i].children[j].active = false
+          }
         }
       }
       let level1Cates = cates
@@ -151,8 +159,26 @@ Page({
         level1Cates,
         level2Cates,
       })
-      this.loadItems()
+
+      let cid = level1Cates[0].children[0].id
+      let _items = []
+      for (let i in items) {
+        if (items[i].cid == cid) {
+          _items.push(items[i])
+        }
+      }
+      this.setData({
+        items: _items,
+        ready: true
+      })
+      this.onShoppingsUpdate()
+      options.success && options.success()
     }.bind(this))
+  },
+
+  onLoad: function (options) {
+    app.listener.on('shoppings', this.onShoppingsUpdate)
+    this.loadData()
   },
 
   onReady: function () {
@@ -172,7 +198,12 @@ Page({
   },
 
   onPullDownRefresh: function () {
-
+    this.loadData({
+      nocache: true,
+      success: function (res) {
+        wx.stopPullDownRefresh()
+      }.bind(this)
+    })
   },
 
   onReachBottom: function () {

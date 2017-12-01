@@ -24,16 +24,16 @@ Page({
     Item.sortItems(items, item1, item2)
   },
 
-  onItemsUpdate: function (_items) {
+  onItemsUpdate: function (items) {
     let cid = this.cid
-    let items = []
-    for (let i in _items) {
-      if (_items[i].cid == cid) {
-        items.push(_items[i])
+    let _items = []
+    for (let i in items) {
+      if (items[i].cid == cid) {
+        _items.push(items[i])
       }
     }
     this.setData({
-      'itemsGrid.items': items
+      'itemsGrid.items': _items
     })
   },
 
@@ -41,7 +41,13 @@ Page({
     app.listener.on('items', this.onItemsUpdate)
     let cid = options.cid
     this.cid = options.cid
-    Cate.getCates().then(function (cates) {
+    Promise.all([
+      Cate.getCates(),
+      Item.getItems(),
+    ]).then(function (res) {
+      let cates = res[0]
+      let items = res[1]
+
       let cateTitle = ''
       let childCateTitle = ''
       for (let i in cates) {
@@ -57,17 +63,15 @@ Page({
         }
         if (cateTitle) break
       }
-    })
 
-    Item.getItems().then(function (_items) {
-      let items = []
-      for (let i in _items) {
-        if (_items[i].cid == cid) {
-          items.push(_items[i])
+      let _items = []
+      for (let i in items) {
+        if (items[i].cid == cid) {
+          _items.push(items[i])
         }
       }
       this.itemsGrid = new itemsGrid({
-        items: items,
+        items: _items,
         onItemTap: this.onItemTap,
         onItemDel: this.onItemDel,
         onItemSort: this.onItemSort
@@ -92,17 +96,15 @@ Page({
 
   onPullDownRefresh: function () {
     let cid = this.cid
-    Item.getItems({
-      nocache: true
-    }).then(function (_items) {
-      let items = []
-      for (let i in _items) {
-        if (_items[i].cid == cid) {
-          items.push(_items[i])
+    Item.getItems({ nocache: true }).then(function (items) {
+      let _items = []
+      for (let i in items) {
+        if (items[i].cid == cid) {
+          _items.push(items[i])
         }
       }
       this.itemsGrid = new itemsGrid({
-        items: items,
+        items: _items,
         onItemTap: this.onItemTap,
         onItemDel: this.onItemDel,
         onItemSort: this.onItemSort

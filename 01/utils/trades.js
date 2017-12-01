@@ -3,6 +3,10 @@ import { Item } from 'items.js'
 
 let app = getApp()
 
+/**
+ * 读取买家的所有订单，服务器返回的是近15天的订单，
+ * 返回的买家订单缓存在app.trades_buyer
+ */
 function getTrades_buyer_v4(options = {}) {
   return new Promise(function (resolve, reject) {
     if (app.trades_buyer && !options.nocache) {
@@ -12,7 +16,7 @@ function getTrades_buyer_v4(options = {}) {
         url: 'sxps/trade_buyer_v4.php?m=get',
       }).then(function (res) {
         if (res.errno === 0) {
-          let trades = transform(res.trades)
+          let trades = transformTrades(res.trades)
           app.trades_buyer = trades
           resolve(trades)
         } else {
@@ -25,6 +29,9 @@ function getTrades_buyer_v4(options = {}) {
   })
 }
 
+/**
+ * 由买家提交采买的订单
+ */
 function addTrade_buyer_v4(orders) {
   return new Promise(function (resolve, reject) {
     http.post({
@@ -42,6 +49,9 @@ function addTrade_buyer_v4(orders) {
   })
 }
 
+/**
+ * 读取卖家订单，按时间段，分页读取
+ */
 function getTrades_seller_v4(options = {}) {
   return new Promise(function (resolve, reject) {
     http.get({
@@ -60,6 +70,10 @@ function getTrades_seller_v4(options = {}) {
   })
 }
 
+/**
+ * 设置订单trade或子订单order的数据、状态，可以是单个订单或数组订单
+ * 一般由卖家管理端调用
+ */
 function setTrades_seller_v4(options) {
   return new Promise(function (resolve, reject) {
     if (!('length' in options)) options = [options]
@@ -78,6 +92,9 @@ function setTrades_seller_v4(options) {
   })
 }
 
+/**
+ * 转换订单数据，将服务器返回的订单数据进行订单金额计算、补充文本状态等
+ */
 function transformTrades(trades) {
   for (let i in trades) {
     let trade = trades[i]
@@ -85,6 +102,20 @@ function transformTrades(trades) {
     let amount = 0;
     let realNum = 0;
     let realAmount = 0;
+    switch (trade.status){
+      case '买家提交':
+        trade.txtStatus = '待发货'
+        break
+      case '卖家发货':
+        trade.txtStatus = '已发货'
+        break
+      case '买家收货':
+        trade.txtStatus = '已收货'
+        break
+      case '订单完成':
+        trade.txtStatus = '已完成'
+        break
+    }
     for (let j in trade.orders) {
       let order = trade.orders[j]
       order.amount = (Number(order.num) * order.price).toFixed(2)
@@ -106,6 +137,7 @@ function transformTrades(trades) {
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
 
+/*
 function getTrades_buyer_v3(options) {
   return new Promise(function (resolve, reject) {
     http.get({
@@ -444,28 +476,14 @@ function getTrades_seller(options) {
     })
   })
 }
+*/
 
 export var Trade = {
-  get: getTrades,
-  del: delTrade,
 
-  addTrade_buyer: addTrade_buyer,
-  getTrades_buyer: getTrades_buyer,
-
-  getTrades_seller: getTrades_seller,
-
-  addTrade_buyer_v3: addTrade_buyer_v3,
-  getTrades_buyer_v3: getTrades_buyer_v3,
   addTrade_buyer_v4: addTrade_buyer_v4,
   getTrades_buyer_v4: getTrades_buyer_v4,
 
-  getTrades_seller_v3: getTrades_seller_v3,
   getTrades_seller_v4: getTrades_seller_v4,
   setTrades_seller_v4: setTrades_seller_v4,
 
-  getTradesSummary_seller: getTradesSummary_seller,
-  deliveryTrades: deliveryTrades,
-  setTrades_seller: setTrades_seller,
-  getItemTrades: getItemTrades,
-  getBuyerTrades: getBuyerTrades,
 }

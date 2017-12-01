@@ -35,6 +35,7 @@ let methods = {
  * }
  */
 export class Topnavs {
+
   constructor(options = {}) {
     let page = getCurrentPages().pop()
     options = Object.assign({}, defaults, options)
@@ -58,6 +59,16 @@ export class Topnavs {
       page.setData({
         ['topnavs.' + key]: 'topnavs.' + key
       })
+    }
+  }
+
+  getActiveItem() {
+    let page = getCurrentPages().pop()
+    let items = page.data.topnavs.items
+    for (let i in items) {
+      if (items[i].active == true) {
+        return items[i]
+      }
     }
   }
 }

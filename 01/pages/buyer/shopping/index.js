@@ -138,7 +138,7 @@ Page({
 
   loadData: function () {
     let shoppings = wx.getStorageSync('shoppings')
-    Item.getItems_v4().then(function (items) {
+    Item.getItems().then(function (items) {
       let orders = []
       for (let i in shoppings) {
         for (let j in items) {

@@ -1,0 +1,108 @@
+@import '/template/topnavs/topnavs.wxss';
+@import '/template/empty/empty.wxss';
+
+.container {
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.container.withTopnavs {
+  padding-top: 90rpx;
+}
+
+.trades {
+  padding-bottom: 30rpx;
+}
+
+.trade {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.trade + .trade {
+  margin-top: 30rpx;
+}
+
+.trade-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 120rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  background-color: #f0f0f0;
+}
+
+.trade-label.tid {
+  font-size: 34rpx;
+}
+
+.trade-label.time {
+  color: #888;
+}
+
+.trade-label.num {
+  text-align: right;
+}
+
+.trade-label.amount {
+  text-align: right;
+  color: #000;
+}
+
+.trade-label + .trade-label {
+  margin-top: 10rpx;
+}
+
+.trade-order {
+  display: flex;
+  align-items: center;
+  height: 140rpx;
+  border-bottom: 1px solid #ddd;
+}
+
+.item-image {
+  width: 120rpx;
+  height: 120rpx;
+  border: 1px solid #eee;
+}
+
+.item-text {
+  margin-left: 20rpx;
+  flex-grow: 1;
+}
+
+.item-title {
+  font-size: 34rpx;
+  margin-bottom: 10rpx;
+}
+
+.item-descs {
+  font-size: 26rpx;
+  color: #888;
+}
+
+.item-numbers {
+  display: flex;
+  font-size: 24rpx;
+  color: #333;
+}
+
+.item-number {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-number.gray {
+  color: #888;
+}
+
+.item-number-label {
+  width: 140rpx;
+  text-align: right;
+  padding-right: 10rpx;
+}
+
+.item-number-label + .item-number-label {
+  margin-top: 6rpx;
+}

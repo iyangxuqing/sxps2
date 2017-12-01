@@ -8,9 +8,8 @@ function getDataver(options = {}) {
       url: 'sxps/dataver.php?m=get',
     }).then(function (res) {
       if (res.errno === 0) {
-        let _dataver = res.dataver
-        for (let i in _dataver) {
-          dataver[_dataver[i]['name']] = _dataver[i]['version']
+        for (let i in res.dataver) {
+          dataver[res.dataver[i]['name']] = res.dataver[i]['version']
         }
         resolve(dataver)
       } else {
