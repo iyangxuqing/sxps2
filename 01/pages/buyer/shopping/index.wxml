@@ -4,25 +4,18 @@
 
   <view class="orders" wx:if="{{orders.length}}">
     <block wx:for="{{orders}}" wx:key="" wx:for-item="order">
-      <view class="order">
+      <view class="order" data-iid="{{order.iid}}" catchtap="onOrderTap">
         <view class="order-image">
           <image src="{{order.image + youImageMode_v2}}" mode="aspectFill" />
         </view>
         <view class="order-text">
           <view class="order-title">{{order.title}}</view>
-          <view class="order-descs">{{order.descs || order.title + '(500克)'}}</view>
-          <view class="order-price">￥{{order.price}}</view>
+          <view class="order-descs gray">{{order.descs || order.title + '(500克)'}}</view>
+          <view class="order-remark gray">{{order.message}}</view>
         </view>
         <view class="order-number">
-          <view class="order-number-minus" data-iid="{{order.iid}}" catchtap="onMinusTap">
-            <image src="/images/icon/minus.png" />
-          </view>
-          <view class="order-number-input">
-            <input value="{{order.num}}" data-iid="{{order.iid}}" bindblur="onNumBlur" type="number" maxlength="4" cursor-spacing="30" />
-          </view>
-          <view class="order-number-plus" data-iid="{{order.iid}}" catchtap="onPlusTap">
-            <image src="/images/icon/plus.png" />
-          </view>
+          <view class="order-number-price">￥{{order.price}}</view>
+          <view class="order-number-num">{{order.num}}</view>
         </view>
       </view>
     </block>

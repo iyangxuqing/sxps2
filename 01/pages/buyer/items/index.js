@@ -23,6 +23,26 @@ Page({
     this.loadItems()
   },
 
+  onSearchHistory: function (e) {
+    let historyItems = wx.getStorageSync('historyItems')
+    Item.getItems().then(function (items) {
+      let _items = []
+      for (let i in historyItems) {
+        for (let j in items) {
+          if (historyItems[i].id == items[j].id) {
+            _items.push(items[j])
+            break
+          }
+        }
+      }
+      this.setData({
+        items: _items,
+        ready: true
+      })
+      this.onShoppingsUpdate()
+    }.bind(this))
+  },
+
   onSearch: function (e) {
     let searchKey = this.data.searchKey
     this.searchItems(searchKey)

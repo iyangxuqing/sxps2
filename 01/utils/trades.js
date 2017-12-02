@@ -102,7 +102,7 @@ function transformTrades(trades) {
     let amount = 0;
     let realNum = 0;
     let realAmount = 0;
-    switch (trade.status){
+    switch (trade.status) {
       case '买家提交':
         trade.txtStatus = '待发货'
         break

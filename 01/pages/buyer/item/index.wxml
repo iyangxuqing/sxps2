@@ -10,16 +10,16 @@
 
     <view class="section title">
       <view class="item-title">{{item.title}}</view>
-      <view class="item-descs">{{item.descs || item.title + '(每500g)'}}</view>
+      <view class="item-descs gray">{{item.descs || item.title + '(每500g)'}}</view>
       <view class="item-price">
-        <view class="item-price-label">价格：</view>
+        <view class="item-price-label gray">价格：</view>
         <view class="item-price-value">￥{{item.price}}</view>
       </view>
     </view>
 
     <view class="section amountAndNumber">
       <view class="item-amount">
-        <view class="item-amount-label">金额：</view>
+        <view class="item-amount-label gray">金额：</view>
         <view class="item-amount-value">￥{{item.amount}}</view>
       </view>
       <view class="item-number">
@@ -44,19 +44,8 @@
       <view class="shoppingTag-value">{{item.num}}(斤)</view>
     </view>
 
-    <view class="section notes">
-      <view class="note-row">
-        <view class="note-label">商铺</view>
-        <view class="note-value">{{note.title}}</view>
-      </view>
-      <view class="note-row">
-        <view class="note-label">电话</view>
-        <view class="note-value">{{note.phone}}</view>
-      </view>
-      <view class="note-row">
-        <view class="note-label">地址</view>
-        <view class="note-value">{{note.address}}</view>
-      </view>
+    <view class="section message">
+      <textarea value="{{item.message}}" placeholder="请输入买家留言" cursor-spacing="30" data-id="{{item.id}}" bindblur="onMessageBlur" />
     </view>
   </view>
 

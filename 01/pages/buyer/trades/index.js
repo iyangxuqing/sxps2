@@ -56,7 +56,7 @@ Page({
         status: '买家收货',
       }, {
         title: '已完成',
-        status: '已完成',
+        status: '订单完成',
       }],
       onTopnavTap: this.onTopnavTap
     })

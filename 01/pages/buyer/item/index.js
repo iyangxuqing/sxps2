@@ -6,11 +6,6 @@ Page({
 
   data: {
     youImageMode_v5: app.youImageMode_v5,
-    note: {
-      title: '老菜农蔬菜批发',
-      phone: '0579-86633138',
-      address: '东阳市吴宁中路38号'
-    }
   },
 
   onItemNumberMinus: function (e) {
@@ -45,6 +40,14 @@ Page({
     this.setShopping()
   },
 
+  onMessageBlur: function (e) {
+    let item = this.data.item
+    let message = e.detail.value
+    item.message = message
+    this.setData({ item })
+    this.setShopping()
+  },
+
   onGotoBuy: function (e) {
     wx.switchTab({
       url: '../items/index',
@@ -59,10 +62,23 @@ Page({
 
   setShopping: function () {
     let item = this.data.item
+
+    let historyItems = wx.getStorageSync('historyItems') || []
+    for (let i in historyItems) {
+      if (historyItems[i].id == item.id) {
+        historyItems.splice(i, 1)
+        break
+      }
+    }
+    historyItems.unshift({ id: item.id })
+    while (historyItems.length > 30) historyItems.pop()
+    wx.setStorageSync('historyItems', historyItems)
+
     let shoppings = wx.getStorageSync('shoppings') || []
     let shopping = {
       iid: item.id,
-      num: item.num
+      num: item.num,
+      message: item.message,
     }
     let index = -1
     for (let i in shoppings) {
@@ -108,6 +124,7 @@ Page({
         if (items[i].id == id) {
           item = items[i]
           item.num = 0
+          item.message = ''
           item.amount = Number(0).toFixed(2)
           break
         }
@@ -120,6 +137,7 @@ Page({
         if (shoppings[i].iid == item.id) {
           item.num = shoppings[i].num
           item.amount = Number(item.num * item.price).toFixed(2)
+          item.message = shoppings[i].message
           break
         }
       }

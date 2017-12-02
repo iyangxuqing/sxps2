@@ -13,6 +13,7 @@
       <view class="search-icon" catchtap="onSearch">
         <icon type="search" size="18" color="#777" />
       </view>
+      <view class="search-history" catchtap="onSearchHistory">常购清单</view>
     </view>
     <view class="cates">
       <view class="level1Cates">

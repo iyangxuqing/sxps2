@@ -11,11 +11,17 @@
 }
 
 .trades {
+  padding-top: 30rpx;
   padding-bottom: 30rpx;
 }
 
 .trade {
   font-size: 30rpx;
+  color: #333;
+}
+
+.gray {
+  color: #888;
 }
 
 .trade + .trade {
@@ -26,9 +32,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 120rpx;
-  font-size: 30rpx;
-  color: #666;
+  height: 110rpx;
   padding-left: 20rpx;
   padding-right: 20rpx;
   background-color: #f0f0f0;
@@ -36,27 +40,20 @@
 
 .trade-label.tid {
   font-size: 34rpx;
-  color: #000;
-}
-
-.trade-label.num {
-  text-align: right;
-}
-
-.trade-label.amount {
-  text-align: right;
-  color: #000;
 }
 
 .trade-label + .trade-label {
-  margin-top: 10rpx;
+  margin-top: 8rpx;
 }
 
 .trade-order {
   display: flex;
   align-items: center;
   height: 140rpx;
-  border-bottom: 1px solid #ddd;
+}
+
+.trade-order + .trade-order {
+  border-top: 2rpx solid #ddd;
 }
 
 .item-image {
@@ -77,29 +74,45 @@
 
 .item-descs {
   font-size: 26rpx;
-  color: #666;
+}
+
+.item-numbers {
+  display: flex;
+  font-size: 32rpx;
 }
 
 .item-number {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-number-label {
+  width: 160rpx;
   text-align: right;
-  margin-right: 20rpx;
+  padding-right: 30rpx;
 }
 
-.item-amount {
-  margin-bottom: 10rpx;
+.item-number-label + .item-number-label {
+  margin-top: 8rpx;
 }
 
-.item-num {
-  font-size: 28rpx;
-  color: #666;
+.trade-counts {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 90rpx;
+  font-size: 24rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  background-color: #f0f0f0;
 }
 
-.item-realAmount {
-  color: #f33;
-  margin-bottom: 10rpx;
+.trade-count {
+  display: flex;
+  align-items: center;
 }
 
-.item-realNum {
-  font-size: 28rpx;
-  color: #f33;
+.trade-count-col {
+  width: 200rpx;
+  text-align: right;
 }

@@ -19,9 +19,16 @@ page {
 }
 
 .section {
-  padding: 30rpx 20rpx;
+  padding: 20rpx;
+  margin-bottom: 30rpx;
   background-color: #fff;
-  margin-bottom: 20rpx;
+}
+
+.section.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 220rpx;
 }
 
 .item-title {
@@ -30,8 +37,6 @@ page {
 }
 
 .item-descs {
-  font-size: 26rpx;
-  color: #666;
   margin-top: 20rpx;
 }
 
@@ -39,10 +44,6 @@ page {
   display: flex;
   align-items: center;
   margin-top: 20rpx;
-}
-
-.item-price-label {
-  color: #666;
 }
 
 .item-price-value {
@@ -53,7 +54,7 @@ page {
 .section.amountAndNumber {
   display: flex;
   align-items: center;
-  padding: 10rpx 20rpx;
+  height: 110rpx;
 }
 
 .item-amount {
@@ -61,10 +62,6 @@ page {
   align-items: center;
   flex-shrink: 0;
   width: 300rpx;
-}
-
-.item-amount-label {
-  color: #666;
 }
 
 .item-amount-value {
@@ -83,7 +80,7 @@ page {
   flex-shrink: 0;
   width: 100rpx;
   height: 100rpx;
-  padding: 16rpx;
+  padding: 20rpx;
 }
 
 .item-number-icon-inner {
@@ -100,36 +97,45 @@ page {
   text-align: center;
 }
 
-.shoppingTag{
+.shoppingTag {
   position: absolute;
   top: 500rpx;
   right: 100rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 260rpx;
-  height: 100rpx;
+  width: 220rpx;
+  height: 80rpx;
   font-weight: 600;
   color: #f33;
-  border: 4rpx solid #f33;
+  border: 2rpx solid #f33;
 }
 
-.section.notes {
-  padding: 0 20rpx;
+.section.message {
+  height: 240rpx;
+}
+
+.message textarea {
+  width: 100%;
+  height: 100%;
 }
 
 .note-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 90rpx;
+  height: 80rpx;
 }
 
 .note-row + .note-row {
   border-top: 1px solid #ddd;
 }
 
-.page-foot{
+.note-remark {
+  height: 160rpx;
+}
+
+.page-foot {
   position: fixed;
   left: 0;
   right: 0;
@@ -143,7 +149,7 @@ page {
   background-color: #f0f0f0;
 }
 
-.button{
+.button {
   flex-basis: 0;
   flex-grow: 1;
   display: flex;
@@ -155,12 +161,12 @@ page {
   border-radius: 10rpx;
 }
 
-.button:nth-of-type(1){
+.button:nth-of-type(1) {
   background-color: #e33;
   margin-right: 30rpx;
 }
 
-.button:nth-of-type(2){
+.button:nth-of-type(2) {
   background-color: #292;
   margin-left: 30rpx;
 }

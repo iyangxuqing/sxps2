@@ -9,28 +9,10 @@ Page({
     youImageMode_v2: app.youImageMode_v2
   },
 
-  onMinusTap: function (e) {
+  onOrderTap: function (e) {
     let iid = e.currentTarget.dataset.iid
-    this.refreshOrders({
-      iid: iid,
-      dec: true,
-    })
-  },
-
-  onPlusTap: function (e) {
-    let iid = e.currentTarget.dataset.iid
-    this.refreshOrders({
-      iid: iid,
-      inc: true,
-    })
-  },
-
-  onNumBlur: function (e) {
-    let iid = e.currentTarget.dataset.iid
-    let num = parseInt(e.detail.value || 0)
-    this.refreshOrders({
-      iid: iid,
-      num: num,
+    wx.navigateTo({
+      url: '../item/index?id=' + iid,
     })
   },
 
@@ -57,7 +39,7 @@ Page({
                 app.listener.trigger('shoppings')
                 app.listener.trigger('trades')
                 this.setData({ orders: [] })
-                this.refreshSummary()
+                this.getSummary()
               }.bind(this)
             })
           }.bind(this))
@@ -66,73 +48,17 @@ Page({
     })
   },
 
-  refreshOrders: function (options) {
-    let iid = options.iid
-    let orders = this.data.orders
-    let shoppings = wx.getStorageSync('shoppings') || []
-    for (let i in orders) {
-      if (orders[i].iid == iid) {
-        let oldNum = orders[i].num
-        if (options.inc) {
-          if (orders[i].num < 9999) orders[i].num++
-        } else if (options.dec) {
-          if (orders[i].num > 0) orders[i].num--
-        } else if ('num' in options) {
-          orders[i].num = options.num
-        }
-        if (orders[i].num == 0) {
-          wx.showModal({
-            title: '购物车',
-            content: '购买数量为0将从购物车中删除这个商品，确定要删除这个商品吗？',
-            success: function (res) {
-              if (res.confirm) {
-                orders.splice(i, 1)
-              } else {
-                orders[i].num = oldNum
-              }
-              let shoppings = []
-              for (let j in orders) {
-                shoppings.push({
-                  iid: orders[j].iid,
-                  num: orders[j].num
-                })
-              }
-              this.setData({ orders })
-              this.refreshSummary()
-              wx.setStorageSync('shoppings', shoppings)
-              app.listener.trigger('shoppings')
-            }.bind(this)
-          })
-        } else {
-          let shoppings = []
-          for (let j in orders) {
-            shoppings.push({
-              iid: orders[j].iid,
-              num: orders[j].num
-            })
-          }
-          this.setData({ orders })
-          this.refreshSummary()
-          wx.setStorageSync('shoppings', shoppings)
-          app.listener.trigger('shoppings')
-        }
-        break
-      }
-    }
-  },
-
-  refreshSummary: function () {
-    let orders = this.data.orders
+  getSummary: function () {
     let zNum = 0;
     let zAmount = 0;
+    let orders = this.data.orders
     for (let i in orders) {
       zNum = zNum + Number(orders[i].num)
       zAmount = zAmount + orders[i].num * orders[i].price
     }
-    zAmount = Number(zAmount).toFixed(2)
     this.setData({
-      zNum,
-      zAmount,
+      zNum: zNum,
+      zAmount: Number(zAmount).toFixed(2),
     })
   },
 
@@ -150,10 +76,8 @@ Page({
               descs: items[j].descs,
               image: items[j].images[0],
               price: items[j].price,
-              minVol: items[j].minVol,
-              maxVol: items[j].volumn,
               num: shoppings[i].num,
-              amount: Number(items[j].price * shoppings[i].num).toFixed(2)
+              message: shoppings[i].message,
             }
             orders.push(order)
             break
@@ -161,7 +85,7 @@ Page({
         }
       }
       this.setData({ orders })
-      this.refreshSummary()
+      this.getSummary()
     }.bind(this))
   },
 
