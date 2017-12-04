@@ -31,3 +31,63 @@ input {
 .gray {
   color: #888;
 }
+
+.order {
+  display: flex;
+  align-items: center;
+  height: 140rpx;
+}
+
+.order + .order {
+  border-top: 2rpx solid #ddd;
+}
+
+.order-image {
+  width: 120rpx;
+  height: 120rpx;
+  border: 2rpx solid #eee;
+}
+
+.order-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 400rpx;
+  padding-left: 10rpx;
+}
+
+.order-text-title {
+  font-size: 34rpx;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.order-text-descs {
+  font-size: 24rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 8rpx;
+}
+
+.order-text-message {
+  font-size: 24rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 8rpx;
+}
+
+.order-number {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 170rpx;
+  padding-right: 10rpx;
+}
+
+.order-number-price {
+  margin-bottom: 8rpx;
+}

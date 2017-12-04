@@ -1,0 +1,93 @@
+<import src='/template/loading/loading.wxml' />
+<template is="loading" data="{{...loading}}" />
+<import src='/template/toptip/toptip.wxml' />
+<template is="toptip" data="{{...toptip}}" />
+<import src='/template/userinfo/userinfo.wxml' />
+<import src='/template/mobile/mobile.wxml' />
+
+<view class="container" wx:if="{{ready}}">
+  <template is="userInfo" data="{{...userInfo}}" />
+  <template is="myorder" data="{{...myorder}}" />
+  <template is="mobile" data="{{...mobile}}" />
+  <template is="address" data="{{...address}}" />
+  <template is="service-provider" data="{{...serviceProvider}}" />
+</view>
+
+<!--  -->
+
+<template name="address">
+  <view class="row row-address" catchtap="onAddressTap">
+    <view class="row-icon">
+       <image src="/images/icon/map-pin.png" /> 
+    </view>
+    <view class="row-label">收货地址</view>
+    <view class="row-value">{{district}}{{detail}}{{name}}</view>
+    <view class="row-icon">
+      <image src="/images/icon/enter.png" />
+    </view>
+  </view>
+</template>
+
+<template name="myorder">
+  <view class="card myorder">
+    <view class="card-head">
+      <view class="card-head-title">我的订单</view>
+      <view class="card-head-more" data-index="0" catchtap="onLinkTap">
+        <view class="card-head-more-text">查看全部订单</view>
+        <view class="card-head-more-icon">
+          <image src="/images/icon/enter.png" />
+        </view>
+      </view>
+    </view>
+    <view class="card-body">
+      <view class="myorder-links">
+        <view class="myorder-link" data-index="1" catchtap="onLinkTap">
+          <view class="myorder-link-icon">
+            <image src="/images/icon/order-uncommitted.png" />
+          </view>
+          <view class="myorder-link-text">未提交</view>
+        </view>
+        <view class="myorder-link" data-index="2" catchtap="onLinkTap">
+          <view class="myorder-link-icon">
+            <image src="/images/icon/order-submitted.png" />
+          </view>
+          <view class="myorder-link-text">已提交</view>
+        </view>
+        <view class="myorder-link" data-index="3" catchtap="onLinkTap">
+          <view class="myorder-link-icon">
+            <image src="/images/icon/order-shipped.png" />
+          </view>
+          <view class="myorder-link-text">已发货</view>
+        </view>
+        <view class="myorder-link" data-index="4" catchtap="onLinkTap">
+          <view class="myorder-link-icon">
+            <image src="/images/icon/order-completed.png" />
+          </view>
+          <view class="myorder-link-text">已完成</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<template name="service-provider">
+  <view class="card service-provider">
+    <view class="card-head">
+      <view class="card-head-title">配送商家</view>
+    </view>
+    <view class="card-body">
+      <view class="shop">
+        <view class="shop-image">
+          <image src="{{logo}}" mode="aspectFill" />
+        </view>
+        <view class="shop-info">
+          <view class="shop-info-title" catchlongpress="onShopLongPress">{{title}}</view>
+          <view class="shop-info-tele" data-phone-number="{{phone}}" catchtap="onShopTeleTap">
+            <view class="shop-info-label">联系电话:</view>
+            <view class="shop-info-value">{{phone}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

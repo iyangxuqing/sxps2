@@ -74,6 +74,11 @@
 
 .item-descs {
   font-size: 26rpx;
+  margin-bottom: 10rpx;
+}
+
+.item-message {
+  font-size: 26rpx;
 }
 
 .item-numbers {

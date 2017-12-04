@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/buyer/address/index",
+    "pages/buyer/wode/index",
     "pages/index/index",
     "pages/seller/index/index",
     "pages/seller/cates/index",
@@ -12,8 +14,9 @@
     "pages/buyer/item/index",
     "pages/buyer/shopping/index",
     "pages/buyer/trades/index",
+    "pages/buyer/wode/index",
+    "pages/buyer/address/index",
     "pages/admins/index/index",
-    "pages/client/wode/index",
     "pages/admins/sellersTrades/index",
     "pages/admins/cates/index",
     "pages/admin/trades/index",
@@ -49,7 +52,7 @@
         "selectedIconPath": "images/tab/02/admin.png"
       },
       {
-        "pagePath": "pages/client/wode/index",
+        "pagePath": "pages/buyer/wode/index",
         "text": "我的",
         "iconPath": "images/tab/01/user.png",
         "selectedIconPath": "images/tab/02/user.png"

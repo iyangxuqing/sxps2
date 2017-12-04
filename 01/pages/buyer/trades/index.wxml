@@ -19,22 +19,21 @@
         </view>
         <view class="trade-orders">
           <block wx:for="{{trade.orders}}" wx:key="" wx:for-item="order">
-            <view class="trade-order">
-              <view class="item-image">
+            <view class="order" data-iid="{{order.iid}}" catchtap="onOrderTap">
+              <view class="order-image">
                 <image src="{{order.image + youImageMode_v2}}" mode="aspectFill" />
               </view>
-              <view class="item-text">
-                <view class="item-title">{{order.title}}</view>
-                <view class="item-descs gray">{{order.descs || order.title + '(500克)'}}</view>
+              <view class="order-text">
+                <view class="order-text-title">{{order.title}}</view>
+                <view class="order-text-descs gray">{{order.descs || order.title + '(500克)'}}</view>
+                <view class="order-text-message gray" wx:if="{{order.message}}">{{order.message}}</view>
               </view>
-              <view class="item-price">￥{{order.price}}</view>
-              <view class="item-numbers">
-                <view class="item-number" wx:if="{{order.realNum==0}}">
-                  <view class="item-number-label">{{order.num}}</view>
-                </view>
-                <view class="item-number" wx:if="{{order.realNum>0}}">
-                  <view class="item-number-label gray">{{order.num}}</view>
-                  <view class="item-number-label">{{order.realNum}}</view>
+              <view class="order-number">
+                <view class="order-number-price">￥{{order.price}}</view>
+                <view class="order-number-num" wx:if="{{order.realNum==''}}">{{order.num}}</view>
+                <view class="order-number-num" wx:if="{{order.realNum!=''}}">
+                  <text>{{order.realNum}}</text>
+                  <text class="gray">{{'(' + order.num + ')'}}</text>
                 </view>
               </view>
             </view>
