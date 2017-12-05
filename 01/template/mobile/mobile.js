@@ -31,7 +31,8 @@ let methods = {
     }
 
     page.setData({
-      'mobile.number': mobile
+      'mobile.number': mobile,
+      'mobile.codeRequested': true,
     })
 
     User.mobileCodeRequest(mobile)
@@ -102,6 +103,7 @@ let methods = {
           setTimeout(() => {
             page.setData({
               'mobile.verified': true,
+              'mobile.codeRequested': false,
             })
           }, 300)
         } else {

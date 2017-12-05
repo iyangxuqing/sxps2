@@ -5,22 +5,34 @@ let app = getApp()
 
 Page({
 
+  showItemsTypes: [],
   data: {
-    youImageMode_v2: app.youImageMode_v2
+    youImageMode_v2: app.youImageMode_v2,
+    showItemsType: 'category'
   },
 
   onSearchInput: function (e) {
     let value = e.detail.value
     this.setData({
-      searchKey: value
+      searchKey: value,
     })
   },
 
   onSearchCancel: function (e) {
     this.setData({
-      searchKey: ''
+      searchKey: '',
     })
-    this.loadItems()
+    let lastShowItemsType = this.showItemsTypes.pop()
+    if (lastShowItemsType == 'history') {
+      this.onSearchHistory()
+    } else {
+      this.loadItems()
+    }
+  },
+
+  onSearch: function (e) {
+    let searchKey = this.data.searchKey
+    this.searchItems(searchKey)
   },
 
   onSearchHistory: function (e) {
@@ -36,16 +48,13 @@ Page({
         }
       }
       this.setData({
+        ready: true,
         items: _items,
-        ready: true
+        showItemsType: 'history',
       })
+      this.showItemsTypes.push('history')
       this.onShoppingsUpdate()
     }.bind(this))
-  },
-
-  onSearch: function (e) {
-    let searchKey = this.data.searchKey
-    this.searchItems(searchKey)
   },
 
   onLevel1CateTap: function (e) {
@@ -104,31 +113,35 @@ Page({
         break
       }
     }
-    Item.getItems().then(function (_items) {
-      let items = []
-      for (let i in _items) {
-        if (_items[i].cid == cid) {
-          items.push(_items[i])
+    Item.getItems().then(function (items) {
+      let _items = []
+      for (let i in items) {
+        if (items[i].cid == cid) {
+          _items.push(items[i])
         }
       }
       this.setData({
-        items: items,
-        ready: true
+        ready: true,
+        items: _items,
+        showItemsType: 'category',
       })
+      this.showItemsTypes.push('category')
       this.onShoppingsUpdate()
     }.bind(this))
   },
 
   searchItems: function (searchKey) {
-    Item.getItems().then(function (_items) {
-      let items = []
-      for (let i in _items) {
-        if (_items[i].title.indexOf(searchKey) >= 0) {
-          items.push(_items[i])
+    Item.getItems().then(function (items) {
+      let _items = []
+      for (let i in items) {
+        if (items[i].title.indexOf(searchKey) >= 0) {
+          _items.push(items[i])
         }
       }
       this.setData({
-        items: items
+        ready: true,
+        items: _items,
+        showItemsType: 'search',
       })
       this.onShoppingsUpdate()
     }.bind(this))

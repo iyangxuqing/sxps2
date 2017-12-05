@@ -1,6 +1,6 @@
 import { Loading } from '../../../template/loading/loading.js'
 import { Toptip } from '../../../template/toptip/toptip.js'
-import { User } from "../../../utils/user.js"
+import { Buyer } from "../../../utils/buyer.js"
 
 let app = getApp()
 
@@ -19,46 +19,47 @@ Page({
   onLoad: function (options) {
     this.toptip = new Toptip()
     this.loading = new Loading()
-
-    let region = this.data.region
-    if(options.province) region[0] = options.province
-    if(options.city) region[1] = options.city
-    if(options.district) region[2] = options.district
-    let addressDetail = options.detail
-    this.setData({
-      region,
-      addressDetail,
-    })
+    this.loading.show()
+    Buyer.getBuyer().then(function (buyer) {
+      if (!buyer) buyer = {}
+      let region = this.data.region
+      if (buyer.province) region[0] = buyer.province
+      if (buyer.city) region[1] = buyer.city
+      if (buyer.district) region[2] = buyer.district
+      this.setData({
+        region,
+        name: buyer.name,
+        address: buyer.address,
+        ready: true,
+      })
+      this.loading.hide()
+    }.bind(this)).catch(function (res) {
+      this.loading.hide()
+    }.bind(this))
   },
 
   onAddressSubmit: function (e) {
-    let address_province = this.data.region[0]
-    let address_city = this.data.region[1]
-    let address_district = this.data.region[2]
-    let address_detail = e.detail.value.addressDetail
-
+    let buyer = {
+      name: e.detail.value.name,
+      address: e.detail.value.address,
+      district: this.data.region[2],
+      city: this.data.region[1],
+      province: this.data.region[0],
+    }
     this.loading.show()
-    User.setUser({
-      address_province,
-      address_city,
-      address_district,
-      address_detail
-    }).then(function (res) {
+    Buyer.setBuyer(buyer).then(function (res) {
       if (res.errno === 0) {
-        this.loading.hide()
         this.toptip.show({
           title: '地址保存成功',
           success: function () {
-            app.listener.trigger('userAddressUpdate', {
-              province: address_province,
-              city: address_city,
-              district: address_district,
-              detail: address_detail,
-            })
+            app.listener.trigger('buyerUpdate', buyer)
             wx.navigateBack()
           }
         })
+        this.loading.hide()
       }
+    }.bind(this)).catch(function (res) {
+      this.loading.hide()
     }.bind(this))
   },
 

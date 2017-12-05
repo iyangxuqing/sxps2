@@ -8,6 +8,22 @@ Page({
 
   data: {
     youImageMode_v2: app.youImageMode_v2,
+    tradeLinks: [{
+      title: '全部',
+      status: '',
+    }, {
+      title: '已提交',
+      status: '买家提交',
+    }, {
+      title: '已发货',
+      status: '卖家发货',
+    }, {
+      title: '已收货',
+      status: '买家收货',
+    }, {
+      title: '已完成',
+      status: '订单完成',
+    }]
   },
 
   onTopnavTap: function (index, item) {
@@ -41,23 +57,16 @@ Page({
 
   onLoad: function () {
     app.listener.on('trades', this.onTradesUpdate)
+    let tradeLinks = this.data.tradeLinks
+    let tradeStatus = wx.getStorageSync('tradeStatus') || ''
+    for (let i in tradeLinks) {
+      tradeLinks[i].active = false
+      if (tradeLinks[i].status == tradeStatus) {
+        tradeLinks[i].active = true
+      }
+    }
     this.topnavs = new Topnavs({
-      items: [{
-        title: '全部',
-        status: '',
-      }, {
-        title: '待发货',
-        status: '买家提交',
-      }, {
-        title: '已发货',
-        status: '卖家发货',
-      }, {
-        title: '已收货',
-        status: '买家收货',
-      }, {
-        title: '已完成',
-        status: '订单完成',
-      }],
+      items: tradeLinks,
       onTopnavTap: this.onTopnavTap
     })
     this.loadData()
@@ -68,7 +77,17 @@ Page({
   },
 
   onShow: function () {
-
+    let tradeLinks = this.data.tradeLinks
+    let tradeStatus = wx.getStorageSync('tradeStatus') || ''
+    for (let i in tradeLinks) {
+      tradeLinks[i].active = false
+      if (tradeLinks[i].status == tradeStatus) {
+        tradeLinks[i].active = true
+      }
+    }
+    this.setData({
+      'topnavs.items': tradeLinks
+    })
   },
 
   onHide: function () {

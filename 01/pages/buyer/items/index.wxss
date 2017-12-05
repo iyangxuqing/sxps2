@@ -62,6 +62,10 @@
   color: #666;
 }
 
+.search-history.active {
+  color: #f33;
+}
+
 .level1Cates {
   display: flex;
   align-items: center;

@@ -1,7 +1,5 @@
 {
   "pages": [
-    "pages/buyer/address/index",
-    "pages/buyer/wode/index",
     "pages/index/index",
     "pages/seller/index/index",
     "pages/seller/cates/index",

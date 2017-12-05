@@ -3,7 +3,7 @@
 <import src="/template/loading/loading.wxml" />
 <template is="loading" data="{{...loading}}" />
 
-<view class="container">
+<view class="container" wx:if="{{ready}}">
   <form bindsubmit="onAddressSubmit">
     <view class="row row-address-title">收货地址</view>
     <view class="row row-address-citys">
@@ -19,21 +19,14 @@
     </view>
     <view class="row row-address-detail">
       <view class="address-detail-label">详细地址</view>
-      <input class="address-detail-input" name="addressDetail" value="{{addressDetail}}" placeholder="输入街道门牌信息" maxlength="20" />
+      <input class="address-detail-input" name="address" value="{{address}}" placeholder="输入街道门牌信息" maxlength="20" />
       <view class="icon icon-address-detail">
         <image src="/images/icon/address-pin.png" />
       </view>
     </view>
     <view class="row row-address-detail">
       <view class="address-detail-label">收 货 人</view>
-      <input class="address-detail-input" name="name" value="{{name}}" placeholder="输入收货人姓名" maxlength="20" />
-      <view class="icon icon-address-detail">
-        <image src="/images/icon/address-pin.png" />
-      </view>
-    </view>
-    <view class="row row-address-detail">
-      <view class="address-detail-label">联系电话</view>
-      <input class="address-detail-input" name="phone" value="{{phone}}" placeholder="输入联系电话" maxlength="20" type="number" />
+      <input class="address-detail-input" name="name" value="{{name}}" placeholder="输入收货人姓名" maxlength="7" />
       <view class="icon icon-address-detail">
         <image src="/images/icon/address-pin.png" />
       </view>

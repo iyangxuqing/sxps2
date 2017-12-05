@@ -2,6 +2,7 @@ import { Loading } from '../../../template/loading/loading.js'
 import { Toptip } from '../../../template/toptip/toptip.js'
 import { Mobile } from '../../../template/mobile/mobile.js'
 import { User } from '../../../utils/user.js'
+import { Buyer } from '../../../utils/buyer.js'
 
 let app = getApp()
 
@@ -9,11 +10,28 @@ Page({
 
   data: {
     youImageMode: app.youImageMode_v2,
-    serviceProvider: {
+    sellerInfo: {
       title: '义乌市铱星生鲜配送',
       logo: '/images/logo/logo_v1.png',
       phone: '13757950478',
-    }
+    },
+    tradeLinks: [{
+      title: '已提交',
+      status: '买家提交',
+      icon: '/images/icon/order-uncommitted.png',
+    }, {
+      title: '已发货',
+      status: '卖家发货',
+      icon: '/images/icon/order-submitted.png',
+    }, {
+      title: '已收货',
+      status: '买家收货',
+      icon: '/images/icon/order-shipped.png',
+    }, {
+      title: '已完成',
+      status: '订单完成',
+      icon: '/images/icon/order-completed.png',
+    }]
   },
 
   getUserInfo: function (e) {
@@ -26,14 +44,8 @@ Page({
   },
 
   onAddressTap: function (e) {
-    let address = this.data.address || {}
-    let province = address.province || ''
-    let city = address.city || ''
-    let district = address.district || ''
-    let detail = address.detail || ''
-    let name = address.name || ''
     wx.navigateTo({
-      url: '../address/index?province=' + province + '&city=' + city + '&district=' + district + '&detail=' + detail + '&name=' + name,
+      url: '../address/index'
     })
   },
 
@@ -43,31 +55,16 @@ Page({
     })
   },
 
-  onUserUpdate: function (user) {
-    this.setData({
-      'userInfo.nickName': user.nickName,
-      'userInfo.avatarUrl': user.avatarUrl,
-      'mobile.number': user.mobileNumber,
-      'mobile.verified': user.mobileVerified == '1',
-      address: {
-        province: user.address_province,
-        city: user.address_city,
-        district: user.address_district,
-        detail: user.address_detail,
-        name: user.address_name,
-      },
-    })
-  },
-
-  onUserAddressUpdate: function (address) {
-    this.setData({
-      address,
-    })
+  onBuyerUpdate: function (buyer) {
+    this.setData({ buyer })
   },
 
   onLinkTap: function (e) {
     let index = e.currentTarget.dataset.index
-    wx.setStorageSync('orderIndex', index)
+    let tradeLinks = this.data.tradeLinks
+    let status = ''
+    if (index >= 0) status = tradeLinks[index].status
+    wx.setStorageSync('tradeStatus', status)
     wx.switchTab({
       url: '../trades/index',
     })
@@ -93,30 +90,27 @@ Page({
     this.toptip = new Toptip()
     this.mobile = new Mobile()
     app.listener.on('toptip', this.onToptip)
-    app.listener.on('user', this.onUserUpdate)
-    app.listener.on('userAddressUpdate', this.onUserAddressUpdate)
+    app.listener.on('buyerUpdate', this.onBuyerUpdate)
 
     this.loading.show()
-    User.getUser({
-      fields: 'avatarUrl, nickName, mobileNumber, mobileVerified, address_province, address_city, address_district, address_detail',
-    }).then(function (user) {
-      if (!user) user = {}
+    Promise.all([
+      User.getUser({ fields: 'avatarUrl, nickName, mobileNumber, mobileVerified' }),
+      Buyer.getBuyer(),
+    ]).then(function (res) {
+      let user = res[0] || {}
+      let buyer = res[1] || {}
       this.setData({
         'ready': true,
+        'buyer': buyer,
         'userInfo.nickName': user.nickName,
         'userInfo.avatarUrl': user.avatarUrl,
         'mobile.number': user.mobileNumber,
         'mobile.verified': user.mobileVerified == '1',
-        address: {
-          province: user.address_province,
-          city: user.address_city,
-          district: user.address_district,
-          detail: user.address_detail,
-          name: user.address_name,
-        },
       })
       this.loading.hide()
-    }.bind(this))
+    }.bind(this)).catch(function (res) {
+      this.loading.hide()
+    })
 
   },
 

@@ -10,19 +10,42 @@ page {
 .container {
   min-height: 100%;
   font-size: 34rpx;
-  padding-bottom: 30rpx;
-  background-color: #f2f2f2;
+  background-color: #f0f0f0;
 }
 
-.row-address {
-  margin-bottom: 30rpx;
-  border-bottom: 0;
+.address {
+  display: flex;
+  align-items: center;
+  height: 110rpx;
+  font-size: 32rpx;
+  margin-bottom: 20rpx;
+  background-color: #fff;
+}
+
+.address-icon {
+  width: 100rpx;
+  height: 100rpx;
+  padding: 30rpx;
+}
+
+.address-label {
+  flex-shrink: 0;
+  width: 160rpx;
+  margin-left: -10rpx;
+}
+
+.address-value {
+  flex-grow: 1;
+}
+
+.address-icon-enter {
+  padding: 32rpx;
 }
 
 .card {
   font-size: 34rpx;
   padding: 0 30rpx;
-  margin-bottom: 30rpx;
+  margin-bottom: 20rpx;
   background-color: #fff;
 }
 
@@ -58,11 +81,11 @@ page {
   padding: 20rpx 0;
 }
 
-.myorder-links {
+.myorder-links, .trade-links {
   display: flex;
 }
 
-.myorder-link {
+.myorder-link, .trade-link{
   flex-basis: 0;
   flex-grow: 1;
   display: flex;
@@ -71,7 +94,7 @@ page {
   justify-content: center;
 }
 
-.myorder-link-icon {
+.myorder-link-icon, .trade-link-icon {
   width: 100rpx;
   height: 60rpx;
   opacity: 0.6;
@@ -79,12 +102,12 @@ page {
   margin-bottom: 20rpx;
 }
 
-.myorder-link-text {
+.myorder-link-text, .trade-link-text {
   font-size: 30rpx;
   color: #666;
 }
 
-.card.service-provider {
+.card.sellerInfo {
   margin-bottom: 0;
 }
 
@@ -94,13 +117,13 @@ page {
 }
 
 .shop-image {
-  width: 160rpx;
-  height: 160rpx;
+  width: 200rpx;
+  height: 200rpx;
+  padding: 20rpx;
 }
 
 .shop-info {
   color: #333;
-  margin-left: 10rpx;
 }
 
 .shop-info-title {

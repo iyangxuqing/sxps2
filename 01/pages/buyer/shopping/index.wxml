@@ -10,7 +10,7 @@
         </view>
         <view class="order-text {{order.message ? 'withMessage' : ''}}">
           <view class="order-text-title">{{order.title}}</view>
-          <view class="order--text-descs gray">{{order.descs || order.title + '(500克)'}}</view>
+          <view class="order-text-descs gray">{{order.descs || order.title + '(500克)'}}</view>
           <view class="order-text-message gray">{{order.message}}</view>
         </view>
         <view class="order-number">

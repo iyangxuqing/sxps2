@@ -4,7 +4,7 @@
   height: 200rpx;
   overflow: hidden;
   background-color: #fff;
-  margin-bottom: 30rpx;
+  margin-bottom: 20rpx;
 }
 
 .userInfo button {
