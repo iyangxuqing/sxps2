@@ -21,9 +21,10 @@ Page({
   onSearchCancel: function (e) {
     this.setData({
       searchKey: '',
+      searching: false,
     })
-    let lastShowItemsType = this.showItemsTypes.pop()
-    if (lastShowItemsType == 'history') {
+    let showItemsType = this.data.showItemsType
+    if (showItemsType == 'history') {
       this.onSearchHistory()
     } else {
       this.loadItems()
@@ -32,6 +33,10 @@ Page({
 
   onSearch: function (e) {
     let searchKey = this.data.searchKey
+    if (!searchKey) return
+    this.setData({
+      searching: true
+    })
     this.searchItems(searchKey)
   },
 
@@ -52,7 +57,6 @@ Page({
         items: _items,
         showItemsType: 'history',
       })
-      this.showItemsTypes.push('history')
       this.onShoppingsUpdate()
     }.bind(this))
   },
@@ -125,7 +129,6 @@ Page({
         items: _items,
         showItemsType: 'category',
       })
-      this.showItemsTypes.push('category')
       this.onShoppingsUpdate()
     }.bind(this))
   },
@@ -141,7 +144,6 @@ Page({
       this.setData({
         ready: true,
         items: _items,
-        showItemsType: 'search',
       })
       this.onShoppingsUpdate()
     }.bind(this))
