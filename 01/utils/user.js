@@ -4,7 +4,7 @@ function login() {
   return new Promise(function (resolve, reject) {
     wx.login({
       success: function (res) {
-        http.get({
+        http.post({
           url: 'sxps/user.php?m=login',
           data: { code: res.code }
         }).then(function (res) {
@@ -41,7 +41,7 @@ function getUser(options = {}) {
 
 function setUser(options) {
   return new Promise(function (resolve, reject) {
-    http.get({
+    http.post({
       url: 'sxps/user.php?m=set',
       data: options
     }).then(function (res) {
@@ -54,7 +54,7 @@ function setUser(options) {
 
 function mobileCodeRequest(mobile) {
   return new Promise(function (resolve, reject) {
-    http.get({
+    http.post({
       url: 'sxps/mobile.php?m=codeRequest',
       data: {
         tplId: 29922,
@@ -70,7 +70,7 @@ function mobileCodeRequest(mobile) {
 
 function mobileCodeVerify(mobile, code) {
   return new Promise(function (resolve, reject) {
-    http.get({
+    http.post({
       url: 'sxps/mobile.php?m=codeVerify',
       data: { mobile, code },
     }).then(function (res) {

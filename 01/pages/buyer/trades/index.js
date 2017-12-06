@@ -58,18 +58,10 @@ Page({
   onLoad: function () {
     app.listener.on('trades', this.onTradesUpdate)
     let tradeLinks = this.data.tradeLinks
-    let tradeStatus = wx.getStorageSync('tradeStatus') || ''
-    for (let i in tradeLinks) {
-      tradeLinks[i].active = false
-      if (tradeLinks[i].status == tradeStatus) {
-        tradeLinks[i].active = true
-      }
-    }
     this.topnavs = new Topnavs({
       items: tradeLinks,
       onTopnavTap: this.onTopnavTap
     })
-    this.loadData()
   },
 
   onReady: function () {
@@ -78,16 +70,21 @@ Page({
 
   onShow: function () {
     let tradeLinks = this.data.tradeLinks
-    let tradeStatus = wx.getStorageSync('tradeStatus') || ''
-    for (let i in tradeLinks) {
-      tradeLinks[i].active = false
-      if (tradeLinks[i].status == tradeStatus) {
-        tradeLinks[i].active = true
+    let tradeStatus = wx.getStorageSync('tradeStatus')
+    console.log('abc', tradeStatus)
+    if (tradeStatus) {
+      wx.removeStorageSync('tradeStatus')
+      for (let i in tradeLinks) {
+        tradeLinks[i].active = false
+        if (tradeLinks[i].status == tradeStatus.status) {
+          tradeLinks[i].active = true
+        }
       }
+      this.setData({
+        'topnavs.items': tradeLinks
+      })
     }
-    this.setData({
-      'topnavs.items': tradeLinks
-    })
+    this.loadData()
   },
 
   onHide: function () {

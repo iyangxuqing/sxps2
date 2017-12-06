@@ -9,7 +9,7 @@
   <template is="userInfo" data="{{...userInfo}}" />
   <template is="myTrade" data="{{tradeLinks}}" />
   <template is="mobile" data="{{...mobile}}" />
-  <template is="address" data="{{buyer}}" />
+  <template is="address" data="{{...user}}" />
   <template is="sellerInfo" data="{{...sellerInfo}}" />
 </view>
 
@@ -19,7 +19,9 @@
        <image src="/images/icon/map-pin.png" /> 
     </view>
     <view class="address-label">收货地址</view>
-    <view class="address-value">{{buyer.district}}{{buyer.address}} {{buyer.name}}</view>
+    <view class="address-value">
+      <text wx:if="{{receive_address}}">{{receive_district}}{{receive_address}} {{receive_name}}</text>
+    </view>
     <view class="address-icon address-icon-enter">
       <image src="/images/icon/enter.png" />
     </view>

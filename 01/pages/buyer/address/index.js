@@ -1,6 +1,6 @@
 import { Loading } from '../../../template/loading/loading.js'
 import { Toptip } from '../../../template/toptip/toptip.js'
-import { Buyer } from "../../../utils/buyer.js"
+import { User } from "../../../utils/user.js"
 
 let app = getApp()
 
@@ -20,16 +20,15 @@ Page({
     this.toptip = new Toptip()
     this.loading = new Loading()
     this.loading.show()
-    Buyer.getBuyer().then(function (buyer) {
-      if (!buyer) buyer = {}
+    User.getUser().then(function(user){
       let region = this.data.region
-      if (buyer.province) region[0] = buyer.province
-      if (buyer.city) region[1] = buyer.city
-      if (buyer.district) region[2] = buyer.district
+      if (user.receive_province) region[0] = user.receive_province
+      if (user.receive_city) region[1] = user.receive_city
+      if (user.receive_district) region[2] = user.receive_district
       this.setData({
         region,
-        name: buyer.name,
-        address: buyer.address,
+        name: user.receive_name,
+        address: user.receive_address,
         ready: true,
       })
       this.loading.hide()
@@ -39,20 +38,20 @@ Page({
   },
 
   onAddressSubmit: function (e) {
-    let buyer = {
-      name: e.detail.value.name,
-      address: e.detail.value.address,
-      district: this.data.region[2],
-      city: this.data.region[1],
-      province: this.data.region[0],
+    let user = {
+      receive_name: e.detail.value.name,
+      receive_address: e.detail.value.address,
+      receive_district: this.data.region[2],
+      receive_city: this.data.region[1],
+      receive_province: this.data.region[0],
     }
     this.loading.show()
-    Buyer.setBuyer(buyer).then(function (res) {
+    User.setUser(user).then(function (res) {
       if (res.errno === 0) {
         this.toptip.show({
           title: '地址保存成功',
           success: function () {
-            app.listener.trigger('buyerUpdate', buyer)
+            app.listener.trigger('userUpdate', user)
             wx.navigateBack()
           }
         })

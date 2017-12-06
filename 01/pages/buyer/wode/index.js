@@ -2,7 +2,6 @@ import { Loading } from '../../../template/loading/loading.js'
 import { Toptip } from '../../../template/toptip/toptip.js'
 import { Mobile } from '../../../template/mobile/mobile.js'
 import { User } from '../../../utils/user.js'
-import { Buyer } from '../../../utils/buyer.js'
 
 let app = getApp()
 
@@ -55,8 +54,8 @@ Page({
     })
   },
 
-  onBuyerUpdate: function (buyer) {
-    this.setData({ buyer })
+  onUserUpdate: function (user) {
+    this.setData({ user })
   },
 
   onLinkTap: function (e) {
@@ -64,7 +63,7 @@ Page({
     let tradeLinks = this.data.tradeLinks
     let status = ''
     if (index >= 0) status = tradeLinks[index].status
-    wx.setStorageSync('tradeStatus', status)
+    wx.setStorageSync('tradeStatus', { status: status })
     wx.switchTab({
       url: '../trades/index',
     })
@@ -90,18 +89,20 @@ Page({
     this.toptip = new Toptip()
     this.mobile = new Mobile()
     app.listener.on('toptip', this.onToptip)
-    app.listener.on('buyerUpdate', this.onBuyerUpdate)
+    app.listener.on('userUpdate', this.onUserUpdate)
 
     this.loading.show()
-    Promise.all([
-      User.getUser({ fields: 'avatarUrl, nickName, mobileNumber, mobileVerified' }),
-      Buyer.getBuyer(),
-    ]).then(function (res) {
-      let user = res[0] || {}
-      let buyer = res[1] || {}
+    User.getUser({
+      fields: 'avatarUrl, nickName, mobileNumber, mobileVerified, receive_name, receive_phone, receive_province, receive_city, receive_district, receive_address'
+    }).then(function (user) {
       this.setData({
         'ready': true,
-        'buyer': buyer,
+        'user.receive_name': user.receive_name,
+        'user.receive_phone': user.receive_phone,
+        'user.receive_province': user.receive_province,
+        'user.receive_city': user.receive_city,
+        'user.receive_district': user.receive_district,
+        'user.receive_address': user.receive_address,
         'userInfo.nickName': user.nickName,
         'userInfo.avatarUrl': user.avatarUrl,
         'mobile.number': user.mobileNumber,
@@ -109,8 +110,9 @@ Page({
       })
       this.loading.hide()
     }.bind(this)).catch(function (res) {
+      console.log(res)
       this.loading.hide()
-    })
+    }.bind(this))
 
   },
 

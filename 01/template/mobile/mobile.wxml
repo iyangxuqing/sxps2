@@ -8,7 +8,7 @@
         <view class="mobile-row-label" wx:if="{{verified}}">手机号码</view>
         <view class="mobile-row-value">
           <view class="number" wx:if="{{verified}}">{{number}}</view>
-          <input class="{{numberError?'message-error':''}}" name="number" value="{{number}}" placeholder="输入手机号码" type="number" maxlength="11" bindfocus="{{onNumberInputFocus}}" wx:if="{{!verified}}" />
+          <input class="{{numberError?'message-error':''}}" name="number" value="{{number}}" placeholder="输入手机号码" type="number" maxlength="11" bindfocus="{{onNumberInputFocus}}" bindblur="{{onNumberBlur}}" wx:if="{{!verified}}" />
         </view>
         <view class="mobile-code-request" wx:if="{{!verified}}">
           <button formType="submit">{{codeRequestText}}</button>

@@ -13,6 +13,18 @@ let data = {
 
 let methods = {
 
+  onNumberBlur: function(e){
+    let mobileNumber = e.detail.value
+    console.log(mobileNumber)
+    var reg = /^1[3|4|5|7|8]\d{9}$/
+    if (reg.test(mobileNumber)) {
+      console.log(mobileNumber)
+      User.setUser({
+        mobileNumber: mobileNumber
+      })
+    }
+  },
+
   onCodeRequest: function (e) {
     let page = getCurrentPages().pop()
     let mobile = e.detail.value.number
