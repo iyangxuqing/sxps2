@@ -2,7 +2,7 @@
 
 <view class="container" wx:if="{{ready}}">
 
-  <view class="page-head {{refresh ? 'refresh' : ''}}">
+  <view class="page-head">
     <view class="search">
       <view class="search-input">
         <input value="{{searchKey}}" placeholder="输入菜名进行搜索" bindinput="onSearchInput" />

@@ -70,7 +70,8 @@ Page({
   },
 
   onShopLongPress: function (e) {
-    if (app.user.role == 'admin') {
+    let user = wx.getStorageSync('user')
+    if (user.role == 'seller_admin') {
       wx.redirectTo({
         url: '/pages/index/index'
       })
@@ -92,9 +93,7 @@ Page({
     app.listener.on('userUpdate', this.onUserUpdate)
 
     this.loading.show()
-    User.getUser({
-      fields: 'avatarUrl, nickName, mobileNumber, mobileVerified, receive_name, receive_phone, receive_province, receive_city, receive_district, receive_address'
-    }).then(function (user) {
+    User.getUser().then(function (user) {
       this.setData({
         'ready': true,
         'user.receive_name': user.receive_name,

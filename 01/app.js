@@ -17,14 +17,7 @@ App({
     this.youImageMode_v5 = config.youImageMode_v5
 
     Dataver.get()
-
-    User.login().then(function () {
-      User.getUser({
-        fields: 'role'
-      }).then(function (user) {
-        this.user = Object.assign({}, this.user, user)
-      }.bind(this))
-    }.bind(this))
+    User.login()
 
   }
 

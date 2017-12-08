@@ -40,7 +40,7 @@ Page({
     this.setShopping()
   },
 
-  onMessageBlur: function (e) {
+  onMessageInput: function (e) {
     let item = this.data.item
     let message = e.detail.value
     item.message = message

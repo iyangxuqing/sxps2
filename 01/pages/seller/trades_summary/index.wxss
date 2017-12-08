@@ -4,6 +4,7 @@
 .container {
   padding-left: 30rpx;
   padding-right: 30rpx;
+  padding-bottom: 140rpx;
 }
 
 .item {
@@ -38,6 +39,11 @@
 .item-num {
   text-align: right;
   padding-right: 20rpx;
+}
+
+.item-num-value{
+  display: inline-block;
+  width: 70rpx;
 }
 
 .item-summary .item-num {

@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "配发货",
-  "enablePullDownRefresh": true,
+  "navigationBarTitleText": "订单管理",
+  "enablePullDownRefresh": false,
   "backgroundTextStyle": "dark"
 }

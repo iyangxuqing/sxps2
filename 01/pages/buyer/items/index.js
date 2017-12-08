@@ -34,9 +34,6 @@ Page({
   onSearch: function (e) {
     let searchKey = this.data.searchKey
     if (!searchKey) return
-    this.setData({
-      searching: true
-    })
     this.searchItems(searchKey)
   },
 
@@ -55,6 +52,7 @@ Page({
       this.setData({
         ready: true,
         items: _items,
+        searching: false,
         showItemsType: 'history',
       })
       this.onShoppingsUpdate()
@@ -127,6 +125,7 @@ Page({
       this.setData({
         ready: true,
         items: _items,
+        searching: false,
         showItemsType: 'category',
       })
       this.onShoppingsUpdate()
@@ -144,6 +143,7 @@ Page({
       this.setData({
         ready: true,
         items: _items,
+        searching: true,
       })
       this.onShoppingsUpdate()
     }.bind(this))

@@ -16,9 +16,9 @@
           <view class="item-descs">{{item.descs || item.title + '(500克)'}}</view>
         </view>
         <view class="item-number">
-          <view class="item-num">合计：{{item.num}}</view>
-          <view class="item-num">待配：{{item.num - item.realNum}}</view>
-          <view class="item-num">已配：{{item.realNum}}</view>
+          <view class="item-num">合计<text class="item-num-value">{{item.num}}</text></view>
+          <view class="item-num">待配<text class="item-num-value">{{item.num - item.realNum}}</text></view>
+          <view class="item-num">已配<text class="item-num-value">{{item.realNum}}</text></view>
         </view>
       </view>
     </block>

@@ -1,3 +1,4 @@
+import { Search } from '../../../template/search/search.js'
 import { Topnavs } from '../../../template/topnavs/topnavs.js'
 import { Distribute } from '../../../template/distribute/distribute.js'
 import { Tabs } from '../../../template/tabs/tabs.js'
@@ -16,7 +17,8 @@ Page({
     }, {
       title: '买家',
       type: 'buyerTrades'
-    }]
+    }],
+    tradeStatus: '已提交'
   },
 
   onDistributeTap: function (e) {
@@ -218,25 +220,46 @@ Page({
       onTabTap: this.onTabTap
     })
 
-    this.distribute = new Distribute({
-      onDistributed: this.onDistributed
+    let date = new Date()
+    let year = date.getFullYear()
+    let month = date.getMonth()
+    let day = date.getDate()
+    let hour = date.getHours()
+    let startDate = new Date(year, month, day)
+    if (hour < 10) {
+      startDate = new Date(startDate.getTime() - 86400000)
+    }
+    let endDate = new Date(startDate.getTime() + 86400000)
+
+    this.search = new Search({
+      date1: startDate,
+      date2: endDate,
+      pickerWords: [{
+        title: '已提交',
+        value: '买家提交',
+        active: true,
+      }, {
+        title: '已发货',
+        value: '卖家发货',
+        active: false,
+      }, {
+        title: '已收货',
+        value: '买家收货',
+        active: false,
+      }, {
+        title: '已完成',
+        value: '订单完成',
+        active: false,
+      }],
+      onSearch: this.onSearch
     })
+    this.startTime = startDate.getTime()
+    this.endTime = endDate.getTime()
 
-    Trade.getTradesSummary_seller().then(function (orders) {
-      let summaryTrades = orders
+    Trade.getTrades_seller_v4().then(function (trades) {
       this.setData({
-        summaryTrades: summaryTrades,
-        typeTrades: 'summaryTrades'
-      })
-    }.bind(this))
-
-    Trade.getTrades_seller_v3().then(function (orders) {
-      this.orders = orders
-      let itemTrades = Trade.getItemTrades(orders)
-      let buyerTrades = Trade.getBuyerTrades(orders)
-      this.setData({
-        itemTrades,
-        buyerTrades,
+        trades: trades,
+        ready: true,
       })
     }.bind(this))
   },

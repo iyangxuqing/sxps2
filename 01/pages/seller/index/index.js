@@ -7,13 +7,16 @@ Page({
   data: {
     links: [{
       text: '菜品管理',
-      url: '../../seller/cates/index'
+      url: '../cates/index'
     }, {
       text: '订单汇总',
       url: '../trades_summary/index'
     }, {
       text: '订单配货',
       url: '../trades_distribute/index'
+    }, {
+      text: '订单管理',
+      url: '../trades/index'
     }]
   },
 

@@ -45,7 +45,7 @@
     </view>
 
     <view class="section message">
-      <textarea value="{{item.message}}" placeholder="请输入买家留言" cursor-spacing="30" data-id="{{item.id}}" bindblur="onMessageBlur" />
+      <textarea value="{{item.message}}" placeholder="请输入买家留言" cursor-spacing="30" data-id="{{item.id}}" bindinput="onMessageInput" />
     </view>
   </view>
 

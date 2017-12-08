@@ -12,9 +12,9 @@
         <view class="trade-head" data-tid="{{trade.id}}" catchtap="onTradeTap">
           <view class="trade-infos">
             <view class="trade-info">下单时间：{{trade.time}}</view>
-            <view class="trade-info">收 货 人：{{trade.name}}</view>
-            <view class="trade-info">联系电话：{{trade.phone}}</view>
-            <view class="trade-info">收货地址：{{trade.address}}</view>
+            <view class="trade-info">收 货 人：{{trade.receive_name}}</view>
+            <view class="trade-info">联系电话：{{trade.receive_phone || trade.mobileNumber}}</view>
+            <view class="trade-info">收货地址：{{trade.receive_district + trade.receive_address}}</view>
           </view>
           <view class="trade-button" wx:if="{{trade.distributed}}">发货</view>
         </view>
