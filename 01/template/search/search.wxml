@@ -12,12 +12,12 @@
     <view class="search-word">
       <view class="search-word-picker" catchtap="{{onWordPicker}}">{{pickerWord.title}}</view>
       <view class="search-input">
-        <input value="{{searchWord}}" placeholder="按订单号或电话号码搜索" bindinput="onSearchInput" />
-        <view class="search-cancel" wx:if="{{searchWord || 1}}" catchtap="onSearchCancel">
+        <input value="{{searchWord}}" placeholder="按订单号或电话号码搜索" bindinput="{{onSearchInput}}" />
+        <view class="search-cancel" wx:if="{{searchWord}}" catchtap="{{onSearchCancel}}">
           <icon type="cancel" size="18" color="#333" />
         </view>
       </view>
-      <view class="search-button" catchtap="onSearch">
+      <view class="search-button" catchtap="{{onSearch}}">
         <view class="search-icon">
           <icon type="search" size="18" color="#333" />
         </view>
@@ -25,16 +25,3 @@
     </view>
   </view>
 </template>
-
-<!-- <view class="search">
-      <view class="search-input">
-        <input value="{{searchKey}}" placeholder="输入菜名进行搜索" bindinput="onSearchInput" />
-        <view class="search-cancel" wx:if="{{searchKey}}" catchtap="onSearchCancel">
-          <icon type="cancel" size="18" color="#666" />
-        </view>
-      </view>
-      <view class="search-icon" catchtap="onSearch">
-        <icon type="search" size="18" color="#777" />
-      </view>
-      <view class="search-history {{showItemsType=='history' && !searching ? 'active' : ''}}" catchtap="onSearchHistory">常购清单</view>
-    </view> -->

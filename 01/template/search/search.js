@@ -60,7 +60,7 @@ function getDateRange(date) {
 
 let methods = {
 
-  onColumnChange: function (e) {
+  onDateTimePickerColumnChange: function (e) {
     let page = getCurrentPages().pop()
     let dateId = e.currentTarget.dataset.id
     let column = e.detail.column
@@ -113,7 +113,7 @@ let methods = {
     }
   },
 
-  onChange: function (e) {
+  onDateTimePickerChange: function (e) {
     let page = getCurrentPages().pop()
     let dateId = e.currentTarget.dataset.id
     let value = e.detail.value
@@ -143,16 +143,8 @@ let methods = {
     }
   },
 
-  onDateTimesSearch: function (e) {
-    let page = getCurrentPages().pop()
-    let date1 = page.data.search.date1
-    let date2 = page.data.search.date2
-    let time1 = date1.getTime()
-    let time2 = date2.getTime()
-    this.onSearch && this.onSearch({ date1, date2, time1, time2 })
-  },
-
   onWordPicker: function (e) {
+    let page = getCurrentPages().pop()
     let pickerWords = this.pickerWords
     let itemList = []
     for (let i in pickerWords) {
@@ -161,10 +153,48 @@ let methods = {
     wx.showActionSheet({
       itemList: itemList,
       success: function (res) {
-        console.log(res)
-      }
+        if (!res.cancel) {
+          let tapIndex = res.tapIndex
+          let pickerWord = pickerWords[tapIndex]
+          page.setData({
+            'search.pickerWord': pickerWord
+          })
+          this.searchWordPicker && this.searchWordPicker(pickerWord)
+        }
+      }.bind(this)
     })
-  }
+  },
+
+  onSearchInput: function (e) {
+    let page = getCurrentPages().pop()
+    let searchWord = e.detail.value
+    page.setData({
+      'search.searchWord': searchWord,
+    })
+  },
+
+  onSearchCancel: function (e) {
+    let page = getCurrentPages().pop()
+    page.setData({
+      'search.searchWord': '',
+    })
+    this.searchCancel && this.searchCancel()
+  },
+
+  onSearch: function (e) {
+    let page = getCurrentPages().pop()
+    let date1 = page.data.search.date1
+    let date2 = page.data.search.date2
+    let searchWord = page.data.search.searchWord
+    let search = {
+      date1: date1,
+      date2: date2,
+      time1: date1.getTime(),
+      time2: date2.getTime(),
+    }
+    if (searchWord) search.searchWord = searchWord
+    this.search && this.search(search)
+  },
 
 }
 
@@ -174,8 +204,9 @@ export class Search {
     let page = getCurrentPages().pop()
     options = Object.assign({}, defaults, options)
     this.pickerWords = options.pickerWords
-    this.onSearch = options.onSearch
-    this.onSearchWordPicker = options.onSearchWordPicker
+    this.search = options.search
+    this.searchCancel = options.searchCancel
+    this.searchWordPicker = options.searchWordPicker
 
     let date1 = options.date1
     let date2 = options.date2
@@ -189,6 +220,12 @@ export class Search {
     let date2Value = date2Result.dateValue
     let pickerWords = options.pickerWords
     let pickerWord = pickerWords[0]
+    for (let i in pickerWords) {
+      if (pickerWords[i].active) {
+        pickerWord = pickerWords[i]
+        break
+      }
+    }
     let search = { date1, date2, strDate1, strDate2, date1Range, date2Range, date1Value, date2Value, pickerWords, pickerWord }
     page.setData({ search })
     for (let key in methods) {

@@ -199,6 +199,19 @@ Page({
     console.log(order)
   },
 
+  onSearchWordPicker: function (pickerWord) {
+    let status = pickerWord.value
+    console.log(pickerWord, status)
+  },
+
+  onSearchCancel: function () {
+    console.log('searchCancel')
+  },
+
+  onSearch: function (search) {
+    console.log(search)
+  },
+
   onLoad: function (options) {
     this.topnavs = new Topnavs({
       items: [{
@@ -251,8 +264,11 @@ Page({
         value: '订单完成',
         active: false,
       }],
-      onSearch: this.onSearch
+      search: this.onSearch,
+      searchCancel: this.onSearchCancel,
+      searchWordPicker: this.onSearchWordPicker,
     })
+
     this.startTime = startDate.getTime()
     this.endTime = endDate.getTime()
 
