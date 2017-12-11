@@ -23,12 +23,13 @@ Page({
 
   data: {
     youImageMode_v2: app.youImageMode_v2,
-    youImageMode_v5: app.youImageMode_v5,
   },
 
   onSearchWordPicker: function (pickerWord) {
     this.tradeStatus = pickerWord.value
     wx.setStorageSync('tradeStatus', this.tradeStatus)
+    this.lastRowId = 0
+    this.loadTrades()
   },
 
   onSearchCancel: function () {
@@ -47,7 +48,8 @@ Page({
   onOrderTap: function (e) {
     let tid = e.currentTarget.dataset.tid
     let oid = e.currentTarget.dataset.oid
-    console.log(tid, oid)
+    let status = e.currentTarget.dataset.status
+    if (status != '买家提交') return
     let trades = this.data.trades
     let order = {}
     for (let i in trades) {
@@ -62,8 +64,92 @@ Page({
         break
       }
     }
-    console.log(order)
     this.orderDetail.show(order)
+  },
+
+  onOrderUpdated: function (order) {
+    let id = order.id
+    let tid = order.tid
+    Trade.setTrades_seller_v4({
+      oid: id,
+      realNum: order.realNum
+    }).then(function (res) {
+      let trades = this.data.trades
+      for (let i in trades) {
+        if (trades[i].id == tid) {
+          for (let j in trades[i].orders) {
+            if (trades[i].orders[j].id == id) {
+              trades[i].orders[j].realNum = order.realNum
+              break
+            }
+          }
+          trades[i].distributed = true
+          for (let j in trades[i].orders) {
+            if (trades[i].orders[j].realNum === '') {
+              trades[i].distributed = false
+              break
+            }
+          }
+          break
+        }
+      }
+      this.setData({
+        trades: trades
+      })
+    }.bind(this))
+  },
+
+  onTradeOperate: function (e) {
+    let tid = e.currentTarget.dataset.tid
+    let oldStatus = e.currentTarget.dataset.status
+    let newStatus = ''
+    let tip1 = ''
+    let tip2 = ''
+    if (oldStatus == '买家提交') {
+      newStatus = '卖家发货'
+      tip1 = '　　确定将该笔订单发货吗？发货前应当仔细核对订单的发货地址、所发货品和数量的正确无误。'
+      tip2 = '　　发货成功，可以前去已发货订单中查看该笔订单。'
+    } else if (oldStatus == '卖家发货') {
+      newStatus = '买家收货'
+      tip1 = '　　确定要把该笔订单设置为买家已收货吗？应当在商品送达并与买家核对无误后再进行设置。'
+      tip2 = '　　设置为买家已收货成功，可以前去“已收货”订单中查看该笔订单。'
+    } else if (oldStatus == '买家收货') {
+      newStatus = '订单完成'
+      tip1 = '　　确定要把该笔订单设置为订单已完成吗？应当在收到买家付款后才可以把订单设置为已完成。'
+      tip2 = '　　设置为订单已完成成功，可以前去“已完成”订单中查看该笔订单。'
+    }
+    wx.showModal({
+      title: '订单管理',
+      content: tip1,
+      success: function (res) {
+        if (res.confirm) {
+          Trade.setTrades_seller_v4({
+            tid: tid,
+            status: newStatus
+          }).then(function (res) {
+            if (res.errno === 0) {
+              wx.showModal({
+                title: '订单管理',
+                content: tip2,
+                showCancel: false,
+                success: function (res) {
+                  let trades = this.data.trades
+                  for (let i in trades) {
+                    if (trades[i].id == tid) {
+                      trades.splice(i, 1)
+                      break
+                    }
+                  }
+                  this.setData({
+                    trades: trades
+                  })
+                }.bind(this)
+              })
+            }
+          }.bind(this))
+        }
+      }.bind(this)
+    })
   },
 
   loadTrades: function (options) {
@@ -77,6 +163,15 @@ Page({
     Trade.getTrades_seller_v4(search).then(function (trades) {
       if (this.lastRowId) {
         trades = this.data.trades.concat(trades)
+      }
+      for (let i in trades) {
+        trades[i].distributed = true
+        for (let j in trades[i].orders) {
+          if (trades[i].orders[j].realNum === '') {
+            trades[i].distributed = false
+            break
+          }
+        }
       }
       this.setData({
         trades: trades,
@@ -114,7 +209,7 @@ Page({
       searchWordPicker: this.onSearchWordPicker,
     })
     this.orderDetail = new OrderDetail({
-
+      orderUpdated: this.onOrderUpdated
     })
     this.loadTrades()
   },

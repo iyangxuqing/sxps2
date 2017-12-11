@@ -43,7 +43,7 @@
 
 .item-num-value{
   display: inline-block;
-  width: 70rpx;
+  width: 100rpx;
 }
 
 .item-summary .item-num {
@@ -52,19 +52,4 @@
 
 .item-summary .item-num + .item-num {
   margin-top: 4rpx;
-}
-
-.item-realNum {
-  position: absolute;
-  top: 36rpx;
-  right: 100rpx;
-  font-size: 30rpx;
-  color: #f00;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 160rpx;
-  height: 70rpx;
-  transform: rotate(10deg);
-  border: 4rpx solid #f00;
 }

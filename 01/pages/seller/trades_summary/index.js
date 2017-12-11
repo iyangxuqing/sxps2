@@ -50,6 +50,11 @@ Page({
           items[index].realNum += Number(order.realNum)
         }
       }
+      for (let i in items) {
+        items[i].num = Number(items[i].num).toFixed(2)
+        items[i].realNum = Number(items[i].realNum).toFixed(2)
+        items[i].underNum = Number(items[i].num - items[i].realNum).toFixed(2)
+      }
       this.setData({
         items: items,
         ready: true,

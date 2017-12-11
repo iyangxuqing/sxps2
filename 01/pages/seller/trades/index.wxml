@@ -10,7 +10,7 @@
 
   <view class="trades">
     <block wx:for="{{trades}}" wx:key="" wx:for-item="trade">
-      <view class="trade">
+      <view class="trade {{trade.status=='买家提交' ? 'buyerSubmited' : ''}}">
         <view class="trade-info">
           <view class="trade-info-row">
             <text class="trade-info-tid">订 单 号：{{trade.id}}</text>
@@ -27,12 +27,12 @@
           </view>
         </view>
         <view class="trade-status">{{trade.status}}</view>
-        <view class="trade-operate" wx:if="{{trade.status=='买家提交'}}">{{'发 货'}}</view>
-        <view class="trade-operate" wx:if="{{trade.status=='卖家发货'}}">{{'买家收货'}}</view>
-        <view class="trade-operate" wx:if="{{trade.status=='买家收货'}}">{{'交易完成'}}</view>
+        <view class="trade-operate" data-tid="{{trade.id}}" data-status="{{trade.status}}" catchtap="onTradeOperate" wx:if="{{trade.status=='买家提交' && trade.distributed}}">{{'发 货'}}</view>
+        <view class="trade-operate" data-tid="{{trade.id}}" data-status="{{trade.status}}" catchtap="onTradeOperate" wx:if="{{trade.status=='卖家发货'}}">{{'买家收货'}}</view>
+        <view class="trade-operate" data-tid="{{trade.id}}" data-status="{{trade.status}}" catchtap="onTradeOperate" wx:if="{{trade.status=='买家收货'}}">{{'交易完成'}}</view>
         <view class="trade-orders">
           <block wx:for="{{trade.orders}}" wx:key="" wx:for-item="order">
-            <view class="order" data-tid="{{trade.id}}" data-oid="{{order.id}}" catchtap="onOrderTap">
+            <view class="order" data-tid="{{trade.id}}" data-oid="{{order.id}}" data-status="{{trade.status}}" catchtap="onOrderTap">
               <view class="order-image">
                 <image src="{{order.image + youImageMode_v2}}" mode="aspectFill" />
               </view>
@@ -45,8 +45,8 @@
                 <view class="order-number-price">￥{{order.price}}</view>
                 <view class="order-number-num" wx:if="{{order.realNum==''}}">{{order.num}}</view>
                 <view class="order-number-num" wx:if="{{order.realNum!=''}}">
-                  <text>{{order.realNum}}</text>
-                  <text class="gray">{{'(' + order.num + ')'}}</text>
+                  <text>{{order.num}}</text>
+                  <text style="color:#f33">{{'(' + order.realNum + ')'}}</text>
                 </view>
               </view>
             </view>

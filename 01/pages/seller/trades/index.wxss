@@ -72,7 +72,7 @@
 
 .trade-status {
   position: absolute;
-  top: 30rpx;
+  top: 20rpx;
   right: 20rpx;
   display: flex;
   align-items: center;

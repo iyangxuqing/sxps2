@@ -17,8 +17,8 @@
         </view>
         <view class="item-number">
           <view class="item-num">合计<text class="item-num-value">{{item.num}}</text></view>
-          <view class="item-num">待配<text class="item-num-value">{{item.num - item.realNum}}</text></view>
           <view class="item-num">已配<text class="item-num-value">{{item.realNum}}</text></view>
+          <view class="item-num">待配<text class="item-num-value">{{item.underNum}}</text></view>
         </view>
       </view>
     </block>
