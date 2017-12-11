@@ -1,278 +1,83 @@
 import { Search } from '../../../template/search/search.js'
-import { Topnavs } from '../../../template/topnavs/topnavs.js'
 import { Distribute } from '../../../template/distribute/distribute.js'
-import { Tabs } from '../../../template/tabs/tabs.js'
+import { OrderDetail } from '../../../template/orderDetail/orderDetail.js'
 import { Trade } from '../../../utils/trades.js'
 
 let app = getApp()
+
+let tradeStatuses = [{
+  title: '已提交',
+  value: '买家提交',
+}, {
+  title: '已发货',
+  value: '卖家发货',
+}, {
+  title: '已收货',
+  value: '买家收货',
+}, {
+  title: '已完成',
+  value: '订单完成',
+}]
 
 Page({
 
   data: {
     youImageMode_v2: app.youImageMode_v2,
     youImageMode_v5: app.youImageMode_v5,
-    typeTrades: [{
-      title: '商品',
-      type: 'itemTrades',
-    }, {
-      title: '买家',
-      type: 'buyerTrades'
-    }],
-    tradeStatus: '已提交'
-  },
-
-  onDistributeTap: function (e) {
-    let oid = e.currentTarget.dataset.oid
-    let orders = this.orders
-    let order = {}
-    for (let i in orders) {
-      if (orders[i].id == oid) {
-        order = orders[i]
-        break
-      }
-    }
-    this.distribute.show(order)
-    return;
-
-    let distributeItem = {
-      oid: oid,
-      iid: order.iid,
-      title: order.title,
-      image: order.image,
-      descs: order.descs,
-      price: order.price,
-      num: order.num,
-      realNum: order.realNum || order.num
-    }
-    this.setData({
-      distributeItem,
-      'popup.show': true
-    })
-  },
-
-  onPopupMaskTap: function (e) {
-    this.setData({
-      'popup.show': false
-    })
-  },
-
-  onPopupClose: function (e) {
-    this.setData({
-      'popup.show': false
-    })
-  },
-
-  onMinusTap: function (e) {
-    let dItem = this.data.distributeItem
-    if (dItem.realNum > 0) {
-      dItem.realNum--
-    }
-    this.setData({
-      distributeItem: dItem
-    })
-  },
-
-  onRealNumInput: function (e) {
-    let realNum = e.detail.value
-    let dItem = this.data.distributeItem
-    if (realNum >= 0 && realNum < dItem.num * 2) {
-      dItem.realNum = realNum
-    } else {
-      dItem.realNum = dItem.num
-    }
-    this.setData({
-      distributeItem: dItem
-    })
-  },
-
-  onPlusTap: function (e) {
-    let dItem = this.data.distributeItem
-    if (dItem.realNum < dItem.num * 2) {
-      dItem.realNum++
-    }
-    this.setData({
-      distributeItem: dItem
-    })
-  },
-
-  onRealNumConfirm: function (e) {
-    let dItem = this.data.distributeItem
-    let orders = this.orders
-    let index = -1
-    for (let i in orders) {
-      if (orders[i].id == dItem.oid) {
-        orders[i].realNum = dItem.realNum
-        index = i
-        break
-      }
-    }
-    let itemTrades = Trade.getItemTrades(orders)
-    let buyerTrades = Trade.getBuyerTrades(orders)
-    this.setData({
-      itemTrades,
-      buyerTrades,
-      'popup.show': false,
-    })
-    // setTimeout(function () {
-    //   orders.splice(index, 1)
-    //   let itemTrades = Trade.getItemTrades(orders)
-    //   let buyerTrades = Trade.getBuyerTrades(orders)
-    //   this.setData({
-    //     itemTrades,
-    //     buyerTrades,
-    //     'popup.show': false,
-    //   })
-    // }.bind(this), 3000)
-  },
-
-  onBuyerSelectChange: function (e) {
-    let value = e.detail.value
-    let bid = e.currentTarget.dataset.bid
-    let orderBuyers = this.data.orderBuyers
-    for (let i in orderBuyers) {
-      if (orderBuyers[i].bid == bid) {
-        orderBuyers[i].selected = value
-      }
-    }
-    this.setData({
-      orderBuyers
-    })
-  },
-
-  onAllSelectChange: function (e) {
-    let value = e.detail.value
-    let orderBuyers = this.data.orderBuyers
-    for (let i in orderBuyers) {
-      orderBuyers[i].selected = value
-    }
-    this.setData({
-      orderBuyers
-    })
-  },
-
-  onDeliveryTap: function (e) {
-    let orderBuyers = this.data.orderBuyers
-    let selectedCount = 0;
-    for (let i in orderBuyers) {
-      if (orderBuyers[i].selected) {
-        selectedCount++
-        for (let j in orderBuyers[i].orders) {
-          if (!('realNum' in orderBuyers[i].orders[j])) {
-            let message = "收货人：" + orderBuyers[i].name + "，"
-            message = message + "订单时间：" + orderBuyers[i].time + "，"
-            message = message + "该订单有商品没有配货，请先完成配货。"
-            wx.showModal({
-              title: '订单发货',
-              content: message,
-              showCancel: false,
-              success: function () {
-                return
-              }
-            })
-          }
-        }
-      }
-    }
-    if (selectedCount == 0) {
-      wx.showModal({
-        title: '订单发货',
-        content: '请选选择需要发货的订单。在订单可以发货之前，需要先完成对该订单的配货。',
-        showCancel: false,
-        success: function () {
-          return
-        }
-      })
-    }
-  },
-
-  onTopnavTap: function (index, item) {
-    console.log(index, item)
-  },
-
-  onTabTap: function (index, item) {
-    this.setData({
-      typeTrades: item.type
-    })
-  },
-
-  onDistributed: function (order) {
-    console.log(order)
   },
 
   onSearchWordPicker: function (pickerWord) {
-    let status = pickerWord.value
-    console.log(pickerWord, status)
+    this.tradeStatus = pickerWord.value
+    wx.setStorageSync('tradeStatus', this.tradeStatus)
   },
 
   onSearchCancel: function () {
-    console.log('searchCancel')
+    this.searchWord = ''
   },
 
   onSearch: function (search) {
-    console.log(search)
+    this.startTime = search.time1
+    this.endTime = search.time2
+    this.searchWord = search.searchWord
+    this.status = search.pickerWord.value
+    this.lastRowId = 0
+    this.loadTrades()
   },
 
-  onLoad: function (options) {
-    this.topnavs = new Topnavs({
-      items: [{
-        title: '待发货订单',
-        status: '1'
-      },
-      {
-        title: '已发货订单',
-        status: '2'
-      },
-      {
-        title: '已完成订单',
-        status: '3'
-      }],
-      onTopnavTap: this.onTopnavTap
-    })
-    this.tabs = new Tabs({
-      items: this.data.typeTrades,
-      onTabTap: this.onTabTap
-    })
-
-    let date = new Date()
-    let year = date.getFullYear()
-    let month = date.getMonth()
-    let day = date.getDate()
-    let hour = date.getHours()
-    let startDate = new Date(year, month, day)
-    if (hour < 10) {
-      startDate = new Date(startDate.getTime() - 86400000)
+  onOrderTap: function (e) {
+    let tid = e.currentTarget.dataset.tid
+    let oid = e.currentTarget.dataset.oid
+    console.log(tid, oid)
+    let trades = this.data.trades
+    let order = {}
+    for (let i in trades) {
+      if (trades[i].id == tid) {
+        for (let j in trades[i].orders) {
+          if (trades[i].orders[j].id == oid) {
+            order = trades[i].orders[j]
+            order.tid = tid
+            break
+          }
+        }
+        break
+      }
     }
-    let endDate = new Date(startDate.getTime() + 86400000)
+    console.log(order)
+    this.orderDetail.show(order)
+  },
 
-    this.search = new Search({
-      date1: startDate,
-      date2: endDate,
-      pickerWords: [{
-        title: '已提交',
-        value: '买家提交',
-        active: true,
-      }, {
-        title: '已发货',
-        value: '卖家发货',
-        active: false,
-      }, {
-        title: '已收货',
-        value: '买家收货',
-        active: false,
-      }, {
-        title: '已完成',
-        value: '订单完成',
-        active: false,
-      }],
-      search: this.onSearch,
-      searchCancel: this.onSearchCancel,
-      searchWordPicker: this.onSearchWordPicker,
-    })
-
-    this.startTime = startDate.getTime()
-    this.endTime = endDate.getTime()
-
-    Trade.getTrades_seller_v4().then(function (trades) {
+  loadTrades: function (options) {
+    let search = {
+      startTime: this.startTime / 1000,
+      endTime: this.endTime / 1000,
+    }
+    if (this.tradeStatus) search.status = this.tradeStatus
+    if (this.searchWord) search.searchWord = this.searchWord
+    if (typeof this.lastRowId != 'undefined') search.lastRowId = this.lastRowId
+    Trade.getTrades_seller_v4(search).then(function (trades) {
+      if (this.lastRowId) {
+        trades = this.data.trades.concat(trades)
+      }
       this.setData({
         trades: trades,
         ready: true,
@@ -280,51 +85,66 @@ Page({
     }.bind(this))
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
+  onLoad: function (options) {
+    let date = new Date()
+    let year = date.getFullYear()
+    let month = date.getMonth()
+    let day = date.getDate()
+    let hour = date.getHours()
+    let startDate = new Date(year, month, day)
+    if (hour < 10) startDate = new Date(startDate.getTime() - 86400000)
+    let endDate = new Date(startDate.getTime() + 86400000)
+    startDate = new Date(2017, 11, 1)
+
+    this.startTime = startDate.getTime()
+    this.endTime = endDate.getTime()
+    this.tradeStatus = wx.getStorageSync('tradeStatus')
+    for (let i in tradeStatuses) {
+      tradeStatuses[i].active = false
+      if (tradeStatuses[i].value == this.tradeStatus) {
+        tradeStatuses[i].active = true
+      }
+    }
+    this.search = new Search({
+      date1: startDate,
+      date2: endDate,
+      pickerWords: tradeStatuses,
+      search: this.onSearch,
+      searchCancel: this.onSearchCancel,
+      searchWordPicker: this.onSearchWordPicker,
+    })
+    this.orderDetail = new OrderDetail({
+
+    })
+    this.loadTrades()
+  },
+
   onReady: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
 
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
-
+    let trades = this.data.trades
+    this.lastRowId = trades[trades.length - 1].id
+    this.loadTrades()
   },
 
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {
 
   }

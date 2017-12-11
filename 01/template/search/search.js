@@ -186,6 +186,7 @@ let methods = {
     let date1 = page.data.search.date1
     let date2 = page.data.search.date2
     let searchWord = page.data.search.searchWord
+    let pickerWord = page.data.search.pickerWord
     let search = {
       date1: date1,
       date2: date2,
@@ -193,6 +194,7 @@ let methods = {
       time2: date2.getTime(),
     }
     if (searchWord) search.searchWord = searchWord
+    if (pickerWord) search.pickerWord = pickerWord
     this.search && this.search(search)
   },
 

@@ -1,11 +1,11 @@
 <template name="search">
   <view class="search">
     <view class="search-time">
-      <picker class="datetime-picker" mode="multiSelector" data-id="date1" bindchange="{{onChange}}" bindcolumnchange="{{onColumnChange}}" value="{{date1Value}}" range="{{date1Range}}">
+      <picker class="datetime-picker" mode="multiSelector" data-id="date1" bindchange="{{onDateTimePickerChange}}" bindcolumnchange="{{onDateTimePickerColumnChange}}" value="{{date1Value}}" range="{{date1Range}}">
         <view class="datetime-value">{{strDate1}}</view>
       </picker>
       <view class="datetime-separater">-</view>
-      <picker class="datetime-picker" mode="multiSelector" data-id="date2" bindchange="{{onChange}}" bindcolumnchange="{{onColumnChange}}" value="{{date2Value}}" range="{{date2Range}}">
+      <picker class="datetime-picker" mode="multiSelector" data-id="date2" bindchange="{{onDateTimePickerChange}}" bindcolumnchange="{{onDateTimePickerColumnChange}}" value="{{date2Value}}" range="{{date2Range}}">
         <view class="datetime-value">{{strDate2}}</view>
       </picker>
     </view>

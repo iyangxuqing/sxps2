@@ -1,7 +1,6 @@
 @import '/template/search/search.wxss';
-@import '/template/topnavs/topnavs.wxss';
-@import '/template/tabs/tabs.wxss';
-@import '/template/distribute/distribute.wxss';
+@import '/template/orderDetail/orderDetail.wxss';
+@import '/template/empty/empty.wxss';
 
 .container {
   padding-top: 188rpx;

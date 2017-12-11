@@ -1,0 +1,175 @@
+.popup {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 9999;
+  width: 100%;
+}
+
+.popup.popup-show {
+  display: block;
+}
+
+.popup-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 10, 10, 0.5);
+}
+
+.popup-body {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0;
+  transition: all 300ms ease;
+  background-color: #fff;
+}
+
+.popup-show .popup-body {
+  height: 480rpx;
+}
+
+.orderDetail {
+  font-size: 30rpx;
+  padding: 20rpx 30rpx;
+  background-color: #fff;
+}
+
+.orderDetail-row {
+  display: flex;
+  align-items: center;
+  height: 120rpx;
+  padding: 10rpx 0;
+  border-bottom: 2rpx solid #ddd;
+}
+
+.orderDetail-row:first-child {
+  border-top: 2rpx solid #ddd;
+}
+
+.orderDetail-row.info {
+  height: 140rpx;
+}
+
+.orderDetail-row.number {
+  height: 100rpx;
+}
+
+.orderDetail-row-label {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120rpx;
+  margin-right: 20rpx;
+}
+
+.orderDetail-row-value {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.orderDetail-row-more {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  margin-right: 10rpx;
+}
+
+.orderDetail-image {
+  flex-shrink: 0;
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.orderDetail-title {
+  font-size: 44rpx;
+  margin-bottom: 10rpx;
+}
+
+.orderDetail-descs {
+  font-size: 26rpx;
+  margin-bottom: 10rpx;
+}
+
+.orderDetail-price {
+  text-align: right;
+  margin-bottom: 10rpx;
+}
+
+.orderDetail-num {
+  text-align: right;
+}
+
+.orderDetail-message {
+  max-width: 550rpx;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.orderDetail-number {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 320rpx;
+  height: 100%;
+  font-size: 32rpx;
+  margin-right: -20rpx;
+}
+
+.orderDetail-number-minus, .orderDetail-number-plus {
+  flex-shrink: 0;
+  width: 100rpx;
+  height: 100rpx;
+  padding: 20rpx;
+}
+
+.orderDetail-number-minus-inner, .orderDetail-number-plus-inner {
+  width: 100%;
+  height: 100%;
+  padding: 10rpx;
+  border-radius: 8rpx;
+  border: 1px solid #ddd;
+}
+
+.orderDetail-number-input {
+  width: 120rpx;
+}
+
+.orderDetail-number-input input {
+  width: 100%;
+  padding: 20rpx 0;
+  text-align: center;
+}
+
+.orderDetail-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100rpx;
+  padding: 10rpx;
+}
+
+.orderDetail-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 280rpx;
+  height: 70rpx;
+  border-radius: 10rpx;
+  border: 2rpx solid #ddd;
+}
+
+.orderDetail-button.confirm {
+  color: #fff;
+  border: 0 sold #ddd;
+  background-color: #f33;
+}
