@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/seller/items2/index",
     "pages/index/index",
     "pages/seller/index/index",
     "pages/seller/cates/index",

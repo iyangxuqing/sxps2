@@ -1,0 +1,16 @@
+<template name="cates">
+  <view class="cates">
+    <view class="parents">
+      <block wx:for="{{cates}}" wx:key="" wx:for-item="cate">
+        <view class="cate {{cate.active ? 'active' : ''}}" data-id="{{cate.id}}" catchtap="{{onCateTap}}" catchlongpress="{{onCateLongPress}}">{{cate.title}}</view>
+      </block>
+    </view>
+    <view class="children">
+      <block wx:for="{{cates}}" wx:key="" wx:for-item="cate">
+        <block wx:for="{{cate.children}}" wx:key="" wx:for-item="child" wx:if="{{cate.active}}">
+          <view class="child {{child.active ? 'active' : ''}}" data-id="{{child.id}}" data-pid="{{cate.id}}" catchtap="{{onCateTap}}" catchlongpress="{{onCateLongPress}}">{{child.title}}</view>
+        </block>
+      </block>
+    </view>
+  </view>
+</template>

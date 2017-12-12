@@ -7,6 +7,9 @@ Page({
       text: '菜品管理',
       url: '../cates/index'
     }, {
+      text: '菜品管理2',
+      url: '../items2/index'
+    }, {
       text: '订单汇总',
       url: '../trades_summary/index'
     }, {
