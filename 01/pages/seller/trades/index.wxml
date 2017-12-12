@@ -43,8 +43,8 @@
               </view>
               <view class="order-number">
                 <view class="order-number-price">￥{{order.price}}</view>
-                <view class="order-number-num" wx:if="{{order.realNum==''}}">{{order.num}}</view>
-                <view class="order-number-num" wx:if="{{order.realNum!=''}}">
+                <view class="order-number-num" wx:if="{{order.realNum===''}}">{{order.num}}</view>
+                <view class="order-number-num" wx:if="{{order.realNum!==''}}">
                   <text>{{order.num}}</text>
                   <text style="color:#f33">{{'(' + order.realNum + ')'}}</text>
                 </view>

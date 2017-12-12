@@ -10,6 +10,9 @@ let methods = {
     if (order.realNum > 0) {
       order.realNum--
     }
+    if (order.realNum < 0) {
+      order.realNum = 0
+    }
     page.setData({
       'orderDetail.order': order
     })
@@ -19,7 +22,7 @@ let methods = {
     let realNum = e.detail.value
     let page = getCurrentPages().pop()
     let order = page.data.orderDetail.order
-    if (realNum >= 0 && realNum < order.num * 2) {
+    if (realNum >= 0 && realNum < 9999) {
       order.realNum = realNum
     } else {
       order.realNum = order.num
@@ -32,8 +35,11 @@ let methods = {
   onPlusTap: function (e) {
     let page = getCurrentPages().pop()
     let order = page.data.orderDetail.order
-    if (order.realNum < order.num * 2) {
+    if (order.realNum < 9999) {
       order.realNum++
+    }
+    if (order.realNum >= 9999) {
+      order.realNum = 9999
     }
     page.setData({
       'orderDetail.order': order

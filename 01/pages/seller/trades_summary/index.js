@@ -18,7 +18,6 @@ Page({
   },
 
   loadTrades: function (options = {}) {
-    options.status = '买家提交'
     options.startTime = this.startTime / 1000
     options.endTime = this.endTime / 1000
     Trade.getTrades_seller_v4(options).then(function (trades) {
