@@ -1,5 +1,4 @@
 import { Search } from '../../../template/search/search.js'
-import { Distribute } from '../../../template/distribute/distribute.js'
 import { OrderDetail } from '../../../template/orderDetail/orderDetail.js'
 import { Trade } from '../../../utils/trades.js'
 
@@ -27,7 +26,7 @@ Page({
 
   onSearchWordPicker: function (pickerWord) {
     this.tradeStatus = pickerWord.value
-    wx.setStorageSync('tradeStatus', this.tradeStatus)
+    wx.setStorageSync('sellerTradeStatus', this.tradeStatus)
     this.lastRowId = 0
     this.loadTrades()
   },
@@ -189,11 +188,10 @@ Page({
     let startDate = new Date(year, month, day)
     if (hour < 10) startDate = new Date(startDate.getTime() - 86400000)
     let endDate = new Date(startDate.getTime() + 86400000)
-    startDate = new Date(2017, 11, 1)
 
     this.startTime = startDate.getTime()
     this.endTime = endDate.getTime()
-    this.tradeStatus = wx.getStorageSync('tradeStatus')
+    this.tradeStatus = wx.getStorageSync('sellerTradeStatus')
     for (let i in tradeStatuses) {
       tradeStatuses[i].active = false
       if (tradeStatuses[i].value == this.tradeStatus) {

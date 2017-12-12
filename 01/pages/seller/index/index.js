@@ -1,5 +1,3 @@
-import { Shop } from '../../../utils/shop.js'
-
 let app = getApp()
 
 Page({
@@ -12,28 +10,9 @@ Page({
       text: '订单汇总',
       url: '../trades_summary/index'
     }, {
-      text: '订单配货',
-      url: '../trades_distribute/index'
-    }, {
       text: '订单管理',
       url: '../trades/index'
     }]
-  },
-
-  onLogout: function (e) {
-    // wx.showModal({
-    //   title: '账号管理',
-    //   content: '要退出当前登录的账号吗？',
-    //   success: function (e) {
-    //     if (e.confirm) {
-    //       app.sellerItems = null
-    //       wx.setStorageSync('sellerId', '')
-    //       wx.redirectTo({
-    //         url: '../login/index',
-    //       })
-    //     }
-    //   }
-    // })
   },
 
   onLinkTap: function (e) {
@@ -53,22 +32,7 @@ Page({
   },
 
   onShow: function () {
-    // let sid = wx.getStorageSync('sellerId')
-    // if (!sid) {
-    //   wx.redirectTo({
-    //     url: '../login/index',
-    //   })
-    //   return
-    // }
 
-    // Shop.get({
-    //   id: sid,
-    //   nocache: true
-    // }).then(function (shop) {
-    //   this.setData({
-    //     shop: shop
-    //   })
-    // }.bind(this))
   },
 
   onHide: function () {

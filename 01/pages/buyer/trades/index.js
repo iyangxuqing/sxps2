@@ -70,10 +70,9 @@ Page({
 
   onShow: function () {
     let tradeLinks = this.data.tradeLinks
-    let tradeStatus = wx.getStorageSync('tradeStatus')
-    console.log('abc', tradeStatus)
+    let tradeStatus = wx.getStorageSync('buyerTradeStatus')
     if (tradeStatus) {
-      wx.removeStorageSync('tradeStatus')
+      wx.removeStorageSync('buyerTradeStatus')
       for (let i in tradeLinks) {
         tradeLinks[i].active = false
         if (tradeLinks[i].status == tradeStatus.status) {

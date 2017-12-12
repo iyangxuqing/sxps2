@@ -6,7 +6,6 @@
     "pages/seller/items/index",
     "pages/seller/item/index",
     "pages/seller/trades/index",
-    "pages/seller/trades_distribute/index",
     "pages/seller/trades_summary/index",
     "pages/buyer/items/index",
     "pages/buyer/item/index",
@@ -14,10 +13,6 @@
     "pages/buyer/trades/index",
     "pages/buyer/wode/index",
     "pages/buyer/address/index",
-    "pages/admins/index/index",
-    "pages/admins/sellersTrades/index",
-    "pages/admins/cates/index",
-    "pages/admin/trades/index",
     "pages/log/index"
   ],
   "window": {

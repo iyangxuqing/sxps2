@@ -20,7 +20,7 @@
           </view>
           <view class="trade-info-row">
             <text class="trade-info-receive-name">收 货 人：{{trade.receive_name}}</text>
-            <text class="trade-info-receive-phone">{{trade.receive_phone || trade.mobileNumber || '13345678902'}}</text>
+            <text class="trade-info-receive-phone">{{trade.receive_phone || trade.mobileNumber}}</text>
           </view>
           <view class="trade-info-row">
             <text class="trade-info-receive-address">收货地址：{{trade.receive_district + trade.receive_address}}</text>

@@ -63,7 +63,7 @@ Page({
     let tradeLinks = this.data.tradeLinks
     let status = ''
     if (index >= 0) status = tradeLinks[index].status
-    wx.setStorageSync('tradeStatus', { status: status })
+    wx.setStorageSync('buyerTradeStatus', { status: status })
     wx.switchTab({
       url: '../trades/index',
     })
