@@ -1,5 +1,6 @@
 import { Toptip } from '../../../template/toptip/toptip.js'
 import { SwiperImagesEditor } from '../../../template/swiperImagesEditor/swiperImagesEditor.js'
+import { http } from '../../../utils/http.js'
 import { Cate } from '../../../utils/cates.js'
 import { Item } from '../../../utils/items.js'
 
@@ -95,7 +96,7 @@ Page({
     let hasChanged = this.data.hasChanged
     if (hasChanged) {
       let item = this.data.item
-      Item.setItem(item).then(function () {
+      Item.set_seller(item, item.id ? 'update' : 'insert').then(function () {
         this.toptip.show({
           title: '保存成功',
           success: function () {
@@ -109,8 +110,9 @@ Page({
   onLoad: function (options) {
     let id = options.id
     let cid = options.cid
-    let item = Item.getItem({ id })
-    if (!item) item = { cid }
+    let sort = options.sort
+    let item = Item.getItem_seller({ id })
+    if (!item) item = { cid, sort }
     if (item.price) item.price = Number(item.price).toFixed(2)
     this.setData({ item })
 

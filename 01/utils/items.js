@@ -3,6 +3,63 @@ import { Dataver } from 'dataver.js'
 
 let app = getApp()
 
+function getItems_seller(options = {}) {
+  return new Promise(function (resolve, reject) {
+    let items = app.items_seller
+    if (items && !options.nocache) {
+      resolve(app.items_seller)
+    } else {
+      http.get({
+        url: 'sxps/item_v2.php?m=get',
+      }).then(function (res) {
+        if (res.errno === 0) {
+          let items = res.items
+          for (let i in items) {
+            if (!items[i].images) items[i].images = '[]'
+            items[i].images = JSON.parse(items[i].images)
+            items[i].price = Number(items[i].price).toFixed(2)
+          }
+          app.items_seller = items
+          Dataver.setExpired('items', res.dataver)
+          resolve(items)
+        } else {
+          reject(res)
+        }
+      }).catch(function (res) {
+        reject(res)
+      })
+    }
+  })
+}
+
+function setItem_seller(item, method) {
+  return new Promise(function (resolve, reject) {
+    http.get({
+      url: 'sxps/item_v2.php?m=' + method,
+      data: item
+    }).then(function (res) {
+      if (res.errno === 0) {
+        let items = res.items
+        for (let i in items) {
+          if (!items[i].images) items[i].images = '[]'
+          items[i].images = JSON.parse(items[i].images)
+          items[i].price = Number(items[i].price).toFixed(2)
+        }
+        app.items_seller = items
+        Dataver.setExpired('items', res.dataver)
+        app.listener.trigger('items', items)
+        resolve(items)
+      } else {
+        app.listener.trigger('request fail', res)
+        reject(res)
+      }
+    }).catch(function (res) {
+      app.listener.trigger('request fail', res)
+      reject(res)
+    })
+  })
+}
+
 function getItems(options = {}) {
   return new Promise(function (resolve, reject) {
     let items = wx.getStorageSync('items')
@@ -11,7 +68,7 @@ function getItems(options = {}) {
       resolve(items)
     } else {
       http.get({
-        url: 'sxps/item.php?m=get',
+        url: 'sxps/item_v2.php?m=get',
       }).then(function (res) {
         if (res.errno === 0) {
           let items = res.items
@@ -35,6 +92,15 @@ function getItems(options = {}) {
 
 function getItem(options) {
   let items = wx.getStorageSync('items')
+  for (let i in items) {
+    if (items[i].id == options.id) {
+      return items[i]
+    }
+  }
+}
+
+function getItem_seller(options) {
+  let items = app.items_seller
   for (let i in items) {
     if (items[i].id == options.id) {
       return items[i]
@@ -131,4 +197,7 @@ export var Item = {
   setItem: setItem,
   delItem: delItem,
   sortItems: sortItems,
+  getItems_seller: getItems_seller,
+  getItem_seller: getItem_seller,
+  set_seller: setItem_seller,
 }

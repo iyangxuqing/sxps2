@@ -1,3 +1,82 @@
 .active {
   color: blue;
 }
+
+.editing {
+  color: red;
+}
+
+.editor {
+  position: relative;
+}
+
+.editor-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.editor-content {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1001;
+  width: 100%;
+  height: 0;
+  transition: all 300ms ease;
+  background-color: #fff;
+}
+
+.editor-content.show {
+  height: 620rpx;
+}
+
+.editor-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 98rpx;
+}
+
+.editor-item + .editor-item {
+  border-top: 2rpx solid #eee;
+}
+
+.editor-item.cancel {
+  height: 120rpx;
+  border-top: 22rpx solid #eee;
+}
+
+.editor-item-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 260rpx;
+  height: 70rpx;
+  margin-left: 10rpx;
+  margin-right: 20rpx;
+  border-radius: 8rpx;
+  border: 1px solid #ddd;
+}
+
+.editor-item-input input {
+  width: 100%;
+  padding: 0;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.editor-item-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160rpx;
+  height: 70rpx;
+  font-size: 28rpx;
+  border-radius: 8rpx;
+  border: 2rpx solid #ddd;
+}

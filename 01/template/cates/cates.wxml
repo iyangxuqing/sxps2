@@ -2,15 +2,36 @@
   <view class="cates">
     <view class="parents">
       <block wx:for="{{cates}}" wx:key="" wx:for-item="cate">
-        <view class="cate {{cate.active ? 'active' : ''}}" data-id="{{cate.id}}" catchtap="{{onCateTap}}" catchlongpress="{{onCateLongPress}}">{{cate.title}}</view>
+        <view class="cate {{cate.active ? 'active' : ''}} {{cate.editing ? 'editing' : ''}}" data-id="{{cate.id}}" catchtap="{{onCateTap}}" catchlongpress="{{onCateLongPress}}">{{cate.title}}</view>
       </block>
     </view>
     <view class="children">
       <block wx:for="{{cates}}" wx:key="" wx:for-item="cate">
         <block wx:for="{{cate.children}}" wx:key="" wx:for-item="child" wx:if="{{cate.active}}">
-          <view class="child {{child.active ? 'active' : ''}}" data-id="{{child.id}}" data-pid="{{cate.id}}" catchtap="{{onCateTap}}" catchlongpress="{{onCateLongPress}}">{{child.title}}</view>
+          <view class="child {{child.active ? 'active' : ''}} {{child.editing ? 'editing' : ''}}" data-id="{{child.id}}" data-pid="{{cate.id}}" catchtap="{{onCateTap}}" catchlongpress="{{onCateLongPress}}">{{child.title}}</view>
         </block>
       </block>
+    </view>
+  </view>
+  <view class="editor">
+    <view class="editor-mask" wx:if="{{editor.show}}" catchtap="{{onEditorCancel}}"></view>
+    <view class="editor-content {{editor.show ? 'show' : ''}}">
+      <view class="editor-list" catchtap="{{onEditorListTap}}">
+        <view class="editor-item" catchtap="{{onEditorSortUp}}">往前移</view>
+        <view class="editor-item" catchtap="{{onEditorSortDown}}">往后移</view>
+        <view class="editor-item">
+          <view class="editor-item-label">重命名</view>
+          <view class="editor-item-input"><input value="{{editor.item.title}}" placeholder="输入类目名称" maxlength="10" cursor-spacing="30" bindinput="{{onEditorRenameInput}}" /></view>
+          <view class="editor-item-button" catchtap="{{onEditorRenameConfirm}}">确 定</view>
+        </view>
+        <view class="editor-item">
+          <view class="editor-item-label">后插入</view>
+          <view class="editor-item-input"><input value="" placeholder="输入类目名称" maxlength="10" cursor-spacing="30" bindinput="{{onEditorInsertInput}}" /></view>
+          <view class="editor-item-button" catchtap="{{onEditorInsertConfirm}}">确 定</view>
+        </view>
+        <view class="editor-item" catchtap="{{onEditorDelete}}">删除</view>
+        <view class="editor-item cancel" catchtap="{{onEditorCancel}}">取消</view>
+      </view>
     </view>
   </view>
 </template>

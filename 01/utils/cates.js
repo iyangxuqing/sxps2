@@ -3,6 +3,50 @@ import { Dataver } from 'dataver.js'
 
 let app = getApp()
 
+function getCates_seller(options = {}) {
+  return new Promise(function (resolve, reject) {
+    let cates = app.cates_seller
+    if (cates && !options.nocache) {
+      resolve(cates)
+    } else {
+      http.get({
+        url: 'sxps/cate_v2.php?m=get',
+      }).then(function (res) {
+        if (res.errno === 0) {
+          let cates = transformCates(res.cates)
+          app.cates_seller = cates
+          resolve(cates)
+        } else {
+          reject(res)
+        }
+      }).catch(function (res) {
+        reject(res)
+      })
+    }
+  })
+}
+
+function setCate_seller(cate, method) {
+  return new Promise(function (resolve, reject) {
+    http.get({
+      url: 'sxps/cate_v2.php?m=' + method,
+      data: cate
+    }).then(function (res) {
+      if (res.errno === 0) {
+        let cates = transformCates(res.cates)
+        app.cates_seller = cates
+        resolve(cates)
+      } else {
+        app.listener.trigger('request fail', res)
+        reject(res)
+      }
+    }).catch(function (res) {
+      app.listener.trigger('request fail', res)
+      reject(res)
+    })
+  })
+}
+
 function getCates(options = {}) {
   return new Promise(function (resolve, reject) {
     let cates = wx.getStorageSync('cates')
@@ -208,4 +252,6 @@ export var Cate = {
   set: set,
   del: del,
   sort: sort,
+  getCates_seller: getCates_seller,
+  set_seller: setCate_seller,
 }

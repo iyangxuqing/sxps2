@@ -1,3 +1,4 @@
+import { http } from '../../../utils/http.js'
 import { Cate } from '../../../utils/cates.js'
 import { Item } from '../../../utils/items.js'
 import { Cates } from '../../../template/cates/cates.js'
@@ -6,10 +7,75 @@ let app = getApp()
 
 Page({
 
-  showItemsTypes: [],
   data: {
     youImageMode_v2: app.youImageMode_v2,
-    showItemsType: 'category'
+  },
+
+  onItemLongPress: function (e) {
+    let id = e.currentTarget.dataset.id
+    let item = {}
+    let items = this.data.items
+    for (let i in items) {
+      if (items[i].id == id) {
+        item = items[i]
+        break
+      }
+    }
+    let actionSheetItemList = ['往前移', '往后移', '下架', '插入', '删除']
+    if (item.onShelf == 0) {
+      actionSheetItemList[2] = '上架'
+    }
+    wx.showActionSheet({
+      itemList: actionSheetItemList,
+      success: function (res) {
+        switch (res.tapIndex) {
+          case 0:
+            this.itemSortUp(item)
+            break
+          case 1:
+            this.itemSortDown(item)
+            break
+          case 2:
+            this.itemOnShelf(item)
+            break
+          case 3:
+            this.itemInsert(item)
+            break
+          case 4:
+            this.itemDelete(item)
+            break
+          default:
+        }
+      }.bind(this)
+    })
+  },
+
+  itemSortUp(item) {
+    Item.set_seller(item, 'sortUp')
+  },
+
+  itemSortDown(item) {
+    Item.set_seller(item, 'sortDown')
+  },
+
+  itemOnShelf(item) {
+    item.onShelf = item.onShelf == 0 ? 1 : 0
+    Item.set_seller(item, 'onShelf')
+  },
+
+  itemInsert(item) {
+    let sort = Number(item.sort) + 1
+    wx.navigateTo({
+      url: '../item/index?cid=' + item.cid + '&sort=' + sort,
+    })
+  },
+
+  itemDelete(item) {
+    Item.set_seller(item, 'delete')
+  },
+
+  onItemsUpdate(items) {
+    this.loadItems()
   },
 
   onLevel1CateLongPress: function (e) {
@@ -120,7 +186,7 @@ Page({
         break
       }
     }
-    Item.getItems().then(function (items) {
+    Item.getItems_seller().then(function (items) {
       let _items = []
       for (let i in items) {
         if (items[i].cid == cid) {
@@ -133,7 +199,6 @@ Page({
         searching: false,
         showItemsType: 'category',
       })
-      this.onShoppingsUpdate()
     }.bind(this))
   },
 
@@ -150,31 +215,13 @@ Page({
         items: _items,
         searching: true,
       })
-      this.onShoppingsUpdate()
     }.bind(this))
-  },
-
-  onShoppingsUpdate: function () {
-    let items = this.data.items
-    let shoppings = wx.getStorageSync('shoppings')
-    for (let i in items) {
-      items[i].num = 0
-      for (let j in shoppings) {
-        if (items[i].id == shoppings[j].iid) {
-          items[i].num = shoppings[j].num
-          break
-        }
-      }
-    }
-    this.setData({
-      items: items
-    })
   },
 
   loadData: function (options = {}) {
     Promise.all([
       Cate.getCates(options),
-      Item.getItems(options),
+      Item.getItems_seller(options),
     ]).then(function (res) {
       let cates = res[0]
       let items = res[1]
@@ -217,13 +264,12 @@ Page({
         items: _items,
         ready: true
       })
-      this.onShoppingsUpdate()
       options.success && options.success()
     }.bind(this))
   },
 
   onLoad: function (options) {
-    app.listener.on('shoppings', this.onShoppingsUpdate)
+    app.listener.on('items', this.onItemsUpdate)
     this.loadData()
   },
 
