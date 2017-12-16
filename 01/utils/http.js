@@ -15,7 +15,7 @@ function get(options) {
         if (res.data && res.data.errno === 0) {
           resolve(res.data)
         } else {
-          reject(res)
+          reject(res.data)
         }
       },
       fail: function (res) {
@@ -41,7 +41,7 @@ function post(options) {
         if (res.data && res.data.errno === 0) {
           resolve(res.data)
         } else {
-          reject(res)
+          reject(res.data)
         }
       },
       fail: function (res) {

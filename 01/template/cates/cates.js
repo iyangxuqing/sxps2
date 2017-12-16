@@ -1,8 +1,7 @@
 import { Cate } from '../../utils/cates.js'
 
-let defaults = {
-
-}
+let app = getApp()
+let defaults = {}
 
 let methods = {
 
@@ -79,44 +78,19 @@ let methods = {
       'cates.editor.show': true,
     })
 
-    // wx.showActionSheet({
-    //   itemList: ['往前移', '往后移', '重命名', '插入', '删除'],
-    //   success: function (res) {
-    //     if (res.tapIndex == 0) {
-    //       this.sortUp(id, pid)
-    //     } else if (res.tapIndex == 1) {
-    //       this.sortDown(id, pid)
-    //     } else if (res.tapIndex == 2) {
-    //       page.setData({
-    //         'cates.editor': true
-    //       })
-    //     }
-    //   }.bind(this),
-    //   complete: function (res) {
-    //     for (let i in cates) {
-    //       cates[i].editing = false
-    //       for (let j in cates[i].children) {
-    //         cates[i].children[j].editing = false
-    //       }
-    //     }
-    //     page.setData({
-    //       'cates.cates': cates
-    //     })
-    //   }.bind(this)
-    // })
   },
 
   onEditorSortUp: function (e) {
     let page = getCurrentPages().pop()
-    let id = page.data.cates.editor.item.id
-    console.log('sortUp', id)
+    let cate = page.data.cates.editor.item
+    Cate.set_seller(cate, 'sortUp')
     this.onEditorCancel()
   },
 
   onEditorSortDown: function (e) {
     let page = getCurrentPages().pop()
-    let item = page.data.cates.editor.item
-    console.log('sortDown', item)
+    let cate = page.data.cates.editor.item
+    Cate.set_seller(cate, 'sortDown')
     this.onEditorCancel()
   },
 
@@ -138,10 +112,8 @@ let methods = {
 
   onEditorRenameConfirm: function (e) {
     let page = getCurrentPages().pop()
-    let id = page.data.cates.editor.item.id
-    let title = page.data.cates.editor.item.title
-    let rename = page.data.cates.editor.item.rename
-    if (rename == '') {
+    let cate = page.data.cates.editor.item
+    if (cate.rename == '') {
       wx.showModal({
         title: '类目管理',
         content: '　　商品类目不可为空。',
@@ -151,12 +123,12 @@ let methods = {
         }
       })
     } else {
-      if (title != rename) {
-        Item.set_seller({
-          id: id,
-          title: rename,
-        }).then(function (res) {
-          console.log(res)
+      if (cate.title != cate.rename) {
+        Cate.set_seller({
+          id: cate.id,
+          title: cate.rename,
+        }, 'update').then(function (res) {
+
         })
       }
       this.onEditorCancel()
@@ -164,14 +136,57 @@ let methods = {
   },
 
   onEditorInsertConfirm: function (e) {
-
+    let page = getCurrentPages().pop()
+    let cate = page.data.cates.editor.item
+    if (cate.rename == '') {
+      wx.showModal({
+        title: '类目管理',
+        content: '　　商品类目不可为空。',
+        showCancel: false,
+        success: function () {
+          return
+        }
+      })
+    } else {
+      Cate.set_seller({
+        pid: cate.pid,
+        title: cate.insert,
+        sort: Number(cate.sort) + 1,
+      }, 'insert').then(function (res) {
+        page.setData({
+          'cates.editor.item.insert': '',
+        })
+      })
+    }
+    this.onEditorCancel()
   },
 
   onEditorDelete: function (e) {
-    let page = getCurrentPages().pop()
-    let id = page.data.cates.editor.id
-    console.log('sortDown', id)
-    this.onEditorCancel()
+    wx.showModal({
+      title: '类目管理',
+      content: '　　确定要删除该类目吗？删除后将不可恢复。',
+      success: function (res) {
+        if (res.confirm) {
+          let page = getCurrentPages().pop()
+          let item = page.data.cates.editor.item
+          Cate.set_seller({ id: item.id }, 'delete').then(function (res) {
+            if (res.error) {
+              wx.showModal({
+                title: '类目管理',
+                content: res.error,
+                showCancel: false,
+                success: function () { }
+              })
+            } else {
+              console.log(res.cates)
+            }
+          })
+        }
+      },
+      complete: function (res) {
+        this.onEditorCancel()
+      }.bind(this)
+    })
   },
 
   onEditorCancel: function (e) {
@@ -186,6 +201,13 @@ let methods = {
     page.setData({
       'cates.cates': cates,
       'cates.editor.show': false,
+    })
+  },
+
+  onCatesUpdate: function (cates) {
+    let page = getCurrentPages().pop()
+    page.setData({
+      'cates.cates': cates
     })
   }
 
@@ -216,90 +238,15 @@ export class Cates {
         ['cates.' + key]: 'cates.' + key
       })
     }
+    app.listener.on('cates', this.onCatesUpdate)
   }
 
   show(item) {
-    let id = item.id
-    let pid = item.pid
     let page = getCurrentPages().pop()
-    let cates = page.data.cates.cates
     page.setData({
       'cates.editor.item': item,
       'cates.editor.show': true,
     })
   }
-
-  sortUp(id, pid) {
-    let page = getCurrentPages().pop()
-    let cates = page.data.cates.cates
-    if (!pid) {
-      for (let i in cates) {
-        if (cates[i].id == id) {
-          if (i > 0) {
-            let temp = cates[i]
-            cates[i] = cates[i - 1]
-            cates[i - 1] = temp
-          }
-          break
-        }
-      }
-    } else {
-      for (let i in cates) {
-        if (cates[i].id == pid) {
-          for (let j in cates[i].children) {
-            if (cates[i].children[j].id == id) {
-              if (j > 0) {
-                let temp = cates[i].children[j]
-                cates[i].children[j] = cates[i].children[j - 1]
-                cates[i].children[j - 1] = temp
-              }
-              break
-            }
-          }
-          break
-        }
-      }
-    }
-    page.setData({
-      'cates.cates': cates
-    })
-  }
-
-  sortDown(id, pid) {
-    let page = getCurrentPages().pop()
-    let cates = page.data.cates.cates
-    if (!pid) {
-      for (let i in cates) {
-        if (cates[i].id == id) {
-          if (i < cates.length - 1) {
-            let temp = cates[i]
-            cates[i] = cates[Number(i) + 1]
-            cates[Number(i) + 1] = temp
-          }
-          break
-        }
-      }
-    } else {
-      for (let i in cates) {
-        if (cates[i].id == pid) {
-          for (let j in cates[i].children) {
-            if (cates[i].children[j].id == id) {
-              if (j < cates[i].children.length - 1) {
-                let temp = cates[i].children[j]
-                cates[i].children[j] = cates[i].children[Number(j) + 1]
-                cates[i].children[Number(j) + 1] = temp
-              }
-              break
-            }
-          }
-          break
-        }
-      }
-    }
-    page.setData({
-      'cates.cates': cates
-    })
-  }
-
 
 }

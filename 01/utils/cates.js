@@ -32,14 +32,12 @@ function setCate_seller(cate, method) {
       url: 'sxps/cate_v2.php?m=' + method,
       data: cate
     }).then(function (res) {
-      if (res.errno === 0) {
-        let cates = transformCates(res.cates)
-        app.cates_seller = cates
-        resolve(cates)
-      } else {
-        app.listener.trigger('request fail', res)
-        reject(res)
+      if (!res.error) {
+        res.cates = transformCates(res.cates)
+        app.cates_seller = res.cates
       }
+      app.listener.trigger('cates', res.cates)
+      resolve(res)
     }).catch(function (res) {
       app.listener.trigger('request fail', res)
       reject(res)

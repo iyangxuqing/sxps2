@@ -26,7 +26,7 @@
         </view>
         <view class="editor-item">
           <view class="editor-item-label">后插入</view>
-          <view class="editor-item-input"><input value="" placeholder="输入类目名称" maxlength="10" cursor-spacing="30" bindinput="{{onEditorInsertInput}}" /></view>
+          <view class="editor-item-input"><input value="{{editor.item.insert}}" placeholder="输入类目名称" maxlength="10" cursor-spacing="30" bindinput="{{onEditorInsertInput}}" /></view>
           <view class="editor-item-button" catchtap="{{onEditorInsertConfirm}}">确 定</view>
         </view>
         <view class="editor-item" catchtap="{{onEditorDelete}}">删除</view>
