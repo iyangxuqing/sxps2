@@ -102,11 +102,19 @@ let methods = {
     })
   },
 
-  onEditorInsertInput: function (e) {
+  onEditorInsertChildInput: function (e) {
     let value = e.detail.value
     let page = getCurrentPages().pop()
     page.setData({
-      'cates.editor.item.insert': value
+      'cates.editor.item.insertChild': value
+    })
+  },
+
+  onEditorInsertAfterInput: function (e) {
+    let value = e.detail.value
+    let page = getCurrentPages().pop()
+    page.setData({
+      'cates.editor.item.insertAfter': value
     })
   },
 
@@ -128,17 +136,44 @@ let methods = {
           id: cate.id,
           title: cate.rename,
         }, 'update').then(function (res) {
-
+          page.setData({
+            'cates.editor.item.rename': '',
+          })
         })
       }
       this.onEditorCancel()
     }
   },
 
-  onEditorInsertConfirm: function (e) {
+  onEditorInsertChildConfirm: function (e) {
     let page = getCurrentPages().pop()
     let cate = page.data.cates.editor.item
-    if (cate.rename == '') {
+    if (cate.insertChild == '') {
+      wx.showModal({
+        title: '类目管理',
+        content: '　　商品类目不可为空。',
+        showCancel: false,
+        success: function () {
+          return
+        }
+      })
+    } else {
+      Cate.set_seller({
+        pid: cate.id,
+        title: cate.insertChild,
+      }, 'insertChild').then(function (res) {
+        page.setData({
+          'cates.editor.item.insertChild': '',
+        })
+      })
+    }
+    this.onEditorCancel()
+  },
+
+  onEditorInsertAfterConfirm: function (e) {
+    let page = getCurrentPages().pop()
+    let cate = page.data.cates.editor.item
+    if (cate.insertAfter == '') {
       wx.showModal({
         title: '类目管理',
         content: '　　商品类目不可为空。',
@@ -150,11 +185,11 @@ let methods = {
     } else {
       Cate.set_seller({
         pid: cate.pid,
-        title: cate.insert,
+        title: cate.insertAfter,
         sort: Number(cate.sort) + 1,
-      }, 'insert').then(function (res) {
+      }, 'insertAfter').then(function (res) {
         page.setData({
-          'cates.editor.item.insert': '',
+          'cates.editor.item.insertAfter': '',
         })
       })
     }
@@ -206,6 +241,49 @@ let methods = {
 
   onCatesUpdate: function (cates) {
     let page = getCurrentPages().pop()
+    let oldCates = page.data.cates.cates
+    let activeIds = []
+    for (let i in oldCates) {
+      if (oldCates[i].active == true) {
+        activeIds.push(oldCates[i].id)
+      }
+      for (let j in oldCates[i].children) {
+        if (oldCates[i].children[j].active == true) {
+          activeIds.push(oldCates[i].children[j].id)
+          break
+        }
+      }
+    }
+    for (let i in cates) {
+      if (activeIds.indexOf(cates[i].id) > -1) {
+        cates[i].active = true
+      }
+      for (let j in cates[i].children) {
+        if (activeIds.indexOf(cates[i].children[j].id) > -1) {
+          cates[i].children[j].active = true
+        }
+      }
+    }
+    let hasActived = false
+    for (let i in cates) {
+      if (cates[i].active == true) {
+        hasActived = true
+        break
+      }
+    }
+    if (!hasActived) cates[0].active = true
+    for (let i in cates) {
+      hasActived = false
+      for (let j in cates[i].children) {
+        if (cates[i].children[j].active == true) {
+          hasActived = true
+          break
+        }
+      }
+      if (!hasActived && cates[i].children && cates[i].children.length) {
+        cates[i].children[0].active = true
+      }
+    }
     page.setData({
       'cates.cates': cates
     })

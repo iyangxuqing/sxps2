@@ -1,16 +1,48 @@
-.active {
-  color: blue;
+.cates {
+  border-top: 2rpx solid #ddd;
+  border-bottom: 2rpx solid #ddd;
 }
 
-.editing {
+.cates-row {
+  padding: 0 30rpx;
+}
+
+.cates-row + .cates-row {
+  border-top: 2rpx solid #ddd;
+}
+
+.cates-row-inner {
+  display: flex;
+  height: 100rpx;
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.cate {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-right: 30rpx;
+}
+
+.cate:last-child {
+  padding-right: 0;
+}
+
+.cate.active {
   color: red;
 }
 
-.editor {
+.cate.editing {
+  color: blue;
+}
+
+.cates-editor {
   position: relative;
 }
 
-.editor-mask {
+.cates-editor-mask {
   position: fixed;
   top: 0;
   left: 0;
@@ -20,38 +52,42 @@
   background-color: rgba(0, 0, 0, 0.6);
 }
 
-.editor-content {
+.cates-editor-content {
   position: fixed;
   left: 0;
   bottom: 0;
   z-index: 1001;
   width: 100%;
   height: 0;
-  transition: all 300ms ease;
   background-color: #fff;
+  transition: all 300ms ease;
 }
 
-.editor-content.show {
+.cates-editor-content.show.parent {
+  height: 720rpx;
+}
+
+.cates-editor-content.show.child {
   height: 620rpx;
 }
 
-.editor-item {
+.cates-editor-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 98rpx;
+  height: 100rpx;
 }
 
-.editor-item + .editor-item {
+.cates-editor-item + .cates-editor-item {
   border-top: 2rpx solid #eee;
 }
 
-.editor-item.cancel {
+.cates-editor-item.cancel {
   height: 120rpx;
   border-top: 22rpx solid #eee;
 }
 
-.editor-item-input {
+.cates-editor-item-input {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,14 +99,14 @@
   border: 1px solid #ddd;
 }
 
-.editor-item-input input {
+.cates-editor-item-input input {
   width: 100%;
   padding: 0;
   text-align: center;
   box-sizing: border-box;
 }
 
-.editor-item-button {
+.cates-editor-item-button {
   display: flex;
   align-items: center;
   justify-content: center;

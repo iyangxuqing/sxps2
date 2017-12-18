@@ -1,5 +1,6 @@
 @import '/template/empty/empty.wxss';
 @import '/template/cates/cates.wxss';
+@import '/template/items/items.wxss';
 
 .container {
   padding-top: 280rpx;
@@ -67,106 +68,6 @@
   color: #f33;
 }
 
-.level1Cates {
-  display: flex;
-  align-items: center;
-  padding-left: 30rpx;
-  padding-right: 30rpx;
-  overflow: hidden;
-  overflow-x: auto;
-  border-bottom: 2rpx solid #ccc;
-}
-
-.level1Cate {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  height: 90rpx;
-  font-size: 32rpx;
-  padding-right: 30rpx;
-}
-
-.level1Cate.active {
-  color: red;
-}
-
-.level2Cates {
-  display: flex;
-  overflow: hidden;
-  overflow-x: auto;
-  padding-left: 30rpx;
-  padding-right: 30rpx;
-  border-bottom: 2rpx solid #ccc;
-}
-
-.level2Cate {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  height: 90rpx;
-  font-size: 30rpx;
-  color: #666;
-  padding-right: 30rpx;
-}
-
-.level2Cate.active {
-  color: red;
-}
-
-.items {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 30rpx;
-}
-
-.item {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #333;
-  width: 210rpx;
-  margin-bottom: 20rpx;
-}
-
-.item:nth-of-type(3n+2) {
-  margin-left: 30rpx;
-  margin-right: 30rpx;
-}
-
-.item-image {
-  width: 210rpx;
-  height: 210rpx;
-  margin-bottom: 10rpx;
-}
-
-.item-title {
-  font-size: 28rpx;
-  text-align: center;
-  margin-bottom: 6rpx;
-}
-
-.item-price {
-  font-size: 28rpx;
-  color: red;
-  text-align: center;
-}
-
-.item-num {
-  position: absolute;
-  top: -4rpx;
-  right: -4rpx;
-  color: #fff;
-  font-size: 24rpx;
-  min-width: 32rpx;
-  height: 32rpx;
-  line-height: 32rpx;
-  text-align: center;
-  padding: 0 4rpx;
-  border-radius: 50%;
-  background-color: #f00;
-}
-
 .seller-info {
   display: flex;
   align-items: center;
@@ -206,12 +107,4 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.item.offShelf .item-title {
-  text-decoration: line-through;
-}
-
-.item.offShelf .item-price {
-  text-decoration: line-through;
 }

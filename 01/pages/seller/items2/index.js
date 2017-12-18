@@ -130,46 +130,6 @@ Page({
     }.bind(this))
   },
 
-  onLevel1CateTap: function (e) {
-    let id = e.currentTarget.dataset.id
-    let level1Cates = this.data.level1Cates
-    let level2Cates = this.data.level2Cates
-    for (let i in level1Cates) {
-      level1Cates[i].active = !1
-      if (level1Cates[i].id == id) {
-        level2Cates = level1Cates[i].children
-        level1Cates[i].active = !0
-      }
-    }
-    this.setData({
-      level1Cates,
-      level2Cates,
-    })
-    this.loadItems()
-  },
-
-  onLevel2CateTap: function (e) {
-    let id = e.currentTarget.dataset.id
-    let level1Cates = this.data.level1Cates
-    let level2Cates = []
-    for (let i in level1Cates) {
-      if (level1Cates[i].active) {
-        for (let j in level1Cates[i].children) {
-          level1Cates[i].children[j].active = !1
-          if (level1Cates[i].children[j].id == id) {
-            level1Cates[i].children[j].active = !0
-          }
-        }
-        level2Cates = level1Cates[i].children
-        break
-      }
-    }
-    this.setData({
-      level2Cates,
-    })
-    this.loadItems()
-  },
-
   onItemTap: function (e) {
     let id = e.currentTarget.dataset.id
     wx.navigateTo({
