@@ -1,6 +1,5 @@
 import { Cate } from '../../utils/cates.js'
 
-let app = getApp()
 let defaults = {}
 
 let methods = {
@@ -83,14 +82,18 @@ let methods = {
   onEditorSortUp: function (e) {
     let page = getCurrentPages().pop()
     let cate = page.data.cates.editor.item
-    Cate.set_seller(cate, 'sortUp')
+    Cate.set_seller(cate, 'sortUp').then(function (res) {
+      this.update(res.cates)
+    }.bind(this))
     this.onEditorCancel()
   },
 
   onEditorSortDown: function (e) {
     let page = getCurrentPages().pop()
     let cate = page.data.cates.editor.item
-    Cate.set_seller(cate, 'sortDown')
+    Cate.set_seller(cate, 'sortDown').then(function (res) {
+      this.update(res.cates)
+    }.bind(this))
     this.onEditorCancel()
   },
 
@@ -139,7 +142,8 @@ let methods = {
           page.setData({
             'cates.editor.item.rename': '',
           })
-        })
+          this.update(res.cates)
+        }.bind(this))
       }
       this.onEditorCancel()
     }
@@ -165,7 +169,8 @@ let methods = {
         page.setData({
           'cates.editor.item.insertChild': '',
         })
-      })
+        this.update(res.cates)
+      }.bind(this))
     }
     this.onEditorCancel()
   },
@@ -191,7 +196,8 @@ let methods = {
         page.setData({
           'cates.editor.item.insertAfter': '',
         })
-      })
+        this.update(res.cates)
+      }.bind(this))
     }
     this.onEditorCancel()
   },
@@ -213,11 +219,11 @@ let methods = {
                 success: function () { }
               })
             } else {
-              console.log(res.cates)
+              this.update(res.cates)
             }
-          })
+          }.bind(this))
         }
-      },
+      }.bind(this),
       complete: function (res) {
         this.onEditorCancel()
       }.bind(this)
@@ -239,7 +245,7 @@ let methods = {
     })
   },
 
-  onCatesUpdate: function (cates) {
+  update: function (cates) {
     let page = getCurrentPages().pop()
     let oldCates = page.data.cates.cates
     let activeIds = []
@@ -297,18 +303,18 @@ export class Cates {
     let page = getCurrentPages().pop()
     options = Object.assign({}, defaults, options)
     this.onCateChanged = options.onCateChanged
-    let cates = options.cates
-    for (let i in cates) {
-      cates[i].active = false
-      if (i == 0) cates[i].active = true
-      for (let j in cates[i].children) {
-        cates[i].children[j].active = false
-        if (j == 0) cates[i].children[j].active = true
-      }
-    }
-    page.setData({
-      'cates.cates': cates
-    })
+    // let cates = options.cates
+    // for (let i in cates) {
+    //   cates[i].active = false
+    //   if (i == 0) cates[i].active = true
+    //   for (let j in cates[i].children) {
+    //     cates[i].children[j].active = false
+    //     if (j == 0) cates[i].children[j].active = true
+    //   }
+    // }
+    // page.setData({
+    //   'cates.cates': cates
+    // })
     for (let key in methods) {
       this[key] = methods[key].bind(this)
       page['cates.' + key] = methods[key].bind(this)
@@ -316,15 +322,6 @@ export class Cates {
         ['cates.' + key]: 'cates.' + key
       })
     }
-    app.listener.on('cates', this.onCatesUpdate)
-  }
-
-  show(item) {
-    let page = getCurrentPages().pop()
-    page.setData({
-      'cates.editor.item': item,
-      'cates.editor.show': true,
-    })
   }
 
 }

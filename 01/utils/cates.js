@@ -36,7 +36,6 @@ function setCate_seller(cate, method) {
         res.cates = transformCates(res.cates)
         app.cates_seller = res.cates
       }
-      app.listener.trigger('cates', res.cates)
       resolve(res)
     }).catch(function (res) {
       app.listener.trigger('request fail', res)

@@ -59,3 +59,82 @@
 .item.offShelf .item-price {
   text-decoration: line-through;
 }
+
+.items-editor {
+  position: relative;
+}
+
+.items-editor-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.items-editor-content {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1001;
+  width: 100%;
+  height: 0;
+  background-color: #fff;
+  transition: all 300ms ease;
+}
+
+.items-editor-content.show.parent {
+  height: 720rpx;
+}
+
+.items-editor-content.show.child {
+  height: 620rpx;
+}
+
+.items-editor-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100rpx;
+}
+
+.items-editor-item + .items-editor-item {
+  border-top: 2rpx solid #eee;
+}
+
+.items-editor-item.cancel {
+  height: 120rpx;
+  border-top: 22rpx solid #eee;
+}
+
+.items-editor-item-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 260rpx;
+  height: 70rpx;
+  margin-left: 10rpx;
+  margin-right: 20rpx;
+  border-radius: 8rpx;
+  border: 1px solid #ddd;
+}
+
+.items-editor-item-input input {
+  width: 100%;
+  padding: 0;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.items-editor-item-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160rpx;
+  height: 70rpx;
+  font-size: 28rpx;
+  border-radius: 8rpx;
+  border: 2rpx solid #ddd;
+}
