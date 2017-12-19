@@ -3,7 +3,7 @@
 @import '/template/items/items.wxss';
 
 .container {
-  padding-top: 280rpx;
+  padding-top: 300rpx;
 }
 
 .page-head {

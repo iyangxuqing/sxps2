@@ -40,7 +40,7 @@ let methods = {
         break
       }
     }
-    this.onCateChanged && this.onCateChanged(activeCateId)
+    this.cateChanged && this.cateChanged(activeCateId)
   },
 
   onCateLongPress: function (e) {
@@ -293,7 +293,7 @@ let methods = {
     page.setData({
       'cates.cates': cates
     })
-  }
+  },
 
 }
 
@@ -302,19 +302,7 @@ export class Cates {
   constructor(options = {}) {
     let page = getCurrentPages().pop()
     options = Object.assign({}, defaults, options)
-    this.onCateChanged = options.onCateChanged
-    // let cates = options.cates
-    // for (let i in cates) {
-    //   cates[i].active = false
-    //   if (i == 0) cates[i].active = true
-    //   for (let j in cates[i].children) {
-    //     cates[i].children[j].active = false
-    //     if (j == 0) cates[i].children[j].active = true
-    //   }
-    // }
-    // page.setData({
-    //   'cates.cates': cates
-    // })
+    this.cateChanged = options.cateChanged
     for (let key in methods) {
       this[key] = methods[key].bind(this)
       page['cates.' + key] = methods[key].bind(this)

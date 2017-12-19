@@ -1,6 +1,5 @@
 import { Toptip } from '../../../template/toptip/toptip.js'
 import { SwiperImagesEditor } from '../../../template/swiperImagesEditor/swiperImagesEditor.js'
-import { http } from '../../../utils/http.js'
 import { Cate } from '../../../utils/cates.js'
 import { Item } from '../../../utils/items.js'
 
@@ -14,9 +13,7 @@ Page({
 
   onCatesPickerChange: function (e) {
     let value = e.detail.value
-    this.setData({
-      value
-    })
+    this.setData({ value })
     this.onCateChanged(value)
   },
 
@@ -25,9 +22,7 @@ Page({
     let value = e.detail.value
     if (column == 0) {
       let range = [this.cates, this.cates[value].children]
-      this.setData({
-        range
-      })
+      this.setData({ range })
     }
   },
 
@@ -96,7 +91,7 @@ Page({
     let hasChanged = this.data.hasChanged
     if (hasChanged) {
       let item = this.data.item
-      Item.set_seller(item, item.id ? 'update' : 'insert').then(function () {
+      Item.set_seller(item, item.id ? 'update' : 'insertAfter').then(function () {
         this.toptip.show({
           title: '保存成功',
           success: function () {
@@ -104,6 +99,8 @@ Page({
           }
         })
       }.bind(this))
+    } else {
+      wx.navigateBack()
     }
   },
 

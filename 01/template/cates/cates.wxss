@@ -1,19 +1,11 @@
-.cates {
-  border-top: 2rpx solid #ddd;
-  border-bottom: 2rpx solid #ddd;
-}
-
 .cates-row {
   padding: 0 30rpx;
-}
-
-.cates-row + .cates-row {
-  border-top: 2rpx solid #ddd;
+  border-bottom: 2rpx solid #ddd;
 }
 
 .cates-row-inner {
   display: flex;
-  height: 100rpx;
+  height: 98rpx;
   overflow: hidden;
   overflow-x: auto;
 }

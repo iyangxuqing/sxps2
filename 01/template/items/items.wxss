@@ -25,6 +25,12 @@
   margin-bottom: 10rpx;
 }
 
+.item-new .item-image{
+  padding: 40rpx;
+  opacity: 0.5;
+  border: 2rpx solid #ccc;
+}
+
 .item-title {
   font-size: 28rpx;
   text-align: center;

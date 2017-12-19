@@ -1,6 +1,5 @@
 import { Item } from '../../utils/items.js'
 
-let app = getApp()
 let defaults = {}
 
 let methods = {
@@ -70,7 +69,7 @@ let methods = {
         if (res.confirm) {
           let page = getCurrentPages().pop()
           let item = page.data.items.editor.item
-          Item.set_seller({ id: item.id }, 'delete')
+          Item.set_seller(item, 'delete')
         }
       },
       complete: function (res) {
@@ -109,14 +108,6 @@ export class Items {
         ['items.' + key]: 'items.' + key
       })
     }
-    app.listener.on('items', this.onCatesUpdate)
-  }
-
-  update(items) {
-    let page = getCurrentPages().pop()
-    page.setData({
-      'items.items': items
-    })
   }
 
 }

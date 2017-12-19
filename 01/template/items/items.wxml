@@ -10,6 +10,11 @@
         <view class="item-num" wx:if="{{item.num}}">{{item.num}}</view>
       </view>
     </block>
+    <view class="item item-new">
+      <view class="item-image">
+        <image src="/images/icon/plus.png" />
+      </view>
+    </view>
   </view>
   <view class="items-editor">
     <view class="items-editor-mask" wx:if="{{editor.show}}" catchtap="{{onEditorCancel}}"></view>
@@ -17,7 +22,8 @@
       <view class="items-editor-list">
         <view class="items-editor-item" catchtap="{{onEditorSortUp}}">往前移</view>
         <view class="items-editor-item" catchtap="{{onEditorSortDown}}">往后移</view>
-        <view class="items-editor-item" catchtap="{{onEditorOnShelf}}">下架</view>
+        <view class="items-editor-item" wx:if="{{editor.item.onShelf==1}}" catchtap="{{onEditorOnShelf}}">下架</view>
+        <view class="items-editor-item" wx:if="{{editor.item.onShelf==0}}" catchtap="{{onEditorOnShelf}}">上架</view>
         <view class="items-editor-item" catchtap="{{onEditorInsertAfter}}">插入</view>
         <view class="items-editor-item" catchtap="{{onEditorDelete}}">删除</view>
         <view class="items-editor-item cancel" catchtap="{{onEditorCancel}}">取消</view>
