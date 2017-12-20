@@ -5,11 +5,8 @@ let defaults = {}
 let methods = {
 
   onItemTap: function (e) {
-    let page = getCurrentPages().pop()
     let id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: '../item/index?id=' + id,
-    })
+    this.itemTap && this.itemTap({ id })
   },
 
   onItemLongPress: function (e) {
@@ -47,7 +44,7 @@ let methods = {
     let page = getCurrentPages().pop()
     let item = page.data.items.editor.item
     item.onShelf = item.onShelf == 0 ? 1 : 0
-    Item.set_seller(item, 'onShelf')
+    Item.set_seller({ id: item.id, onShelf: item.onShelf }, 'update')
     this.onEditorCancel()
   },
 
@@ -55,9 +52,7 @@ let methods = {
     let page = getCurrentPages().pop()
     let item = page.data.items.editor.item
     let sort = Number(item.sort) + 1
-    wx.navigateTo({
-      url: '../item/index?cid=' + item.cid + '&sort=' + sort,
-    })
+    this.itemTap && this.itemTap({ sort: Number(item.sort) + 1 })
     this.onEditorCancel()
   },
 
@@ -97,9 +92,9 @@ export class Items {
   constructor(options = {}) {
     let page = getCurrentPages().pop()
     options = Object.assign({}, defaults, options)
-    let items = options.items
+    this.itemTap = options.itemTap
     page.setData({
-      'items.items': items
+      'items.items': options.items
     })
     for (let key in methods) {
       this[key] = methods[key].bind(this)

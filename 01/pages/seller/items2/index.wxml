@@ -1,4 +1,3 @@
-<import src="/template/empty/empty.wxml" />
 <import src="/template/cates/cates.wxml" />
 <import src="/template/items/items.wxml" />
 
@@ -21,9 +20,6 @@
 
   </view>
 
-
   <template is="items" data="{{...items, youImageMode_v2}}" />
-
-  <template is="empty" data="{{show: !items.items.length, message: '该类目下没有商品'}}" />
 
 </view>

@@ -76,7 +76,18 @@ let methods = {
       'cates.editor.item': cate,
       'cates.editor.show': true,
     })
+  },
 
+  onCateNewBlur: function (e) {
+    let page = getCurrentPages().pop()
+    let pid = e.currentTarget.dataset.pid
+    let title = e.detail.value
+    if (title) {
+      Cate.set_seller({ pid, title }, 'insert').then(function (res) {
+        page.setData({ 'cates.newCateTitle': '' })
+        this.update(res.cates)
+      }.bind(this))
+    }
   },
 
   onEditorSortUp: function (e) {
@@ -102,22 +113,6 @@ let methods = {
     let page = getCurrentPages().pop()
     page.setData({
       'cates.editor.item.rename': value
-    })
-  },
-
-  onEditorInsertChildInput: function (e) {
-    let value = e.detail.value
-    let page = getCurrentPages().pop()
-    page.setData({
-      'cates.editor.item.insertChild': value
-    })
-  },
-
-  onEditorInsertAfterInput: function (e) {
-    let value = e.detail.value
-    let page = getCurrentPages().pop()
-    page.setData({
-      'cates.editor.item.insertAfter': value
     })
   },
 
@@ -147,59 +142,6 @@ let methods = {
       }
       this.onEditorCancel()
     }
-  },
-
-  onEditorInsertChildConfirm: function (e) {
-    let page = getCurrentPages().pop()
-    let cate = page.data.cates.editor.item
-    if (cate.insertChild == '') {
-      wx.showModal({
-        title: '类目管理',
-        content: '　　商品类目不可为空。',
-        showCancel: false,
-        success: function () {
-          return
-        }
-      })
-    } else {
-      Cate.set_seller({
-        pid: cate.id,
-        title: cate.insertChild,
-      }, 'insertChild').then(function (res) {
-        page.setData({
-          'cates.editor.item.insertChild': '',
-        })
-        this.update(res.cates)
-      }.bind(this))
-    }
-    this.onEditorCancel()
-  },
-
-  onEditorInsertAfterConfirm: function (e) {
-    let page = getCurrentPages().pop()
-    let cate = page.data.cates.editor.item
-    if (cate.insertAfter == '') {
-      wx.showModal({
-        title: '类目管理',
-        content: '　　商品类目不可为空。',
-        showCancel: false,
-        success: function () {
-          return
-        }
-      })
-    } else {
-      Cate.set_seller({
-        pid: cate.pid,
-        title: cate.insertAfter,
-        sort: Number(cate.sort) + 1,
-      }, 'insertAfter').then(function (res) {
-        page.setData({
-          'cates.editor.item.insertAfter': '',
-        })
-        this.update(res.cates)
-      }.bind(this))
-    }
-    this.onEditorCancel()
   },
 
   onEditorDelete: function (e) {

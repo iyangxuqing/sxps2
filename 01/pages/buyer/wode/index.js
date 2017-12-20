@@ -109,7 +109,6 @@ Page({
       })
       this.loading.hide()
     }.bind(this)).catch(function (res) {
-      console.log(res)
       this.loading.hide()
     }.bind(this))
 

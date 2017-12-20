@@ -10,7 +10,7 @@
         <view class="item-num" wx:if="{{item.num}}">{{item.num}}</view>
       </view>
     </block>
-    <view class="item item-new">
+    <view class="item item-new" catchtap="{{onItemTap}}">
       <view class="item-image">
         <image src="/images/icon/plus.png" />
       </view>

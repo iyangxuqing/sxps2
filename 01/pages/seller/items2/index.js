@@ -24,6 +24,15 @@ Page({
     }
   },
 
+  getItem(id) {
+    let items = this.data.items.items
+    for (let i in items) {
+      if (items[i].id == id) {
+        return items[i]
+      }
+    }
+  },
+
   onItemsUpdate(items) {
     let searching = this.data.searching
     let searchWord = this.data.searchWord
@@ -104,6 +113,17 @@ Page({
     }.bind(this))
   },
 
+  onItemTap: function (item) {
+    let id = item.id
+    let cid = this.getActiveCateId()
+    let sort = item.sort
+    if (cid) {
+      wx.navigateTo({
+        url: '../item/index?id=' + id + '&cid=' + cid + '&sort=' + sort,
+      })
+    }
+  },
+
   loadData: function (options = {}) {
     Promise.all([
       Cate.getCates_seller(options),
@@ -132,7 +152,9 @@ Page({
     this.cates = new Cates({
       cateChanged: this.onCateChanged
     })
-    this.items = new Items()
+    this.items = new Items({
+      itemTap: this.onItemTap
+    })
     this.loadData()
   },
 

@@ -28,7 +28,6 @@ let methods = {
 
 export class Tabs {
   constructor(options = {}) {
-    console.log('tabs', options)
     let page = getCurrentPages().pop()
     options = Object.assign({}, defaults, options)
     this.onTabTap = options.onTabTap

@@ -88,10 +88,10 @@ Page({
   },
 
   onItemConfirm: function (e) {
-    let hasChanged = this.data.hasChanged
-    if (hasChanged) {
+    if (this.data.hasChanged) {
       let item = this.data.item
-      Item.set_seller(item, item.id ? 'update' : 'insertAfter').then(function () {
+      let method = item.id ? 'update' : 'insert'
+      Item.set_seller(item, method).then(function () {
         this.toptip.show({
           title: '保存成功',
           success: function () {
@@ -105,22 +105,30 @@ Page({
   },
 
   onLoad: function (options) {
-    let id = options.id
-    let cid = options.cid
-    let sort = options.sort
-    let item = Item.getItem_seller({ id })
-    if (!item) item = { cid, sort }
-    if (item.price) item.price = Number(item.price).toFixed(2)
-    this.setData({ item })
-
     this.toptip = new Toptip()
-    this.swiperImagesEditor = new SwiperImagesEditor({
-      maxImagesLength: 1,
-      images: item.images,
-      onImagesChanged: this.onImagesChanged
-    })
+    let item = { cid: options.cid }
+    if (options.sort && options.sort != 'undefined') item.sort = options.sort
+    Promise.all([
+      Cate.getCates_seller(),
+      Item.getItems_seller(),
+    ]).then(function (res) {
+      let cates = res[0]
+      let items = res[1]
+      if (options.id && options.id != 'undefined') {
+        for (let i in items) {
+          if (items[i].id == options.id) {
+            item = items[i]
+            break
+          }
+        }
+      }
+      this.setData({ item })
+      this.swiperImagesEditor = new SwiperImagesEditor({
+        maxImagesLength: 1,
+        images: item.images,
+        onImagesChanged: this.onImagesChanged
+      })
 
-    Cate.getCates().then(function (cates) {
       this.cates = cates
       let level1Index = -1
       let level2Index = -1
@@ -147,7 +155,6 @@ Page({
         ready: true
       })
     }.bind(this))
-
   },
 
   onReady: function () {

@@ -5,6 +5,7 @@
 
 .cates-row-inner {
   display: flex;
+  align-items: center;
   height: 98rpx;
   overflow: hidden;
   overflow-x: auto;
@@ -14,6 +15,7 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
+  min-width: 100rpx;
   height: 100%;
   padding-right: 30rpx;
 }
@@ -28,6 +30,11 @@
 
 .cate.editing {
   color: blue;
+}
+
+.cate-new-input {
+  flex-shrink: 0;
+  width: 200rpx;
 }
 
 .cates-editor {
@@ -55,12 +62,8 @@
   transition: all 300ms ease;
 }
 
-.cates-editor-content.show.parent {
-  height: 720rpx;
-}
-
-.cates-editor-content.show.child {
-  height: 620rpx;
+.cates-editor-content.show {
+  height: 520rpx;
 }
 
 .cates-editor-item {
@@ -77,6 +80,13 @@
 .cates-editor-item.cancel {
   height: 120rpx;
   border-top: 22rpx solid #eee;
+}
+
+.cates-editor-item-label {
+  display: flex;
+  justify-content: flex-end;
+  width: 160rpx;
+  padding-right: 10rpx;
 }
 
 .cates-editor-item-input {
