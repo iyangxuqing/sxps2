@@ -1,85 +1,161 @@
-import { itemsGrid } from '../../../template/itemsGrid/index.js'
 import { Cate } from '../../../utils/cates.js'
 import { Item } from '../../../utils/items.js'
+import { Cates } from '../../../template/cates/cates.js'
+import { Items } from '../../../template/items/items.js'
 
 let app = getApp()
 
 Page({
 
   data: {
-    youImageMode: app.youImageMode_v2,
+    youImageMode_v2: app.youImageMode_v2,
   },
 
-  onItemTap: function (item) {
-    wx.navigateTo({
-      url: '../item/index?id=' + item.id + '&cid=' + this.cid,
-    })
+  getActiveCateId() {
+    let cates = this.data.cates.cates
+    for (let i in cates) {
+      if (cates[i].active == true) {
+        for (let j in cates[i].children) {
+          if (cates[i].children[j].active == true) {
+            return cates[i].children[j].id
+          }
+        }
+      }
+    }
   },
 
-  onItemDel: function (item) {
-    Item.delItem(item)
-  },
-
-  onItemSort: function (items, item1, item2) {
-    Item.sortItems(items, item1, item2)
-  },
-
-  onItemsUpdate: function (items) {
-    let cid = this.cid
-    let _items = []
+  getItem(id) {
+    let items = this.data.items.items
     for (let i in items) {
-      if (items[i].cid == cid) {
-        _items.push(items[i])
+      if (items[i].id == id) {
+        return items[i]
+      }
+    }
+  },
+
+  onItemsUpdate(items) {
+    let searching = this.data.searching
+    let searchWord = this.data.searchWord
+    let cid = this.getActiveCateId()
+    let _items = []
+    if (searching) {
+      for (let i in items) {
+        if (items[i].title.indexOf(searchWord) >= 0) {
+          _items.push(items[i])
+        }
+      }
+    } else {
+      for (let i in items) {
+        if (items[i].cid == cid) {
+          _items.push(items[i])
+        }
       }
     }
     this.setData({
-      'itemsGrid.items': _items
+      'items.items': _items
     })
   },
 
-  onLoad: function (options) {
-    app.listener.on('items', this.onItemsUpdate)
-    let cid = options.cid
-    this.cid = options.cid
+  onSearchInput: function (e) {
+    let value = e.detail.value
+    this.setData({
+      searchWord: value,
+    })
+  },
+
+  onSearchCancel: function (e) {
+    let _items = []
+    let cid = this.getActiveCateId()
+    Item.getItems_seller().then(function (items) {
+      for (let i in items) {
+        if (items[i].cid == cid) {
+          _items.push(items[i])
+        }
+      }
+      this.setData({
+        searchWord: '',
+        searching: false,
+        'items.items': _items
+      })
+    }.bind(this))
+  },
+
+  onSearch: function (e) {
+    let searchWord = this.data.searchWord
+    if (!searchWord) return
+    Item.getItems_seller().then(function (items) {
+      let _items = []
+      for (let i in items) {
+        if (items[i].title.indexOf(searchWord) >= 0) {
+          _items.push(items[i])
+        }
+      }
+      this.setData({
+        searching: true,
+        'items.items': _items
+      })
+    }.bind(this))
+  },
+
+  onCateChanged: function (cid) {
+    Item.getItems_seller().then(function (items) {
+      let _items = []
+      let cid = this.getActiveCateId()
+      for (let i in items) {
+        if (items[i].cid == cid) {
+          _items.push(items[i])
+        }
+      }
+      this.setData({
+        searching: false,
+        'items.items': _items
+      })
+    }.bind(this))
+  },
+
+  onItemTap: function (item) {
+    let id = item.id
+    let cid = this.getActiveCateId()
+    let sort = item.sort
+    if (cid) {
+      wx.navigateTo({
+        url: '../item/index?id=' + id + '&cid=' + cid + '&sort=' + sort,
+      })
+    }
+  },
+
+  loadData: function (options = {}) {
     Promise.all([
-      Cate.getCates(),
-      Item.getItems(),
+      Cate.getCates_seller(options),
+      Item.getItems_seller(options),
     ]).then(function (res) {
       let cates = res[0]
       let items = res[1]
-
-      let cateTitle = ''
-      let childCateTitle = ''
-      for (let i in cates) {
-        for (let j in cates[i].children) {
-          if (cates[i].children[j].id == cid) {
-            cateTitle = cates[i].title
-            childCateTitle = cates[i].children[j].title
-            wx.setNavigationBarTitle({
-              title: childCateTitle
-            })
-            break
-          }
-        }
-        if (cateTitle) break
-      }
-
+      this.cates.update(cates)
+      let cid = this.getActiveCateId()
       let _items = []
       for (let i in items) {
         if (items[i].cid == cid) {
           _items.push(items[i])
         }
       }
-      this.itemsGrid = new itemsGrid({
-        items: _items,
-        onItemTap: this.onItemTap,
-        onItemDel: this.onItemDel,
-        onItemSort: this.onItemSort
-      })
       this.setData({
-        ready: true
+        ready: true,
+        'items.items': _items,
       })
+      options.success && options.success()
     }.bind(this))
+  },
+
+  onLoad: function (options) {
+    app.listener.on('items', this.onItemsUpdate.bind(this))
+    this.cates = new Cates({
+      cateChanged: this.onCateChanged
+    })
+    this.items = new Items({
+      itemTap: this.onItemTap
+    })
+    this.loadData()
   },
 
   onReady: function () {
@@ -94,26 +170,12 @@ Page({
 
   },
 
+  onUnload: function () {
+
+  },
+
   onPullDownRefresh: function () {
-    let cid = this.cid
-    Item.getItems({ nocache: true }).then(function (items) {
-      let _items = []
-      for (let i in items) {
-        if (items[i].cid == cid) {
-          _items.push(items[i])
-        }
-      }
-      this.itemsGrid = new itemsGrid({
-        items: _items,
-        onItemTap: this.onItemTap,
-        onItemDel: this.onItemDel,
-        onItemSort: this.onItemSort
-      })
-      this.setData({
-        ready: true
-      })
-      wx.stopPullDownRefresh()
-    }.bind(this))
+
   },
 
   onReachBottom: function () {

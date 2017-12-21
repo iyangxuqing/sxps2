@@ -119,29 +119,18 @@ let methods = {
   onEditorRenameConfirm: function (e) {
     let page = getCurrentPages().pop()
     let cate = page.data.cates.editor.item
-    if (cate.rename == '') {
-      wx.showModal({
-        title: '类目管理',
-        content: '　　商品类目不可为空。',
-        showCancel: false,
-        success: function () {
-          return
-        }
-      })
-    } else {
-      if (cate.title != cate.rename) {
-        Cate.set_seller({
-          id: cate.id,
-          title: cate.rename,
-        }, 'update').then(function (res) {
-          page.setData({
-            'cates.editor.item.rename': '',
-          })
-          this.update(res.cates)
-        }.bind(this))
-      }
-      this.onEditorCancel()
+    if (cate.rename && cate.rename != cate.title) {
+      Cate.set_seller({
+        id: cate.id,
+        title: cate.rename,
+      }, 'update').then(function (res) {
+        page.setData({
+          'cates.editor.item.rename': '',
+        })
+        this.update(res.cates)
+      }.bind(this))
     }
+    this.onEditorCancel()
   },
 
   onEditorDelete: function (e) {

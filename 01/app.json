@@ -1,10 +1,9 @@
 {
   "pages": [
-    "pages/seller/items2/index",
+    "pages/buyer/items/index",
+    "pages/seller/items/index",
     "pages/index/index",
     "pages/seller/index/index",
-    "pages/seller/cates/index",
-    "pages/seller/items/index",
     "pages/seller/item/index",
     "pages/seller/trades/index",
     "pages/seller/trades_summary/index",

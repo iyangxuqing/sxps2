@@ -1,0 +1,54 @@
+<template name="purchase">
+  <view class="purchase">
+    <view class="purchase-mask" wx:if="{{show}}" catchtap="{{onPurchaseCancel}}"></view>
+    <view class="purchase-content {{show ? 'show' : ''}}">
+      <view class="purchase-content-inner">
+        <view class="purchase-item-info">
+          <view class="purchase-item-image">
+            <image src="{{item.images[0] ? item.images[0] + youImageMode_v2 : ''}}" />
+          </view>
+          <view class="purchase-item-text">
+            <view class="purchase-item-title">{{item.title}}</view>
+            <view class="purchase-item-descs">{{item.descs || item.title + '(500克)'}}</view>
+            <view class="purchase-item-price">
+              <text class="purchase-item-price-label">价格：</text>
+              <text class="purchase-item-price-value">￥{{item.price}}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="purchase-item-numberAndAmount">
+          <view class="purchase-item-amount">
+            <view class="purchase-item-amount-label">金额：</view>
+            <view class="purchase-item-amount-value">￥{{item.amount || '0.00'}}</view>
+          </view>
+          <view class="purchase-item-number">
+            <view class="purchase-item-number-icon" catchtap="{{onPurchaseNumberMinus}}">
+              <view class="purchase-item-number-icon-inner">
+                <image src="/images/icon/minus.png" />
+              </view>
+            </view>
+            <view class="purchase-item-number-input">
+              <input value="{{item.num}}" placeholder="0" type="number" maxlength="5" bindblur="{{onPurchaseNumberInput}}" />
+            </view>
+            <view class="purchase-item-number-icon" catchtap="{{onPurchaseNumberPlus}}">
+              <view class="purchase-item-number-icon-inner">
+                <image src="/images/icon/plus.png" />
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <view class="purchase-item-message">
+          <textarea value="{{item.message}}" placeholder="买家留言..." cursor-spacing="30" bindinput="{{onPurchaseMessageInput}}" />
+        </view>
+
+        <view class="purchase-item-buttons">
+          <view class="purchase-item-button cancel" catchtap="{{onPurchaseCancel}}">取 消</view>
+          <view class="purchase-item-button confirm" catchtap="{{onPurchaseConfirm}}">确 定</view>
+        </view>
+        
+      </view>
+    </view>
+  </view>
+</template>

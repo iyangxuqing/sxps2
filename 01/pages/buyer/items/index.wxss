@@ -1,3 +1,4 @@
+@import '/template/purchase/purchase.wxss';
 @import '/template/empty/empty.wxss';
 
 .container {
@@ -206,3 +207,4 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+

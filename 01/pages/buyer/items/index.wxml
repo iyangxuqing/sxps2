@@ -1,3 +1,4 @@
+<import src="/template/purchase/purchase.wxml" />
 <import src="/template/empty/empty.wxml" />
 
 <view class="container" wx:if="{{ready}}">
@@ -31,6 +32,8 @@
 
   <template is="items" data="{{items, youImageMode_v2}}" />
 
+  <template is="purchase" data="{{...purchase, youImageMode_v2}}" />
+
   <template is="empty" data="{{show: !items.length, message: '该类目下没有商品'}}" />
 
 </view>
@@ -38,7 +41,7 @@
 <template name="items">
   <view class="items">
     <block wx:for="{{items}}" wx:key="">
-      <view class="item" data-id="{{item.id}}" catchtap="onItemTap">
+      <view class="item" data-id="{{item.id}}" catchtap="onItemTap" catchlongpress="onItemLongPress">
         <view class="item-image">
           <image src="{{item.images[0] + youImageMode_v2}}" />
         </view>
@@ -49,3 +52,4 @@
     </block>
   </view>
 </template>
+

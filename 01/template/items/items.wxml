@@ -3,7 +3,7 @@
     <block wx:for="{{items}}" wx:key="">
       <view class="item {{item.onShelf==0 ? 'offShelf' : ''}}" data-id="{{item.id}}" catchtap="{{onItemTap}}" catchlongpress="{{onItemLongPress}}">
         <view class="item-image">
-          <image src="{{item.images[0] ? item.images[0] + youImageMode_v2 : ''}}" />
+          <image src="{{item.images[0] ? item.images[0] + youImageMode_v2 + '&t=1' : ''}}" />
         </view>
         <view class="item-title">{{item.title}}</view>
         <view class="item-price">￥{{item.price}}</view>

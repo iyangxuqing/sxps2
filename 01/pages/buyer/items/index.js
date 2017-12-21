@@ -1,5 +1,6 @@
 import { Cate } from '../../../utils/cates.js'
 import { Item } from '../../../utils/items.js'
+import { Purchase } from '../../../template/purchase/purchase.js'
 
 let app = getApp()
 
@@ -103,6 +104,25 @@ Page({
     let id = e.currentTarget.dataset.id
     wx.navigateTo({
       url: '../item/index?id=' + id,
+    })
+  },
+
+  onItemLongPress: function (e) {
+    let id = e.currentTarget.dataset.id
+    let items = this.data.items
+    let item = {}
+    for (let i in items) {
+      if (items[i].id == id) {
+        item = items[i]
+        break
+      }
+    }
+    this.purchase.show(item)
+  },
+
+  onPurchaseCancel: function (e) {
+    this.setData({
+      'purchase.show': false
     })
   },
 
@@ -213,6 +233,9 @@ Page({
 
   onLoad: function (options) {
     app.listener.on('shoppings', this.onShoppingsUpdate)
+    this.purchase = new Purchase({
+      purchaseConfirm: this.onPurchaseConfirm
+    })
     this.loadData()
   },
 
