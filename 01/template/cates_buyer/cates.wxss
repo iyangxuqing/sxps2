@@ -1,0 +1,29 @@
+.cates-row {
+  padding: 0 30rpx;
+  border-bottom: 2rpx solid #ddd;
+}
+
+.cates-row-inner {
+  display: flex;
+  align-items: center;
+  height: 98rpx;
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.cate {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  min-width: 100rpx;
+  height: 100%;
+  padding-right: 30rpx;
+}
+
+.cate:last-child {
+  padding-right: 0;
+}
+
+.cate.active {
+  color: red;
+}

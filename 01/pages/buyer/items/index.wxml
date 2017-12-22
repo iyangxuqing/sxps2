@@ -1,3 +1,5 @@
+<import src="/template/cates_buyer/cates.wxml" />
+<import src="/template/items_buyer/items.wxml" />
 <import src="/template/purchase/purchase.wxml" />
 <import src="/template/empty/empty.wxml" />
 
@@ -16,7 +18,7 @@
       </view>
       <view class="search-history {{showItemsType=='history' && !searching ? 'active' : ''}}" catchtap="onSearchHistory">常购清单</view>
     </view>
-    <view class="cates">
+    <!-- <view class="cates">
       <view class="level1Cates">
         <block wx:for="{{level1Cates}}" wx:key="" wx:for-item="level1Cate">
           <view class="level1Cate {{showItemsType=='category' && !searching && level1Cate.active ? 'active' : ''}}" data-id="{{level1Cate.id}}" catchtap="onLevel1CateTap">{{level1Cate.title}}</view>
@@ -27,29 +29,14 @@
           <view class="level2Cate {{showItemsType=='category' && !searching && level2Cate.active ? 'active' : ''}}" data-id="{{level2Cate.id}}" catchtap="onLevel2CateTap">{{level2Cate.title}}</view>
         </block>
       </view>
-    </view>
+    </view> -->
+    <template is="cates_buyer" data="{{...cates}}" />
   </view>
 
-  <template is="items" data="{{items, youImageMode_v2}}" />
+  <template is="items_buyer" data="{{...items, youImageMode_v2}}" />
 
   <template is="purchase" data="{{...purchase, youImageMode_v2}}" />
 
-  <template is="empty" data="{{show: !items.length, message: '该类目下没有商品'}}" />
+  <template is="empty" data="{{show: !items.items.length, message: '该类目下没有商品'}}" />
 
 </view>
-
-<template name="items">
-  <view class="items">
-    <block wx:for="{{items}}" wx:key="">
-      <view class="item" data-id="{{item.id}}" catchtap="onItemTap" catchlongpress="onItemLongPress">
-        <view class="item-image">
-          <image src="{{item.images[0] + youImageMode_v2}}" />
-        </view>
-        <view class="item-title">{{item.title}}</view>
-        <view class="item-price">￥{{item.price}}</view>
-        <view class="item-num" wx:if="{{item.num}}">{{item.num}}</view>
-      </view>
-    </block>
-  </view>
-</template>
-

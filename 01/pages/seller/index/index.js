@@ -5,22 +5,31 @@ Page({
   data: {
     links: [{
       text: '菜品管理',
-      url: '../items/index'
+      url: '../items/index',
     }, {
       text: '订单汇总',
-      url: '../trades_summary/index'
+      url: '../trades_summary/index',
     }, {
       text: '订单管理',
-      url: '../trades/index'
+      url: '../trades/index',
+    }, {
+      text: '前往买家版',
+      url: '../../buyer/items/index',
     }]
   },
 
   onLinkTap: function (e) {
     let index = e.currentTarget.dataset.index
     let url = this.data.links[index].url
-    wx.navigateTo({
-      url: url,
-    })
+    if (url.indexOf('buyer') > 0) {
+      wx.switchTab({
+        url: url,
+      })
+    } else {
+      wx.navigateTo({
+        url: url,
+      })
+    }
   },
 
   onLoad: function (options) {

@@ -73,7 +73,7 @@ Page({
     let user = wx.getStorageSync('user')
     if (user.role == 'seller_admin') {
       wx.redirectTo({
-        url: '/pages/index/index'
+        url: '/pages/seller/index/index'
       })
     }
   },

@@ -2,13 +2,12 @@
   "pages": [
     "pages/buyer/items/index",
     "pages/seller/items/index",
-    "pages/index/index",
     "pages/seller/index/index",
     "pages/seller/item/index",
     "pages/seller/trades/index",
     "pages/seller/trades_summary/index",
+
     "pages/buyer/items/index",
-    "pages/buyer/item/index",
     "pages/buyer/shopping/index",
     "pages/buyer/trades/index",
     "pages/buyer/wode/index",

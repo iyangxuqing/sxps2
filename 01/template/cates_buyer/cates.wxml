@@ -1,0 +1,20 @@
+<template name="cates_buyer">
+  <view class="cates" wx:if="{{cates}}">
+    <view class="cates-row">
+      <view class="cates-row-inner">
+        <block wx:for="{{cates}}" wx:key="" wx:for-item="cate">
+          <view class="cate {{cate.active ? 'active' : ''}}" data-id="{{cate.id}}" data-pid="{{0}}" catchtap="{{onCateTap}}">{{cate.title}}</view>
+        </block>
+      </view>
+    </view>
+    <view class="cates-row">
+      <block wx:for="{{cates}}" wx:key="" wx:for-item="cate">
+        <view class="cates-row-inner" wx:if="{{cate.active}}">
+          <block wx:for="{{cate.children}}" wx:key="" wx:for-item="child">
+            <view class="cate {{child.active ? 'active' : ''}}" data-id="{{child.id}}" data-pid="{{cate.id}}" catchtap="{{onCateTap}}">{{child.title}}</view>
+          </block>
+        </view>
+      </block>
+    </view>
+  </view>
+</template>

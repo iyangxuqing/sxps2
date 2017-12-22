@@ -176,7 +176,24 @@ let methods = {
     })
   },
 
-  update: function (cates) {
+}
+
+export class Cates {
+
+  constructor(options = {}) {
+    let page = getCurrentPages().pop()
+    options = Object.assign({}, defaults, options)
+    this.cateChanged = options.cateChanged
+    for (let key in methods) {
+      this[key] = methods[key].bind(this)
+      page['cates.' + key] = methods[key].bind(this)
+      page.setData({
+        ['cates.' + key]: 'cates.' + key
+      })
+    }
+  }
+
+  update(cates) {
     let page = getCurrentPages().pop()
     let oldCates = page.data.cates.cates
     let activeIds = []
@@ -224,23 +241,6 @@ let methods = {
     page.setData({
       'cates.cates': cates
     })
-  },
-
-}
-
-export class Cates {
-
-  constructor(options = {}) {
-    let page = getCurrentPages().pop()
-    options = Object.assign({}, defaults, options)
-    this.cateChanged = options.cateChanged
-    for (let key in methods) {
-      this[key] = methods[key].bind(this)
-      page['cates.' + key] = methods[key].bind(this)
-      page.setData({
-        ['cates.' + key]: 'cates.' + key
-      })
-    }
   }
 
 }

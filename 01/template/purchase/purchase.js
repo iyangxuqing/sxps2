@@ -109,6 +109,8 @@ export class Purchase {
 
   show(item) {
     let page = getCurrentPages().pop()
+    let num = item.num ? item.num : 0
+    item.amount = Number(num * item.price).toFixed(2)
     page.setData({
       'purchase.item': item,
       'purchase.show': true,
