@@ -18,18 +18,6 @@
       </view>
       <view class="search-history {{showItemsType=='history' && !searching ? 'active' : ''}}" catchtap="onSearchHistory">常购清单</view>
     </view>
-    <!-- <view class="cates">
-      <view class="level1Cates">
-        <block wx:for="{{level1Cates}}" wx:key="" wx:for-item="level1Cate">
-          <view class="level1Cate {{showItemsType=='category' && !searching && level1Cate.active ? 'active' : ''}}" data-id="{{level1Cate.id}}" catchtap="onLevel1CateTap">{{level1Cate.title}}</view>
-        </block>
-      </view>
-      <view class="level2Cates" wx:if="{{level2Cates.length}}">
-        <block wx:for="{{level2Cates}}" wx:key="" wx:for-item="level2Cate">
-          <view class="level2Cate {{showItemsType=='category' && !searching && level2Cate.active ? 'active' : ''}}" data-id="{{level2Cate.id}}" catchtap="onLevel2CateTap">{{level2Cate.title}}</view>
-        </block>
-      </view>
-    </view> -->
     <template is="cates_buyer" data="{{...cates}}" />
   </view>
 

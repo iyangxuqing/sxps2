@@ -1,6 +1,7 @@
 import { Item } from '../../../utils/items.js'
 import { Trade } from '../../../utils/trades.js'
 import { User } from '../../../utils/user.js'
+import { Purchase } from '../../../template/purchase/purchase.js'
 
 let app = getApp()
 
@@ -12,9 +13,25 @@ Page({
 
   onOrderTap: function (e) {
     let iid = e.currentTarget.dataset.iid
-    wx.navigateTo({
-      url: '../item/index?id=' + iid,
-    })
+    let item = {}
+    Item.getItems().then(function (items) {
+      for (let i in items) {
+        if (items[i].id == iid) {
+          item = items[i]
+          break
+        }
+      }
+      let shoppings = wx.getStorageSync('shoppings')
+      for (let i in shoppings) {
+        if (shoppings[i].iid == iid) {
+          item.num = shoppings[i].num
+          item.message = shoppings[i].message
+          break
+        }
+      }
+      console.log(item)
+      this.purchase.show(item)
+    }.bind(this))
   },
 
   onGotoBuy: function (e) {
@@ -106,6 +123,7 @@ Page({
 
   onLoad: function (options) {
     app.listener.on('shoppings', this.onShoppingsUpdate)
+    this.purchase = new Purchase()
     this.loadData()
   },
 

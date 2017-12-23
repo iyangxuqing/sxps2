@@ -29,7 +29,7 @@
               </view>
             </view>
             <view class="purchase-item-number-input">
-              <input value="{{item.num}}" placeholder="0" type="number" maxlength="5" bindblur="{{onPurchaseNumberInput}}" />
+              <input value="{{item.num==0 ? '' : item.num}}" placeholder="0" type="number" maxlength="5" bindblur="{{onPurchaseNumberInput}}" />
             </view>
             <view class="purchase-item-number-icon" catchtap="{{onPurchaseNumberPlus}}">
               <view class="purchase-item-number-icon-inner">

@@ -1,3 +1,4 @@
+<import src="/template/purchase/purchase.wxml" />
 <import src="/template/empty/empty.wxml" />
 
 <view class="container">
@@ -36,6 +37,7 @@
     <view class="button button-submit" catchtap="onOrderSubmit">提交订单</view>
   </view>
 
+  <template is="purchase" data="{{...purchase, youImageMode_v2}}" />
   <template is="empty" data="{{show: !orders.length, message: '购物车中还没有任何商品'}}" />
 
 </view>

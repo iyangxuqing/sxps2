@@ -53,6 +53,7 @@ let methods = {
   onPurchaseNumberMinus: function (e) {
     let page = getCurrentPages().pop()
     let item = page.data.purchase.item
+    if (!item.num) item.num = 0
     if (item.num > 0) item.num--
     if (item.num < 0) item.num = 0
     item.amount = Number(item.num * item.price).toFixed(2)
@@ -64,6 +65,7 @@ let methods = {
   onPurchaseNumberPlus: function (e) {
     let page = getCurrentPages().pop()
     let item = page.data.purchase.item
+    if (!item.num) item.num = 0
     if (item.num < 9999) item.num = Number(item.num) + 1
     item.amount = Number(item.num * item.price).toFixed(2)
     page.setData({

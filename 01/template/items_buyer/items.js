@@ -76,6 +76,7 @@ export class Items {
       for (let j in shoppings) {
         if (_items[i].id == shoppings[j].iid) {
           _items[i].num = shoppings[j].num
+          _items[i].message = shoppings[j].message
           break
         }
       }
