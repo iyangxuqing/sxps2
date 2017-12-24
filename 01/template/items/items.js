@@ -5,8 +5,17 @@ let defaults = {}
 let methods = {
 
   onItemTap: function (e) {
+    let page = getCurrentPages().pop()
     let id = e.currentTarget.dataset.id
-    this.itemTap && this.itemTap({ id })
+    let item = {}
+    let items = page.data.items.items
+    for (let i in items) {
+      if (items[i].id == id) {
+        item = items[i]
+        break
+      }
+    }
+    this.itemTap && this.itemTap(item)
   },
 
   onItemLongPress: function (e) {

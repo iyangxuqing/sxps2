@@ -1,5 +1,6 @@
 <import src="/template/cates/cates.wxml" />
 <import src="/template/items/items.wxml" />
+<import src="/template/itemDetail/itemDetail.wxml" />
 
 <view class="container" wx:if="{{ready}}">
 
@@ -21,5 +22,7 @@
   </view>
 
   <template is="items" data="{{...items, youImageMode_v2}}" />
+
+  <template is="itemDetail" data="{{...itemDetail, youImageMode_v2}}" />
 
 </view>

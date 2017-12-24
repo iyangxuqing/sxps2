@@ -29,7 +29,6 @@ Page({
           break
         }
       }
-      console.log(item)
       this.purchase.show(item)
     }.bind(this))
   },

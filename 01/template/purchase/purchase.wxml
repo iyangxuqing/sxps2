@@ -29,7 +29,7 @@
               </view>
             </view>
             <view class="purchase-item-number-input">
-              <input value="{{item.num==0 ? '' : item.num}}" placeholder="0" type="number" maxlength="5" bindblur="{{onPurchaseNumberInput}}" />
+              <input value="{{item.num==0 ? '' : item.num}}" placeholder="0" cursor-spacing="30" type="digit" maxlength="6" bindblur="{{onPurchaseNumberInput}}" />
             </view>
             <view class="purchase-item-number-icon" catchtap="{{onPurchaseNumberPlus}}">
               <view class="purchase-item-number-icon-inner">
@@ -40,7 +40,7 @@
         </view>
 
         <view class="purchase-item-message">
-          <textarea value="{{item.message}}" placeholder="买家留言..." cursor-spacing="30" bindinput="{{onPurchaseMessageInput}}" />
+          <textarea value="{{item.message}}" placeholder="买家留言..." cursor-spacing="30" maxlength="40" bindinput="{{onPurchaseMessageInput}}" />
         </view>
 
         <view class="purchase-item-buttons">

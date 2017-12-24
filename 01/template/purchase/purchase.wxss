@@ -24,7 +24,7 @@
 }
 
 .purchase-content.show {
-  height: 680rpx;
+  height: 600rpx;
 }
 
 .purchase-content-inner {
@@ -120,8 +120,8 @@
 }
 
 .purchase-item-message {
-  height: 200rpx;
-  padding: 20rpx 30rpx;
+  height: 110rpx;
+  padding: 10rpx 30rpx;
   border-bottom: 2rpx solid #ddd;
 }
 

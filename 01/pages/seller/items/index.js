@@ -2,6 +2,7 @@ import { Cate } from '../../../utils/cates.js'
 import { Item } from '../../../utils/items.js'
 import { Cates } from '../../../template/cates/cates.js'
 import { Items } from '../../../template/items/items.js'
+import { ItemDetail } from '../../../template/itemDetail/itemDetail.js'
 
 let app = getApp()
 
@@ -118,9 +119,10 @@ Page({
     let cid = this.getActiveCateId()
     let sort = item.sort
     if (cid) {
-      wx.navigateTo({
-        url: '../item/index?id=' + id + '&cid=' + cid + '&sort=' + sort,
-      })
+      this.itemDetail.show(item)
+      // wx.navigateTo({
+      //   url: '../item/index?id=' + id + '&cid=' + cid + '&sort=' + sort,
+      // })
     }
   },
 
@@ -155,6 +157,7 @@ Page({
     this.items = new Items({
       itemTap: this.onItemTap
     })
+    this.itemDetail = new ItemDetail()
     this.loadData()
   },
 
@@ -179,10 +182,6 @@ Page({
   },
 
   onReachBottom: function () {
-
-  },
-
-  onShareAppMessage: function () {
 
   }
 })

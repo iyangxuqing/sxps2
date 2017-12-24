@@ -1,6 +1,7 @@
 @import '/template/empty/empty.wxss';
 @import '/template/cates/cates.wxss';
 @import '/template/items/items.wxss';
+@import '/template/itemDetail/itemDetail.wxss';
 
 .container {
   padding-top: 300rpx;

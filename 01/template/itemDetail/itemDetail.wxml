@@ -1,0 +1,30 @@
+<template name="itemDetail">
+  <view class="itemDetail">
+    <view class="itemDetail-mask" wx:if="{{show}}" catchtap="{{onItemDetailCancel}}"></view>
+    <view class="itemDetail-content {{show ? 'show' : ''}}">
+      <view class="itemDetail-content-inner">
+        <view class="itemDetail-info">
+          <view class="itemDetail-image">
+            <image src="{{item.images[0] ? item.images[0] + youImageMode_v2 : ''}}" />
+          </view>
+          <view class="itemDetail-text">
+            <view class="itemDetail-title">
+              <input class="itemDetail-input" value="{{item.title}}" placeholder="输入菜品名称" maxlength="8" cursor-spacing="30" bindinput="{{onItemTitleInput}}" />
+            </view>
+            <view class="itemDetail-descs">
+              <input class="itemDetail-input" value="{{item.descs}}" placeholder="输入附注说明" maxlength="16" cursor-spacing="30" bindinput="{{onItemDescsInput}}" />
+            </view>
+            <view class="itemDetail-price">
+              <text class="itemDetail-price-label">今日价格：￥</text>
+              <input class="itemDetail-input" value="{{item.price}}" place="0.00" maxlength="8" cursor-spacing="30" type="digit" bindinput="{{onItemPriceInput}}" />
+            </view>
+          </view>
+        </view>
+        <view class="itemDetail-buttons">
+          <view class="itemDetail-button cancel" catchtap="{{onItemDetailCancel}}">取 消</view>
+          <view class="itemDetail-button confirm" catchtap="{{onItemDetailConfirm}}">确 定</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
