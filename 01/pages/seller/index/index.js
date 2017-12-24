@@ -22,7 +22,8 @@ Page({
     let index = e.currentTarget.dataset.index
     let url = this.data.links[index].url
     if (url.indexOf('buyer') > 0) {
-      wx.switchTab({
+      wx.removeStorageSync('dataver')
+      wx.reLaunch({
         url: url,
       })
     } else {

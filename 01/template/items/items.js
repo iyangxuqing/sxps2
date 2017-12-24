@@ -29,14 +29,14 @@ let methods = {
   onEditorSortUp: function (e) {
     let page = getCurrentPages().pop()
     let item = page.data.items.editor.item
-    Item.set_seller(item, 'sortUp')
+    Item.setItem_seller(item, 'sortUp')
     this.onEditorCancel()
   },
 
   onEditorSortDown: function (e) {
     let page = getCurrentPages().pop()
     let item = page.data.items.editor.item
-    Item.set_seller(item, 'sortDown')
+    Item.setItem_seller(item, 'sortDown')
     this.onEditorCancel()
   },
 
@@ -44,7 +44,7 @@ let methods = {
     let page = getCurrentPages().pop()
     let item = page.data.items.editor.item
     item.onShelf = item.onShelf == 0 ? 1 : 0
-    Item.set_seller({ id: item.id, onShelf: item.onShelf }, 'update')
+    Item.setItem_seller({ id: item.id, onShelf: item.onShelf }, 'update')
     this.onEditorCancel()
   },
 
@@ -64,7 +64,7 @@ let methods = {
         if (res.confirm) {
           let page = getCurrentPages().pop()
           let item = page.data.items.editor.item
-          Item.set_seller(item, 'delete')
+          Item.setItem_seller(item, 'delete')
         }
       },
       complete: function (res) {

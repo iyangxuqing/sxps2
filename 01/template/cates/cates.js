@@ -83,7 +83,7 @@ let methods = {
     let pid = e.currentTarget.dataset.pid
     let title = e.detail.value
     if (title) {
-      Cate.set_seller({ pid, title }, 'insert').then(function (res) {
+      Cate.setCate_seller({ pid, title }, 'insert').then(function (res) {
         page.setData({ 'cates.newCateTitle': '' })
         this.update(res.cates)
       }.bind(this))
@@ -93,7 +93,7 @@ let methods = {
   onEditorSortUp: function (e) {
     let page = getCurrentPages().pop()
     let cate = page.data.cates.editor.item
-    Cate.set_seller(cate, 'sortUp').then(function (res) {
+    Cate.setCate_seller(cate, 'sortUp').then(function (res) {
       this.update(res.cates)
     }.bind(this))
     this.onEditorCancel()
@@ -102,7 +102,7 @@ let methods = {
   onEditorSortDown: function (e) {
     let page = getCurrentPages().pop()
     let cate = page.data.cates.editor.item
-    Cate.set_seller(cate, 'sortDown').then(function (res) {
+    Cate.setCate_seller(cate, 'sortDown').then(function (res) {
       this.update(res.cates)
     }.bind(this))
     this.onEditorCancel()
@@ -120,7 +120,7 @@ let methods = {
     let page = getCurrentPages().pop()
     let cate = page.data.cates.editor.item
     if (cate.rename && cate.rename != cate.title) {
-      Cate.set_seller({
+      Cate.setCate_seller({
         id: cate.id,
         title: cate.rename,
       }, 'update').then(function (res) {
@@ -141,7 +141,7 @@ let methods = {
         if (res.confirm) {
           let page = getCurrentPages().pop()
           let item = page.data.cates.editor.item
-          Cate.set_seller({ id: item.id }, 'delete').then(function (res) {
+          Cate.setCate_seller({ id: item.id }, 'delete').then(function (res) {
             if (res.error) {
               wx.showModal({
                 title: '类目管理',

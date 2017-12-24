@@ -8,8 +8,8 @@
   <view class="page-head">
     <view class="search">
       <view class="search-input">
-        <input value="{{searchKey}}" placeholder="输入菜名进行搜索" bindinput="onSearchInput" />
-        <view class="search-cancel" wx:if="{{searchKey}}" catchtap="onSearchCancel">
+        <input value="{{searchWord}}" placeholder="输入菜名进行搜索" bindinput="onSearchInput" />
+        <view class="search-cancel" wx:if="{{searchWord}}" catchtap="onSearchCancel">
           <icon type="cancel" size="18" color="#666" />
         </view>
       </view>
@@ -18,7 +18,7 @@
       </view>
       <view class="search-history {{showItemsType=='history' && !searching ? 'active' : ''}}" catchtap="onSearchHistory">常购清单</view>
     </view>
-    <template is="cates_buyer" data="{{...cates}}" />
+    <template is="cates_buyer" data="{{...cates, showItemsType, searching}}" />
   </view>
 
   <template is="items_buyer" data="{{...items, youImageMode_v2}}" />

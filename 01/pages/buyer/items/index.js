@@ -9,8 +9,8 @@ let app = getApp()
 Page({
 
   data: {
+    showItemsType: 'category',
     youImageMode_v2: app.youImageMode_v2,
-    showItemsType: 'category'
   },
 
   onSearchInput: function (e) {
@@ -35,11 +35,12 @@ Page({
 
   onSearch: function (e) {
     let searchWord = this.data.searchWord
-    if (!searchWord) return
-    Item.getItems().then(function (items) {
-      this.items.update(items, { searchWord })
-      this.setData({ searching: true })
-    }.bind(this))
+    if (searchWord) {
+      Item.getItems().then(function (items) {
+        this.items.update(items, { searchWord })
+        this.setData({ searching: true })
+      }.bind(this))
+    }
   },
 
   onSearchHistory: function (e) {
@@ -144,7 +145,4 @@ Page({
 
   },
 
-  onShareAppMessage: function () {
-
-  }
 })

@@ -91,7 +91,7 @@ Page({
     if (this.data.hasChanged) {
       let item = this.data.item
       let method = item.id ? 'update' : 'insert'
-      Item.set_seller(item, method).then(function () {
+      Item.setItem_seller(item, method).then(function () {
         this.toptip.show({
           title: '保存成功',
           success: function () {
