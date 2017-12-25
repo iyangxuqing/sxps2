@@ -1,5 +1,15 @@
 .purchase {
-  position: relative;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  height: 0;
+  transition: all 300ms ease;
+}
+
+.purchase.show {
+  height: 600rpx;
 }
 
 .purchase-mask {
@@ -8,23 +18,16 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .purchase-content {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  z-index: 1001;
+  position: absolute;
+  z-index: 2;
   width: 100%;
-  height: 0;
+  height: 100%;
   background-color: #fff;
-  transition: all 300ms ease;
-}
-
-.purchase-content.show {
-  height: 600rpx;
 }
 
 .purchase-content-inner {
@@ -121,13 +124,9 @@
 
 .purchase-item-message {
   height: 110rpx;
-  padding: 10rpx 30rpx;
+  font-size: 28rpx;
+  padding: 0 30rpx;
   border-bottom: 2rpx solid #ddd;
-}
-
-.purchase-item-message textarea {
-  width: 100%;
-  height: 100%;
 }
 
 .purchase-item-buttons {

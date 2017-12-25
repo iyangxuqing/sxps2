@@ -136,7 +136,7 @@ let methods = {
   onEditorDelete: function (e) {
     wx.showModal({
       title: '类目管理',
-      content: '　　确定要删除该类目吗？删除后将不可恢复。',
+      content: '确定要删除该类目吗？删除后将不可恢复。',
       success: function (res) {
         if (res.confirm) {
           let page = getCurrentPages().pop()

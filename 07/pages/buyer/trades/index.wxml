@@ -1,0 +1,58 @@
+<import src="/template/topnavs/topnavs.wxml" />
+<import src="/template/empty/empty.wxml" />
+
+<view class="container withTopnavs" wx:if="{{ready}}">
+
+  <template is="topnavs" data="{{...topnavs}}" />
+
+  <view class="trades">
+    <block wx:for="{{trades}}" wx:key="" wx:for-item="trade">
+      <view class="trade">
+        <view class="trade-info">
+          <view class="trade-labels">
+            <view class="trade-label tid">订单号：{{trade.id}}</view>
+            <view class="trade-label time gray">{{trade.time}}</view>
+          </view>
+          <view class="trade-labels">
+            <view class="trade-label">{{trade.txtStatus}}</view>
+          </view>
+        </view>
+        <view class="trade-orders">
+          <block wx:for="{{trade.orders}}" wx:key="" wx:for-item="order">
+            <view class="order" data-iid="{{order.iid}}" catchtap="onOrderTap">
+              <view class="order-image">
+                <image src="{{order.image + youImageMode_v2}}" mode="aspectFill" />
+              </view>
+              <view class="order-text">
+                <view class="order-text-title">{{order.title}}</view>
+                <view class="order-text-descs gray">{{order.descs || order.title + '(500克)'}}</view>
+                <view class="order-text-message gray" wx:if="{{order.message}}">{{order.message}}</view>
+              </view>
+              <view class="order-number">
+                <view class="order-number-price">￥{{order.price}}</view>
+                <view class="order-number-num" wx:if="{{order.realNum==''}}">{{order.num}}</view>
+                <view class="order-number-num" wx:if="{{order.realNum!=''}}">
+                  <text>{{order.realNum}}</text>
+                  <text class="gray">{{'(' + order.num + ')'}}</text>
+                </view>
+              </view>
+            </view>
+          </block>
+        </view>
+        <view class="trade-counts">
+          <view class="trade-count" wx:if="{{trade.status=='买家提交'}}">
+            <view class="trade-count-col">合计 数量：{{trade.num}}</view>
+            <view class="trade-count-col">金额：￥{{trade.amount}}</view>
+          </view>
+          <view class="trade-count" wx:if="{{trade.status!='买家提交'}}">
+            <view class="trade-count-col">合计 数量：{{trade.realNum}}</view>
+            <view class="trade-count-col">金额：￥{{trade.realAmount}}</view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <template is="empty" data="{{show: !trades.length, message: '暂时没有订单'}}" />
+
+</view>

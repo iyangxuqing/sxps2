@@ -11,7 +11,7 @@ Page({
     youImageMode: app.youImageMode_v2,
     sellerInfo: {
       title: '义乌市铱星生鲜配送',
-      logo: '/images/logo/logo_v1.png',
+      logo: '/images/icon/logo.png',
       phone: '13757950478',
     },
     tradeLinks: [{

@@ -1,0 +1,43 @@
+<import src="/template/purchase/purchase.wxml" />
+<import src="/template/empty/empty.wxml" />
+
+<view class="container">
+
+  <view class="orders" wx:if="{{orders.length}}">
+    <block wx:for="{{orders}}" wx:key="" wx:for-item="order">
+      <view class="order" data-iid="{{order.iid}}" catchtap="onOrderTap">
+        <view class="order-image">
+          <image src="{{order.image + youImageMode_v2}}" mode="aspectFill" />
+        </view>
+        <view class="order-text {{order.message ? 'withMessage' : ''}}">
+          <view class="order-text-title">{{order.title}}</view>
+          <view class="order-text-descs gray">{{order.descs || order.title + '(500克)'}}</view>
+          <view class="order-text-message gray">{{order.message}}</view>
+        </view>
+        <view class="order-number">
+          <view class="order-number-price">￥{{order.price}}</view>
+          <view class="order-number-num">{{order.num}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="shopping-foot" wx:if="{{orders.length}}">
+    <view class="button button-shopping" catchtap="onGotoBuy">继续去购物</view>
+    <view class="summary">
+      <view class="summary-num">
+        <view class="summary-label">数量:</view>
+        <view class="summary-value">{{zNum}}</view>
+      </view>
+      <view class="summary-amount">
+        <view class="summary-label">金额:</view>
+        <view class="summary-value">￥{{zAmount}}</view>
+      </view>
+    </view>
+    <view class="button button-submit" catchtap="onOrderSubmit">提交订单</view>
+  </view>
+
+  <template is="purchase" data="{{...purchase, youImageMode_v2}}" />
+  <template is="empty" data="{{show: !orders.length, message: '购物车中还没有任何商品'}}" />
+
+</view>

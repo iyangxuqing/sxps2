@@ -28,8 +28,8 @@
 }
 
 .icon-address-citys {
-  width: 48rpx;
-  height: 48rpx;
+  width: 44rpx;
+  height: 44rpx;
 }
 
 .address-detail-label {
@@ -41,12 +41,6 @@
 .address-detail-input {
   flex-grow: 1;
   padding: 20rpx 0;
-}
-
-.icon-address-detail {
-  display: none;
-  width: 48rpx;
-  height: 48rpx;
 }
 
 .row-address-buttons {

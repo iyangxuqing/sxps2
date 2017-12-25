@@ -1,5 +1,5 @@
 <template name="orderDetail">
-  <view class="popup {{popup.show ? 'popup-show': ''}}">
+  <view class="popup {{popup.show ? 'show': ''}}">
     <view class="popup-mask" wx:if="{{popup.show}}" catchtap="{{onCancel}}"></view>
     <view class="popup-body">
       <view class="popup-content">
@@ -37,7 +37,7 @@
                   </view>
                 </view>
                 <view class="orderDetail-number-input">
-                  <input value="{{order.realNum}}" type="digit" maxlength="5" bindblur="{{onRealNumInput}}" cursor-spacing="30" />
+                  <input value="{{order.realNum}}" type="digit" maxlength="5" bindblur="{{onRealNumInput}}" cursor-spacing="20" />
                 </view>
                 <view class="orderDetail-number-plus" catchtap="{{onPlusTap}}">
                   <view class="orderDetail-number-plus-inner">

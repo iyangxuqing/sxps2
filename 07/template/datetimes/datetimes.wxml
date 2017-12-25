@@ -1,0 +1,16 @@
+<template name="datetimes">
+  <view class="datetimes">
+    <picker class="datetime" mode="multiSelector" data-id="date1" bindchange="{{onChange}}" bindcolumnchange="{{onColumnChange}}" value="{{date1Value}}" range="{{date1Range}}">
+      <view class="datetime-picker">{{strDate1}}</view>
+    </picker>
+    <view class="datetime-separater">-</view>
+    <picker class="datetime" mode="multiSelector" data-id="date2" bindchange="{{onChange}}" bindcolumnchange="{{onColumnChange}}" value="{{date2Value}}" range="{{date2Range}}">
+      <view class="datetime-picker">{{strDate2}}</view>
+    </picker>
+    <view class="datetime-search" catchtap="{{onDateTimesSearch}}">
+      <view class="datetime-search-inner">
+        <icon type="search" size="18" />
+      </view>
+    </view>
+  </view>
+</template>

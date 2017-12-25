@@ -1,0 +1,30 @@
+<import src="/template/cates_buyer/cates.wxml" />
+<import src="/template/items_buyer/items.wxml" />
+<import src="/template/purchase/purchase.wxml" />
+<import src="/template/empty/empty.wxml" />
+
+<view class="container" wx:if="{{ready}}">
+
+  <view class="page-head">
+    <view class="search">
+      <view class="search-input">
+        <input value="{{searchWord}}" placeholder="输入菜名进行搜索" bindinput="onSearchInput" />
+        <view class="search-cancel" wx:if="{{searchWord}}" catchtap="onSearchCancel">
+          <icon type="cancel" size="18" color="#666" />
+        </view>
+      </view>
+      <view class="search-icon" catchtap="onSearch">
+        <icon type="search" size="18" color="#777" />
+      </view>
+      <view class="search-history {{showItemsType=='history' && !searching ? 'active' : ''}}" catchtap="onSearchHistory">常购清单</view>
+    </view>
+    <template is="cates_buyer" data="{{...cates, showItemsType, searching}}" />
+  </view>
+
+  <template is="items_buyer" data="{{...items, youImageMode_v2}}" />
+
+  <template is="purchase" data="{{...purchase, youImageMode_v2}}" />
+
+  <template is="empty" data="{{show: !items.items.length, message: '该类目下没有商品'}}" />
+
+</view>

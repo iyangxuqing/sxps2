@@ -1,7 +1,7 @@
 <template name="purchase">
-  <view class="purchase">
+  <view class="purchase {{show ? 'show' : ''}}">
     <view class="purchase-mask" wx:if="{{show}}" catchtap="{{onPurchaseCancel}}"></view>
-    <view class="purchase-content {{show ? 'show' : ''}}">
+    <view class="purchase-content">
       <view class="purchase-content-inner">
         <view class="purchase-item-info">
           <view class="purchase-item-image">
@@ -29,7 +29,7 @@
               </view>
             </view>
             <view class="purchase-item-number-input">
-              <input value="{{item.num==0 ? '' : item.num}}" placeholder="0" cursor-spacing="30" type="digit" maxlength="6" bindblur="{{onPurchaseNumberInput}}" />
+              <input value="{{item.num==0 ? '' : item.num}}" placeholder="0" cursor-spacing="20" type="digit" maxlength="6" bindblur="{{onPurchaseNumberInput}}" />
             </view>
             <view class="purchase-item-number-icon" catchtap="{{onPurchaseNumberPlus}}">
               <view class="purchase-item-number-icon-inner">
@@ -39,8 +39,11 @@
           </view>
         </view>
 
+        <!-- <view class="purchase-item-message">
+          <textarea value="{{item.message}}" placeholder="买家留言..." fixed="true" cursor-spacing="20" maxlength="40" bindinput="{{onPurchaseMessageInput}}" />
+        </view> -->
         <view class="purchase-item-message">
-          <textarea value="{{item.message}}" placeholder="买家留言..." cursor-spacing="30" maxlength="40" bindinput="{{onPurchaseMessageInput}}" />
+          <input value="{{item.message}}" placeholder="买家留言..." cursor-spacing="20" maxlength="30" bindinput="{{onPurchaseMessageInput}}" />
         </view>
 
         <view class="purchase-item-buttons">

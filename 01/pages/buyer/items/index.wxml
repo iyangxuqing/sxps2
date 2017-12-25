@@ -22,9 +22,7 @@
   </view>
 
   <template is="items_buyer" data="{{...items, youImageMode_v2}}" />
-
   <template is="purchase" data="{{...purchase, youImageMode_v2}}" />
-
   <template is="empty" data="{{show: !items.items.length, message: '该类目下没有商品'}}" />
 
 </view>

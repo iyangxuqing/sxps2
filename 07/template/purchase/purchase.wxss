@@ -1,0 +1,156 @@
+.purchase {
+  position: relative;
+}
+
+.purchase-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.purchase-content {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1001;
+  width: 100%;
+  height: 0;
+  background-color: #fff;
+  transition: all 300ms ease;
+}
+
+.purchase-content.show {
+  height: 600rpx;
+}
+
+.purchase-content-inner {
+  width: 100%;
+  height: 100%;
+}
+
+.purchase-item-info {
+  display: flex;
+  align-items: center;
+  height: 260rpx;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  border-bottom: 2rpx solid #ddd;
+}
+
+.purchase-item-image {
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.purchase-item-text {
+  margin-left: 20rpx;
+}
+
+.purchase-item-title {
+  font-size: 48rpx;
+  margin-bottom: 10rpx;
+}
+
+.purchase-item-descs {
+  color: #888;
+  font-size: 28rpx;
+  margin-bottom: 30rpx;
+}
+
+.purchase-item-price-label {
+  color: #888;
+}
+
+.purchase-item-price-value {
+  font-size: 40rpx;
+  color: #f33;
+}
+
+.purchase-item-amount {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 300rpx;
+}
+
+.purchase-item-amount-value {
+  padding-left: 10rpx;
+  color: red;
+}
+
+.purchase-item-number {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  margin-right: -20rpx;
+}
+
+.purchase-item-number-icon {
+  flex-shrink: 0;
+  width: 100rpx;
+  height: 100rpx;
+  padding: 20rpx;
+}
+
+.purchase-item-number-icon-inner {
+  width: 100%;
+  height: 100%;
+  padding: 14rpx;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+}
+
+.purchase-item-number-input {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.purchase-item-numberAndAmount {
+  display: flex;
+  align-items: center;
+  height: 110rpx;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  border-bottom: 2rpx solid #ddd;
+}
+
+.purchase-item-message {
+  height: 110rpx;
+  padding: 10rpx 30rpx;
+  border-bottom: 2rpx solid #ddd;
+}
+
+.purchase-item-message textarea {
+  width: 100%;
+  height: 100%;
+}
+
+.purchase-item-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 110rpx;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.purchase-item-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300rpx;
+  height: 70rpx;
+  border-radius: 10rpx;
+  border: 2rpx solid #ddd;
+}
+
+.purchase-item-button.confirm {
+  color: #fff;
+  background-color: #393;
+  border: 2rpx solid transparent;
+}

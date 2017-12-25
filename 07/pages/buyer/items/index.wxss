@@ -1,0 +1,70 @@
+@import '/template/cates_buyer/cates.wxss';
+@import '/template/items_buyer/items.wxss';
+@import '/template/purchase/purchase.wxss';
+@import '/template/empty/empty.wxss';
+
+.container {
+  padding-top: 302rpx;
+}
+
+.page-head {
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  padding-bottom: 2rpx;
+  background-color: #fff;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  background-color: #f0f0f0;
+}
+
+.search-input {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  font-size: 30rpx;
+  height: 70rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  margin-left: 20rpx;
+  border-radius: 8rpx;
+  background-color: #fff;
+}
+
+.search-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100rpx;
+  height: 100%;
+}
+
+.search-cancel {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100rpx;
+  height: 100rpx;
+  padding-left: 30rpx;
+  margin-right: -20rpx;
+}
+
+.search-history {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-right: 20rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.search-history.active {
+  color: #f33;
+}

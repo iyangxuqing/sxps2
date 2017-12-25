@@ -1,0 +1,73 @@
+<import src="/template/search/search.wxml" />
+<import src="/template/empty/empty.wxml" />
+<import src="/template/orderDetail/orderDetail.wxml" />
+
+<view class="container" wx:if="{{ready}}">
+
+  <view class="trades-head">
+    <template is="search" data="{{...search, tradeStatus}}" />
+  </view>
+
+  <view class="trades">
+    <block wx:for="{{trades}}" wx:key="" wx:for-item="trade">
+      <view class="trade {{trade.status=='买家提交' ? 'buyerSubmited' : ''}}">
+        <view class="trade-info">
+          <view class="trade-info-row">
+            <text class="trade-info-tid">订 单 号：{{trade.id}}</text>
+          </view>
+          <view class="trade-info-row">
+            <text class="trade-info-time">提交时间：{{trade.time}}</text>
+          </view>
+          <view class="trade-info-row">
+            <text class="trade-info-receive-name">收 货 人：{{trade.receive_name}}</text>
+            <text class="trade-info-receive-phone">{{trade.receive_phone || trade.mobileNumber}}</text>
+          </view>
+          <view class="trade-info-row">
+            <text class="trade-info-receive-address">收货地址：{{trade.receive_district + trade.receive_address}}</text>
+          </view>
+        </view>
+        <view class="trade-status">{{trade.status}}</view>
+        <view class="trade-operate" data-tid="{{trade.id}}" data-status="{{trade.status}}" catchtap="onTradeOperate" wx:if="{{trade.status=='买家提交' && trade.distributed}}">{{'发 货'}}</view>
+        <view class="trade-operate" data-tid="{{trade.id}}" data-status="{{trade.status}}" catchtap="onTradeOperate" wx:if="{{trade.status=='卖家发货'}}">{{'买家收货'}}</view>
+        <view class="trade-operate" data-tid="{{trade.id}}" data-status="{{trade.status}}" catchtap="onTradeOperate" wx:if="{{trade.status=='买家收货'}}">{{'交易完成'}}</view>
+        <view class="trade-orders">
+          <block wx:for="{{trade.orders}}" wx:key="" wx:for-item="order">
+            <view class="order" data-tid="{{trade.id}}" data-oid="{{order.id}}" data-status="{{trade.status}}" catchtap="onOrderTap">
+              <view class="order-image">
+                <image src="{{order.image + youImageMode_v2}}" mode="aspectFill" />
+              </view>
+              <view class="order-text">
+                <view class="order-text-title">{{order.title}}</view>
+                <view class="order-text-descs gray">{{order.descs || order.title + '(500克)'}}</view>
+                <view class="order-text-message gray" wx:if="{{order.message}}">{{order.message}}</view>
+              </view>
+              <view class="order-number">
+                <view class="order-number-price">￥{{order.price}}</view>
+                <view class="order-number-num" wx:if="{{order.realNum===''}}">{{order.num}}</view>
+                <view class="order-number-num" wx:if="{{order.realNum!==''}}">
+                  <text>{{order.num}}</text>
+                  <text style="color:#f33">{{'(' + order.realNum + ')'}}</text>
+                </view>
+              </view>
+            </view>
+          </block>
+        </view>
+        <view class="trade-count">
+          <view class="trade-count-row" wx:if="{{trade.status=='买家提交'}}">
+            <text class="trade-count-num">合计 数量：{{trade.num}}</text>
+            <text class="trade-count-amount">金额：￥{{trade.amount}}</text>
+          </view>
+          <view class="trade-count-row" wx:if="{{trade.status!='买家提交'}}">
+            <text class="trade-count-num">合计 数量：{{trade.realNum}}</text>
+            <text class="trade-count-amount">金额：￥{{trade.realAmount}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <template is="orderDetail" data="{{...orderDetail, youImageMode_v2}}" />
+
+  <template is="empty" data="{{show: !trades.length, message: '没有相关的订单'}}" />
+
+</view>

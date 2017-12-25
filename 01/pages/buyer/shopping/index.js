@@ -44,14 +44,14 @@ Page({
       if (user.receive_name && user.receive_address && user.mobileVerified == 1) {
         wx.showModal({
           title: '订单提交',
-          content: '　　确定把购物车中的商品进行提交吗？',
+          content: '确定把购物车中的商品进行提交吗？',
           success: function (res) {
             if (res.confirm) {
               let orders = this.data.orders
               Trade.addTrade_buyer_v4(orders).then(function () {
                 wx.showModal({
                   title: '订单提交',
-                  content: '　　订单提交成功，将进入采买程序。',
+                  content: '订单提交成功，将进入采买程序。',
                   showCancel: false,
                   success: function () {
                     wx.removeStorageSync('shoppings')
@@ -68,7 +68,7 @@ Page({
       } else {
         wx.showModal({
           title: '订单提交',
-          content: '　　您需要到“我的”页面中完善收货人信息后才能进行订单提交。',
+          content: '您需要到“我的”页面中完善收货人信息后才能进行订单提交。',
           showCancel: false,
         })
       }

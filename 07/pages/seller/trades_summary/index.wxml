@@ -1,0 +1,29 @@
+<import src="/template/datetimes/datetimes.wxml" />
+<import src="/template/empty/empty.wxml" />
+
+<view class="container" wx:if="{{ready}}">
+
+  <template is="datetimes" data="{{...datetimes}}" />
+
+  <view class="items items-summary">
+    <block wx:for="{{items}}" wx:key="" wx:for-item="item">
+      <view class="item item-summary">
+        <view class="item-image">
+          <image src="{{item.image + youImageMode_v2}}" mode="aspectFill" />
+        </view>
+        <view class="item-text">
+          <view class="item-title">{{item.title}}</view>
+          <view class="item-descs">{{item.descs || item.title + '(500克)'}}</view>
+        </view>
+        <view class="item-number">
+          <view class="item-num">合计<text class="item-num-value">{{item.num}}</text></view>
+          <view class="item-num">已配<text class="item-num-value">{{item.realNum}}</text></view>
+          <view class="item-num">待配<text class="item-num-value">{{item.underNum}}</text></view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <template is="empty" data="{{show: !items.length, message: '没有相关的订单'}}" />
+
+</view>

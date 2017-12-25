@@ -1,0 +1,120 @@
+.cates-row {
+  padding: 0 30rpx;
+  border-bottom: 2rpx solid #ddd;
+}
+
+.cates-row-inner {
+  display: flex;
+  align-items: center;
+  height: 98rpx;
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.cate {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  min-width: 100rpx;
+  height: 100%;
+  padding-right: 30rpx;
+}
+
+.cate:last-child {
+  padding-right: 0;
+}
+
+.cate.active {
+  color: red;
+}
+
+.cate.editing {
+  color: blue;
+}
+
+.cate-new-input {
+  flex-shrink: 0;
+  width: 200rpx;
+}
+
+.cates-editor {
+  position: relative;
+}
+
+.cates-editor-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.cates-editor-content {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1001;
+  width: 100%;
+  height: 0;
+  background-color: #fff;
+  transition: all 300ms ease;
+}
+
+.cates-editor-content.show {
+  height: 520rpx;
+}
+
+.cates-editor-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100rpx;
+}
+
+.cates-editor-item + .cates-editor-item {
+  border-top: 2rpx solid #eee;
+}
+
+.cates-editor-item.cancel {
+  height: 120rpx;
+  border-top: 22rpx solid #eee;
+}
+
+.cates-editor-item-label {
+  display: flex;
+  justify-content: flex-end;
+  width: 160rpx;
+  padding-right: 10rpx;
+}
+
+.cates-editor-item-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 260rpx;
+  height: 70rpx;
+  margin-left: 10rpx;
+  margin-right: 20rpx;
+  border-radius: 8rpx;
+  border: 1px solid #ddd;
+}
+
+.cates-editor-item-input input {
+  width: 100%;
+  padding: 0;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.cates-editor-item-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160rpx;
+  height: 70rpx;
+  font-size: 28rpx;
+  border-radius: 8rpx;
+  border: 2rpx solid #ddd;
+}

@@ -1,0 +1,27 @@
+<template name="search">
+  <view class="search">
+    <view class="search-time">
+      <picker class="datetime-picker" mode="multiSelector" data-id="date1" bindchange="{{onDateTimePickerChange}}" bindcolumnchange="{{onDateTimePickerColumnChange}}" value="{{date1Value}}" range="{{date1Range}}">
+        <view class="datetime-value">{{strDate1}}</view>
+      </picker>
+      <view class="datetime-separater">-</view>
+      <picker class="datetime-picker" mode="multiSelector" data-id="date2" bindchange="{{onDateTimePickerChange}}" bindcolumnchange="{{onDateTimePickerColumnChange}}" value="{{date2Value}}" range="{{date2Range}}">
+        <view class="datetime-value">{{strDate2}}</view>
+      </picker>
+    </view>
+    <view class="search-word">
+      <view class="search-word-picker" catchtap="{{onWordPicker}}">{{pickerWord.title}}</view>
+      <view class="search-input">
+        <input value="{{searchWord}}" placeholder="按订单号或电话号码搜索" bindinput="{{onSearchInput}}" />
+        <view class="search-cancel" wx:if="{{searchWord}}" catchtap="{{onSearchCancel}}">
+          <icon type="cancel" size="18" color="#333" />
+        </view>
+      </view>
+      <view class="search-button" catchtap="{{onSearch}}">
+        <view class="search-icon">
+          <icon type="search" size="18" color="#333" />
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

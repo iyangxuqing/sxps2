@@ -1,0 +1,28 @@
+<import src="/template/cates/cates.wxml" />
+<import src="/template/items/items.wxml" />
+<import src="/template/itemDetail/itemDetail.wxml" />
+
+<view class="container" wx:if="{{ready}}">
+
+  <view class="page-head">
+    <view class="search">
+      <view class="search-input">
+        <input value="{{searchWord}}" placeholder="输入菜名进行搜索" bindinput="onSearchInput" />
+        <view class="search-cancel" wx:if="{{searchWord}}" catchtap="onSearchCancel">
+          <icon type="cancel" size="18" color="#666" />
+        </view>
+      </view>
+      <view class="search-icon" catchtap="onSearch">
+        <icon type="search" size="18" color="#777" />
+      </view>
+    </view>
+
+    <template is="cates" data="{{...cates}}" />
+
+  </view>
+
+  <template is="items" data="{{...items, youImageMode_v2}}" />
+
+  <template is="itemDetail" data="{{...itemDetail, youImageMode_v2}}" />
+
+</view>

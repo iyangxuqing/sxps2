@@ -1,3 +1,4 @@
+import { http } from '../../utils/http.js'
 import { Item } from '../../utils/items.js'
 
 let defaults = {}
@@ -17,7 +18,8 @@ let methods = {
     page.setData({
       'itemDetail.show': false
     })
-    Item.setItem_seller(item, 'update')
+    let method = item.id ? 'update' : 'insert'
+    Item.setItem_seller(item, method)
   },
 
   onItemTitleInput: function (e) {
@@ -31,6 +33,16 @@ let methods = {
   onItemPriceInput: function (e) {
     this.item.price = e.detail.value
   },
+
+  onItemImageTap: function (e) {
+    let page = getCurrentPages().pop()
+    http.chooseImage().then(function (image) {
+      this.item.images = [image]
+      page.setData({
+        'itemDetail.item.images': [image]
+      })
+    }.bind(this))
+  }
 
 }
 

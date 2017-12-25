@@ -1,0 +1,31 @@
+<template name="mobile">
+  <view class="mobile">
+    <form bindsubmit="{{onCodeRequest}}">
+      <view class="mobile-row mobile-number">
+        <view class="mobile-row-icon">
+          <image src="/images/icon/phone.png" />
+        </view>
+        <view class="mobile-row-label" wx:if="{{verified}}">手机号码</view>
+        <view class="mobile-row-value">
+          <view class="number" wx:if="{{verified}}">{{number}}</view>
+          <input class="{{numberError?'message-error':''}}" name="number" value="{{number}}" placeholder="输入手机号码" type="number" maxlength="11" bindfocus="{{onNumberInputFocus}}" bindblur="{{onNumberBlur}}" wx:if="{{!verified}}" />
+        </view>
+        <view class="mobile-code-request" wx:if="{{!verified}}">
+          <button formType="submit">{{codeRequestText}}</button>
+        </view>
+        <view class="mobile-row-icon" wx:if="{{verified}}">
+          <icon type="success" size="24" color="#09bb08" />
+        </view>
+      </view>
+    </form>
+    <view class="mobile-row mobile-code {{codeRequested ? 'show': ''}}">
+      <view class="mobile-row-icon">
+        <image src="{{icon}}"></image>
+      </view>
+      <view class="mobile-row-value">
+        <input class="{{codeError?'message-error':''}}" type="number" placeholder="输入验证码" maxlength="5" bindinput="{{onCodeInput}}" bindfocus="{{onCodeInputFocus}}" />
+      </view>
+      <view class="mobile-code-confirm" wx:if="{{code.length>=5}}" catchtap="{{onCodeConfirm}}">确 定</view>
+    </view>
+  </view>
+</template>

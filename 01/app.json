@@ -5,13 +5,10 @@
     "pages/buyer/trades/index",
     "pages/buyer/wode/index",
     "pages/buyer/address/index",
-    
     "pages/seller/index/index",
     "pages/seller/items/index",
     "pages/seller/trades/index",
-    "pages/seller/trades_summary/index",
-
-    "pages/log/index"
+    "pages/seller/trades_summary/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

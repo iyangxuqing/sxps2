@@ -1,0 +1,77 @@
+<import src='/template/loading/loading.wxml' />
+<template is="loading" data="{{...loading}}" />
+<import src='/template/toptip/toptip.wxml' />
+<template is="toptip" data="{{...toptip}}" />
+<import src='/template/userinfo/userinfo.wxml' />
+<import src='/template/mobile/mobile.wxml' />
+
+<view class="container" wx:if="{{ready}}">
+  <template is="userInfo" data="{{...userInfo}}" />
+  <template is="myTrade" data="{{tradeLinks}}" />
+  <template is="mobile" data="{{...mobile}}" />
+  <template is="address" data="{{...user}}" />
+  <template is="sellerInfo" data="{{...sellerInfo}}" />
+</view>
+
+<template name="address">
+  <view class="address" catchtap="onAddressTap">
+    <view class="address-icon">
+       <image src="/images/icon/map-pin.png" /> 
+    </view>
+    <view class="address-label">收货地址</view>
+    <view class="address-value">
+      <text wx:if="{{receive_address}}">{{receive_district}}{{receive_address}} {{receive_name}}</text>
+    </view>
+    <view class="address-icon address-icon-enter">
+      <image src="/images/icon/enter.png" />
+    </view>
+  </view>
+</template>
+
+<template name="myTrade">
+  <view class="card myTrade">
+    <view class="card-head">
+      <view class="card-head-title">我的订单</view>
+      <view class="card-head-more" data-index="-1" catchtap="onLinkTap">
+        <view class="card-head-more-text">查看全部订单</view>
+        <view class="card-head-more-icon">
+          <image src="/images/icon/enter.png" />
+        </view>
+      </view>
+    </view>
+    <view class="card-body">
+      <view class="trade-links">
+        <block wx:for="{{tradeLinks}}" wx:key="" wx:for-item="tradeLink">
+          <view class="trade-link" data-index="{{index}}" catchtap="onLinkTap">
+            <view class="trade-link-icon">
+              <image src="{{tradeLink.icon}}" />
+            </view>
+            <view class="trade-link-text">{{tradeLink.title}}</view>
+          </view>
+        </block>
+      </view> 
+    </view>
+  </view>
+</template>
+
+<template name="sellerInfo">
+  <view class="card sellerInfo">
+    <view class="card-head">
+      <view class="card-head-title">配送商家</view>
+    </view>
+    <view class="card-body">
+      <view class="shop">
+        <view class="shop-image">
+          <image src="{{logo}}" mode="aspectFill" />
+        </view>
+        <view class="shop-info">
+          <view class="shop-info-title" catchlongpress="onShopLongPress">{{title}}</view>
+          <view class="shop-info-tele" data-phone-number="{{phone}}" catchtap="onShopTeleTap">
+            <view class="shop-info-label">联系电话:</view>
+            <view class="shop-info-value">{{phone}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

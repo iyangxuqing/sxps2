@@ -19,15 +19,15 @@
       </block>
     </view>
   </view>
-  <view class="cates-editor">
+  <view class="cates-editor {{editor.show ? 'show' : ''}}">
     <view class="cates-editor-mask" wx:if="{{editor.show}}" catchtap="{{onEditorCancel}}"></view>
-    <view class="cates-editor-content {{editor.show ? 'show' : ''}}">
+    <view class="cates-editor-content">
       <view class="cates-editor-list">
         <view class="cates-editor-item" catchtap="{{onEditorSortUp}}">往前移</view>
         <view class="cates-editor-item" catchtap="{{onEditorSortDown}}">往后移</view>
         <view class="cates-editor-item">
           <view class="cates-editor-item-label">重命名</view>
-          <view class="cates-editor-item-input"><input value="{{editor.item.title}}" placeholder="输入类目名称" maxlength="5" cursor-spacing="30" bindinput="{{onEditorRenameInput}}" /></view>
+          <view class="cates-editor-item-input"><input value="{{editor.item.title}}" placeholder="输入类目名称" maxlength="5" cursor-spacing="20" bindinput="{{onEditorRenameInput}}" /></view>
           <view class="cates-editor-item-button" catchtap="{{onEditorRenameConfirm}}">确 定</view>
         </view>
         <view class="cates-editor-item" catchtap="{{onEditorDelete}}">删除</view>
