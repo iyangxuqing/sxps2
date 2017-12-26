@@ -1,7 +1,0 @@
-<import src="/template/sellerItemsGrid/index.wxml" />
-
-<view class="container" wx:if="{{ready}}">
-  <view class="seller-items">
-    <template is="sellerItemsGrid" data="{{...sellerItemsGrid, youImageMode}}" />
-  </view>
-</view>
