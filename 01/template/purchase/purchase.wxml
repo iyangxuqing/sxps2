@@ -39,11 +39,8 @@
           </view>
         </view>
 
-        <!-- <view class="purchase-item-message">
-          <textarea value="{{item.message}}" placeholder="买家留言..." fixed="true" cursor-spacing="20" maxlength="40" bindinput="{{onPurchaseMessageInput}}" />
-        </view> -->
         <view class="purchase-item-message">
-          <input value="{{item.message}}" placeholder="买家留言..." cursor-spacing="20" maxlength="30" bindinput="{{onPurchaseMessageInput}}" />
+          <input value="{{item.message}}" placeholder="买家留言..." cursor-spacing="20" maxlength="32" bindinput="{{onPurchaseMessageInput}}" />
         </view>
 
         <view class="purchase-item-buttons">

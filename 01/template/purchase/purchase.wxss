@@ -123,9 +123,12 @@
 }
 
 .purchase-item-message {
+  display: flex;
+  align-items: center;
   height: 110rpx;
-  font-size: 28rpx;
-  padding: 0 30rpx;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  font-size: 24rpx;
   border-bottom: 2rpx solid #ddd;
 }
 

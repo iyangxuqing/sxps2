@@ -74,6 +74,7 @@ Page({
     let shoppings = wx.getStorageSync('shoppings')
     for (let i in items) {
       items[i].num = 0
+      items[i].message = ''
       for (let j in shoppings) {
         if (items[i].id == shoppings[j].iid) {
           items[i].num = shoppings[j].num
